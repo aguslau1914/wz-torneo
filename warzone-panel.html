@@ -777,10 +777,6 @@ async function submitRegistration(){
   const n3   = document.getElementById('r-n3').value.trim();
   const n4   = document.getElementById('r-n4').value.trim();
   const p1   = document.getElementById('r-p1').value.trim();
-  const a1   = document.getElementById('r-a1').value.trim();
-  const a2   = document.getElementById('r-a2').value.trim();
-  const a3   = document.getElementById('r-a3').value.trim();
-  const a4   = document.getElementById('r-a4').value.trim();
 
   if(!team)        { showErr('reg-err','⚠ Ingresá el nombre del equipo'); return; }
   if(!n1||!n2||!n3||!n4){ showErr('reg-err','⚠ Completá los 4 jugadores'); return; }
@@ -808,17 +804,17 @@ async function submitRegistration(){
     team,
     registeredAt: new Date().toLocaleString('es-AR'),
     players:[
-      {name:n1, actid:a1, phone:p1},
-      {name:n2, actid:a2, phone:''},
-      {name:n3, actid:a3, phone:''},
-      {name:n4, actid:a4, phone:''},
+      {name:n1, phone:p1},
+      {name:n2, phone:''},
+      {name:n3, phone:''},
+      {name:n4, phone:''},
     ]
   };
   requests.push(req);
   save('wz_requests', requests);
 
   // Clear form
-  ['reg-team','r-n1','r-n2','r-n3','r-n4','r-p1','r-a1','r-a2','r-a3','r-a4'].forEach(id=>{
+  ['reg-team','r-n1','r-n2','r-n3','r-n4','r-p1'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
   document.getElementById('pwd-preview').textContent='el nombre de tu equipo';
