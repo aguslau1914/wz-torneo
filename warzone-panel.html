@@ -626,10 +626,55 @@ const TOTAL_RNDS  = 10;
 const MULT = {1:2.0,2:1.7,3:1.4,4:1.4,5:1.4,6:1.2,7:1.2,8:1.2,9:1.2,10:1.2};
 
 // ══════════════════════════════════
-//  STATE  (localStorage compartido)
+//  SUPABASE CONFIG
 // ══════════════════════════════════
-function load(k,d){ try{return JSON.parse(localStorage.getItem(k))||d;}catch{return d;} }
-function save(k,v){ localStorage.setItem(k,JSON.stringify(v)); }
+const SB_URL = 'https://vsiojxywzrdcjlbdqiyp.supabase.co';
+const SB_KEY = 'sb_publishable_FdpfXd3xKGqZgmXwzULtmA_B-jx4i6u';
+
+async function sbGet(key, def){
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/wz_data?key=eq.${encodeURIComponent(key)}&select=value`, {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer '+SB_KEY }
+    });
+    const d = await r.json();
+    if(d && d.length > 0) return JSON.parse(d[0].value);
+    return def;
+  } catch(e){ return def; }
+}
+
+async function sbSet(key, val){
+  try {
+    await fetch(`${SB_URL}/rest/v1/wz_data`, {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY, 'Authorization': 'Bearer '+SB_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify({ key, value: JSON.stringify(val), updated_at: new Date().toISOString() })
+    });
+  } catch(e){ console.error('sbSet error', e); }
+}
+
+// ── Sync cache: fast local reads, async remote writes ──
+const _cache = {};
+function load(k, d){
+  if(_cache[k] !== undefined) return _cache[k];
+  try { const v = JSON.parse(localStorage.getItem(k)); if(v !== null){ _cache[k]=v; return v; } } catch{}
+  return d;
+}
+function save(k, v){
+  _cache[k] = v;
+  localStorage.setItem(k, JSON.stringify(v));
+  sbSet(k, v); // async write to Supabase
+}
+async function syncFromRemote(keys){
+  for(const [k,d] of keys){
+    const v = await sbGet(k, d);
+    _cache[k] = v;
+    localStorage.setItem(k, JSON.stringify(v));
+  }
+}
 
 let players    = load('wz_players',[]);
 let tournament = load('wz_tournament',{});
@@ -665,7 +710,15 @@ function loginAdmin(){
   if(document.getElementById('admin-pwd').value===ADMIN_PWD){
     document.getElementById('admin-pwd').value='';
     showScreen('admin');
-    loadAdminData();
+    const btn = document.querySelector('#sec-admin .fbtn-primary');
+    if(btn){ btn.textContent='SINCRONIZANDO...'; btn.disabled=true; }
+    syncFromRemote([
+      ['wz_players',[]],['wz_tournament',{}],['wz_scores',{}],
+      ['wz_requests',[]],['wz_kills',{}]
+    ]).then(()=>{
+      if(btn){ btn.textContent='INGRESAR COMO ADMIN'; btn.disabled=false; }
+      loadAdminData();
+    });
   } else {
     showErr('login-err','✗ Contraseña incorrecta');
   }
@@ -673,26 +726,29 @@ function loginAdmin(){
 function loginPlayer(){
   const raw = document.getElementById('player-team-in').value.trim();
   if(!raw){ showErr('login-err','⚠ Ingresá el nombre de tu equipo'); return; }
-  // reload latest data
-  players  = load('wz_players',[]);
-  requests = load('wz_requests',[]);
-  const teams = [...new Set(players.map(p=>p.team).filter(Boolean))];
-  const match = teams.find(t=>t.toLowerCase()===raw.toLowerCase());
-  if(match){
-    playerTeam = match;
-    document.getElementById('player-team-in').value='';
-    document.getElementById('p-team-label').textContent='Equipo: '+match;
-    showScreen('player');
-    renderPlayerView();
-  } else {
-    // check if pending
-    const pending = requests.find(r=>r.team.toLowerCase()===raw.toLowerCase());
-    if(pending){
-      showErr('login-err','⏳ Tu equipo está pendiente de aprobación por el admin');
+  const btn = document.querySelector('#sec-player .fbtn-secondary');
+  if(btn){ btn.textContent='BUSCANDO...'; btn.disabled=true; }
+  syncFromRemote([['wz_players',[]],['wz_requests',[]]]).then(()=>{
+    if(btn){ btn.textContent='ENTRAR AL TORNEO'; btn.disabled=false; }
+    players  = load('wz_players',[]);
+    requests = load('wz_requests',[]);
+    const teams = [...new Set(players.map(p=>p.team).filter(Boolean))];
+    const match = teams.find(t=>t.toLowerCase()===raw.toLowerCase());
+    if(match){
+      playerTeam = match;
+      document.getElementById('player-team-in').value='';
+      document.getElementById('p-team-label').textContent='Equipo: '+match;
+      showScreen('player');
+      renderPlayerView();
     } else {
-      showErr('login-err','✗ Equipo no encontrado — ¿ya te registraste?');
+      const pending = requests.find(r=>r.team.toLowerCase()===raw.toLowerCase());
+      if(pending){
+        showErr('login-err','⏳ Tu equipo está pendiente de aprobación por el admin');
+      } else {
+        showErr('login-err','✗ Equipo no encontrado — ¿ya te registraste?');
+      }
     }
-  }
+  });
 }
 
 // ══════════════════════════════════
@@ -703,7 +759,7 @@ function updatePwdNote(){
   document.getElementById('pwd-preview').textContent = v || 'el nombre de tu equipo';
 }
 
-function submitRegistration(){
+async function submitRegistration(){
   const team = document.getElementById('reg-team').value.trim();
   const n1   = document.getElementById('r-n1').value.trim();
   const n2   = document.getElementById('r-n2').value.trim();
@@ -719,7 +775,11 @@ function submitRegistration(){
   if(!n1||!n2||!n3||!n4){ showErr('reg-err','⚠ Completá los 4 jugadores'); return; }
   if(!p1)          { showErr('reg-err','⚠ El capitán debe ingresar su WhatsApp'); return; }
 
-  // reload to avoid overwrite
+  // reload from Supabase to avoid duplicate teams
+  const regBtn = document.querySelector('#screen-register .fbtn-primary');
+  if(regBtn){ regBtn.textContent='VERIFICANDO...'; regBtn.disabled=true; }
+  await syncFromRemote([['wz_requests',[]],['wz_players',[]]]);
+  if(regBtn){ regBtn.textContent='ENVIAR REGISTRO'; regBtn.disabled=false; }
   requests = load('wz_requests',[]);
   players  = load('wz_players',[]);
 
@@ -1159,6 +1219,15 @@ function renderMatchDet(r){
 //  PLAYER VIEW
 // ══════════════════════════════════
 function renderPlayerView(){
+  // Pull latest data from Supabase every time player views
+  syncFromRemote([
+    ['wz_players',[]],['wz_tournament',{}],['wz_scores',{}],['wz_kills',{}]
+  ]).then(()=>{
+    tournament = load('wz_tournament',{});
+    _doRenderPlayerView();
+  });
+}
+function _doRenderPlayerView(){
   tournament = load('wz_tournament',{});
   const wrap=document.getElementById('yt-wrap');
   if(wrap){
@@ -1171,6 +1240,7 @@ function renderPlayerView(){
   renderPlayerTimer();
   renderMyTeamSummary();
   renderRankings();
+  renderTopKillersPlayer();
 }
 
 function renderMyTeamSummary(){
