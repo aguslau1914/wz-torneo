@@ -634,8 +634,13 @@ const SB_KEY = 'sb_publishable_FdpfXd3xKGqZgmXwzULtmA_B-jx4i6u';
 async function sbGet(key, def){
   try {
     const r = await fetch(`${SB_URL}/rest/v1/wz_data?key=eq.${encodeURIComponent(key)}&select=value`, {
-      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer '+SB_KEY }
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer '+SB_KEY,
+        'Content-Type': 'application/json'
+      }
     });
+    if(!r.ok) return def;
     const d = await r.json();
     if(d && d.length > 0) return JSON.parse(d[0].value);
     return def;
@@ -644,16 +649,22 @@ async function sbGet(key, def){
 
 async function sbSet(key, val){
   try {
-    await fetch(`${SB_URL}/rest/v1/wz_data`, {
-      method: 'POST',
-      headers: {
-        'apikey': SB_KEY, 'Authorization': 'Bearer '+SB_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': 'resolution=merge-duplicates'
-      },
-      body: JSON.stringify({ key, value: JSON.stringify(val), updated_at: new Date().toISOString() })
+    // Try upsert via PATCH first, then POST
+    const body = JSON.stringify({ key, value: JSON.stringify(val), updated_at: new Date().toISOString() });
+    const headers = {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer '+SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'resolution=merge-duplicates,return=minimal'
+    };
+    const r = await fetch(`${SB_URL}/rest/v1/wz_data`, {
+      method: 'POST', headers, body
     });
-  } catch(e){ console.error('sbSet error', e); }
+    if(!r.ok){
+      const err = await r.text();
+      console.warn('sbSet error:', r.status, err);
+    }
+  } catch(e){ console.error('sbSet exception', e); }
 }
 
 // ── Sync cache: fast local reads, async remote writes ──
