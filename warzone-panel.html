@@ -1,18 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0054)file:///C:/Users/pas_a/Downloads/warzone-panel_19.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WZ TOURNAMENT HQ</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<title>WZ PS</title>
+<script src="./warzone-panel_files/xlsx.full.min.js.descarga"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&display=swap');
-:root{
-  --bg:#050608;--surface:#0d0f14;--surface2:#131720;
-  --border:#1e2535;--accent:#00ff88;--accent2:#ff3a3a;
-  --accent3:#ffa200;--text:#e8eaf0;--muted:#5a6380;--wa:#25d366;
-  --gold:#ffd700;--silver:#c0c0c0;--bronze:#cd7f32;
-}
+:root{--bg:#050608;--surface:#0d0f14;--surface2:#131720;--border:#1e2535;--accent:#00ff88;--accent2:#ff3a3a;--accent3:#ffa200;--text:#e8eaf0;--muted:#5a6380;--wa:#25d366;--gold:#ffd700;--silver:#c0c0c0;--bronze:#cd7f32;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,.03)1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.03)1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
@@ -20,14 +15,10 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 @keyframes drift{to{transform:translate(10%,10%);}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-
 .screen{display:none;position:relative;z-index:10;width:100%;padding:20px;}
 .screen.active{display:flex;flex-direction:column;align-items:center;animation:fadeIn .4s ease;}
 #screen-login,#screen-register{max-width:460px;}
-#screen-admin,#screen-player{max-width:820px;}
-#screen-countdown{max-width:900px;}
-
-/* ── LOGIN / REGISTER ── */
+#screen-admin,#screen-player,#screen-public{max-width:820px;}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:58px;letter-spacing:5px;color:var(--accent);text-shadow:0 0 40px rgba(0,255,136,.5);text-align:center;line-height:1;}
 .logo-sub{text-align:center;font-size:12px;letter-spacing:6px;color:var(--muted);text-transform:uppercase;margin-bottom:32px;}
 .auth-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:32px;width:100%;position:relative;overflow:hidden;}
@@ -39,12 +30,10 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 .finput{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:12px 14px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;outline:none;transition:border-color .2s;margin-bottom:12px;}
 .finput:focus{border-color:var(--accent);}
 .finput::placeholder{color:var(--muted);font-weight:400;}
-.finput-note{font-size:11px;color:var(--muted);margin-top:-8px;margin-bottom:12px;letter-spacing:1px;}
 .fbtn{width:100%;padding:13px;border:none;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:3px;cursor:pointer;transition:all .2s;margin-top:4px;}
 .fbtn-primary{background:var(--accent);color:#000;}
 .fbtn-primary:hover{background:#00e87a;box-shadow:0 0 24px rgba(0,255,136,.3);}
 .fbtn-secondary{background:var(--surface2);color:var(--accent);border:1px solid var(--accent);}
-.fbtn-secondary:hover{background:rgba(0,255,136,.08);}
 .fbtn-ghost{background:none;color:var(--muted);border:1px solid var(--border);margin-top:10px;}
 .fbtn-ghost:hover{border-color:var(--accent);color:var(--accent);}
 .auth-error{margin-top:10px;text-align:center;color:var(--accent2);font-size:13px;letter-spacing:1px;min-height:18px;}
@@ -52,18 +41,10 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 .auth-divider::before,.auth-divider::after{content:'';position:absolute;top:50%;width:40%;height:1px;background:var(--border);}
 .auth-divider::before{left:0;}
 .auth-divider::after{right:0;}
-
-/* register form sections */
 .reg-section-title{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;color:var(--accent3);margin:16px 0 10px;padding-bottom:4px;border-bottom:1px solid var(--border);}
-.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.reg-grid.full{grid-template-columns:1fr;}
 .player-slot{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:12px;margin-bottom:8px;}
 .player-slot-title{font-size:11px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
-.player-slot .finput{margin-bottom:8px;}
-.player-slot .finput:last-child{margin-bottom:0;}
 .pwd-note{background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.15);border-radius:3px;padding:10px 14px;font-size:12px;color:var(--accent);letter-spacing:1px;margin-bottom:12px;text-align:center;}
-
-/* ── SHARED PANEL ── */
 .panel{width:100%;}
 .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px;}
 .top-bar h1{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--accent);text-shadow:0 0 20px rgba(0,255,136,.3);line-height:1;}
@@ -73,15 +54,11 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 .top-btn:hover{border-color:var(--accent);color:var(--accent);}
 .top-btn.danger:hover{border-color:var(--accent2);color:var(--accent2);}
 .top-btn.hl{border-color:var(--accent3);color:var(--accent3);}
-
-/* TABS */
 .tabs{display:flex;gap:2px;margin-bottom:18px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:4px;flex-wrap:wrap;}
-.tab{flex:1;min-width:65px;padding:8px 5px;background:none;border:none;color:var(--muted);font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:pointer;border-radius:3px;transition:all .2s;white-space:nowrap;}
+.tab{flex:1;min-width:60px;padding:8px 5px;background:none;border:none;color:var(--muted);font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:1px;cursor:pointer;border-radius:3px;transition:all .2s;white-space:nowrap;}
 .tab.active{background:var(--surface2);color:var(--accent);border:1px solid var(--border);}
 .tab-content{display:none;width:100%;}
 .tab-content.active{display:block;animation:fadeIn .3s ease;}
-
-/* CARD */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:12px;position:relative;overflow:hidden;width:100%;}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,136,.1),transparent);}
 .card-title{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -89,9 +66,6 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 .badge-green{background:rgba(0,255,136,.15);color:var(--accent);}
 .badge-orange{background:rgba(255,162,0,.15);color:var(--accent3);}
 .badge-red{background:rgba(255,58,58,.15);color:var(--accent2);}
-.badge-blue{background:rgba(80,140,255,.15);color:#7ab4ff;}
-
-/* FORM */
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
 .form-row.full{grid-template-columns:1fr;}
 .form-row.tri{grid-template-columns:1fr 1fr 1fr;}
@@ -102,8 +76,6 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 .field select option{background:var(--surface2);}
 .phone-wrap{display:flex;gap:6px;}
 .phone-prefix{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:9px 11px;color:var(--accent);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;white-space:nowrap;display:flex;align-items:center;}
-
-/* TOOLBAR */
 .toolbar{display:flex;gap:7px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
 .toolbar-search{flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:7px 11px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;outline:none;}
 .toolbar-search::placeholder{color:var(--muted);}
@@ -112,8 +84,6 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 .toolbar-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:3px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .toolbar-btn:hover{border-color:var(--accent3);color:var(--accent3);}
 .toolbar-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(0,255,136,.06);}
-
-/* PLAYER LIST */
 .player-list{display:flex;flex-direction:column;gap:5px;max-height:340px;overflow-y:auto;padding-right:4px;}
 .player-list::-webkit-scrollbar{width:3px;}
 .player-list::-webkit-scrollbar-thumb{background:var(--muted);border-radius:2px;}
@@ -132,38 +102,26 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 .iBtn{background:none;border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:3px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .iBtn:hover{border-color:var(--accent2);color:var(--accent2);}
 .iBtn.wa:hover{border-color:var(--wa);color:var(--wa);}
-.iBtn.ok{background:rgba(0,255,136,.1);border-color:var(--accent);color:var(--accent);}
-.iBtn.ok:hover{background:var(--accent);color:#000;}
 .empty{text-align:center;padding:24px;color:var(--muted);font-size:13px;}
 .empty span{display:block;font-size:24px;margin-bottom:6px;}
-
-/* PENDING REQUESTS */
-.req-item{background:var(--surface2);border:1px solid rgba(255,162,0,.3);border-radius:3px;padding:12px 14px;margin-bottom:8px;animation:fadeIn .3s ease;}
+.req-item{background:var(--surface2);border:1px solid rgba(255,162,0,.3);border-radius:3px;padding:12px 14px;margin-bottom:8px;}
 .req-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
 .req-team{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;color:var(--accent3);}
 .req-actions{display:flex;gap:6px;}
 .req-approve{background:rgba(0,255,136,.15);border:1px solid var(--accent);color:var(--accent);padding:5px 12px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;cursor:pointer;transition:all .2s;}
 .req-approve:hover{background:var(--accent);color:#000;}
-.req-reject{background:rgba(255,58,58,.1);border:1px solid var(--accent2);color:var(--accent2);padding:5px 10px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:14px;cursor:pointer;transition:all .2s;}
-.req-reject:hover{background:var(--accent2);color:#fff;}
-.req-players{display:flex;flex-wrap:wrap;gap:6px;}
+.req-reject{background:rgba(255,58,58,.1);border:1px solid var(--accent2);color:var(--accent2);padding:5px 10px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:14px;cursor:pointer;}
 .req-player-tag{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:3px 8px;font-size:12px;color:var(--text);}
-
-/* EXPORT */
 .export-bar{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap;}
 .export-btn{display:inline-flex;align-items:center;gap:5px;padding:9px 14px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:2px;cursor:pointer;border:none;transition:all .2s;flex:1;justify-content:center;}
 .exp-xl{background:#1d6f42;color:#fff;}
 .exp-xl:hover{background:#228b50;}
 .exp-pdf{background:#c0392b;color:#fff;}
 .exp-pdf:hover{background:#e04434;}
-
-/* STATS */
 .sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
 .sbox{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:11px 13px;}
 .sbox-l{font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:3px;}
 .sbox-v{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent);}
-
-/* SCORING */
 .round-card{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:14px;margin-bottom:10px;}
 .round-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .round-title{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:2px;color:var(--accent3);}
@@ -180,8 +138,6 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 .save-btn{width:100%;margin-top:8px;padding:9px;background:var(--accent);color:#000;border:none;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;cursor:pointer;transition:all .2s;}
 .save-btn:hover{background:#00e87a;}
 .save-btn:disabled{background:var(--surface2);color:var(--muted);cursor:not-allowed;}
-
-/* RANKING */
 .rtable{width:100%;border-collapse:collapse;}
 .rtable th{background:rgba(0,255,136,.06);color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;padding:8px 11px;text-align:left;border-bottom:1px solid var(--border);}
 .rtable th.r,.rtable td.r{text-align:right;}
@@ -195,24 +151,20 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 .mpill.active{border-color:var(--accent);color:var(--accent);background:rgba(0,255,136,.08);}
 .dtable{width:100%;border-collapse:collapse;}
 .dtable th{background:rgba(255,162,0,.06);color:var(--accent3);font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;padding:7px 10px;text-align:left;border-bottom:1px solid var(--border);}
-.dtable td{padding:6px 10px;border-bottom:1px solid rgba(30,37,53,.7);font-size:12px;}
+.dtable td{padding:6px 10px;border-bottom:1px solid rgba(30,37,53,.7);font-size:12px;color:var(--text);}
 .dtable tr:last-child td{border-bottom:none;}
-
-/* RULES */
 .rb{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:11px 13px;margin-bottom:7px;display:flex;gap:10px;align-items:flex-start;}
 .rb-icon{font-size:16px;min-width:22px;text-align:center;line-height:1.4;}
 .rb-title{font-size:14px;font-weight:700;margin-bottom:2px;}
-.rb-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+.rb-desc{font-size:13px;color:#8a9ab8;line-height:1.6;}
 .hl{color:var(--accent);font-weight:700;}
 .hlo{color:var(--accent3);font-weight:700;}
 .hlr{color:var(--accent2);font-weight:700;}
 .mtable{width:100%;border-collapse:collapse;margin:8px 0 12px;}
 .mtable th{background:rgba(0,255,136,.07);color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;padding:7px 11px;text-align:left;border-bottom:1px solid var(--border);}
-.mtable td{padding:7px 11px;border-bottom:1px solid rgba(30,37,53,.7);font-size:14px;font-weight:500;}
+.mtable td{padding:7px 11px;border-bottom:1px solid rgba(30,37,53,.7);font-size:14px;font-weight:500;color:var(--text);}
 .mtable tr:last-child td{border-bottom:none;}
 .mv{font-family:'Bebas Neue',sans-serif;font-size:19px;}
-
-/* MSG */
 .msg-pre{background:#0a1a10;border:1px solid #1a3a25;border-radius:3px;padding:13px;font-size:13px;line-height:1.7;color:#b8e0c8;white-space:pre-wrap;max-height:210px;overflow-y:auto;font-family:'Rajdhani',sans-serif;margin-bottom:10px;}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 16px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;cursor:pointer;border:none;transition:all .2s;}
 .btn-full{width:100%;justify-content:center;margin-top:6px;}
@@ -223,1508 +175,1702 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 .btn-o{background:none;border:1px solid var(--border);color:var(--muted);}
 .btn-o:hover{border-color:var(--accent);color:var(--accent);}
 .divider{border:none;border-top:1px solid var(--border);margin:14px 0;}
-
-/* YT BANNER */
 .yt-ban{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#1a0a0a,#1a0808);border:1px solid rgba(255,58,58,.3);border-radius:4px;padding:14px 18px;text-decoration:none;transition:all .3s;margin-bottom:12px;}
 .yt-ban:hover{border-color:var(--accent2);box-shadow:0 0 20px rgba(255,58,58,.15);}
 .yt-icon{font-size:28px;}
 .yt-label{font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
 .yt-url{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--accent2);}
-
-/* COUNTDOWN */
-#screen-countdown{background:var(--bg);}
-.cd-wrap{text-align:center;padding:36px 20px;width:100%;}
-.cd-label-top{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:6px;color:var(--muted);margin-bottom:6px;}
-.cd-match{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:4px;color:var(--accent);text-shadow:0 0 30px rgba(0,255,136,.4);line-height:1;margin-bottom:32px;}
-.cd-digits{display:flex;align-items:center;justify-content:center;gap:14px;}
+#cd-overlay{display:none;position:fixed;bottom:20px;right:20px;z-index:9000;width:300px;background:var(--surface);border:2px solid var(--accent);border-radius:6px;box-shadow:0 0 30px rgba(0,255,136,.2);overflow:hidden;}
+.cd-hdr{background:rgba(0,255,136,.08);padding:9px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.cd-hdr-title{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--accent);}
+.cd-hbtn{width:24px;height:24px;border-radius:3px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;border:1px solid;background:none;}
+.cd-body{padding:14px;}
+.cd-match-lbl{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;color:var(--muted);margin-bottom:4px;}
+.cd-digits{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;}
 .cd-block{text-align:center;}
-.cd-num{font-family:'Bebas Neue',sans-serif;font-size:86px;line-height:1;color:var(--text);letter-spacing:-2px;text-shadow:0 0 30px rgba(0,255,136,.12);}
-.cd-num.urgent{color:var(--accent2);text-shadow:0 0 30px rgba(255,58,58,.4);}
-.cd-unit{font-size:11px;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin-top:3px;}
-.cd-sep{font-family:'Bebas Neue',sans-serif;font-size:72px;color:var(--border);line-height:1;animation:pulse 1s infinite;}
-.cd-bar{width:100%;height:4px;background:var(--border);border-radius:2px;margin:32px 0 26px;overflow:hidden;}
-.cd-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent3));border-radius:2px;transition:width 1s linear;}
-.cd-msg{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:4px;color:var(--muted);margin-bottom:28px;}
-.cd-ranking{max-width:480px;margin:0 auto;text-align:left;}
-.cd-close{position:fixed;top:18px;right:18px;background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:7px 13px;font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .2s;z-index:100;}
-.cd-close:hover{border-color:var(--accent2);color:var(--accent2);}
-
-/* MY TEAM SUMMARY */
-.my-sgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;}
-
-/* TOAST */
+.cd-num{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:var(--text);letter-spacing:-1px;}
+.cd-num.urgent{color:var(--accent2);}
+.cd-sep{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--border);animation:pulse 1s infinite;}
+.cd-unit{font-size:9px;letter-spacing:3px;color:var(--muted);}
+.cd-bar-wrap{width:100%;height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:10px;}
+.cd-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent3));border-radius:2px;transition:width 1s linear;width:100%;}
+.cd-msg-lbl{font-size:11px;letter-spacing:1px;color:var(--muted);text-align:center;margin-bottom:10px;}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--accent);color:var(--accent);padding:9px 18px;border-radius:3px;font-size:12px;letter-spacing:2px;opacity:0;transition:all .3s;z-index:9999;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-/* LOADING */
-.loading{text-align:center;padding:20px;color:var(--muted);font-size:13px;letter-spacing:2px;}
-.loading::after{content:'';display:inline-block;width:12px;height:12px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin-left:8px;vertical-align:middle;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-@media(max-width:600px){
-  .sgrid{grid-template-columns:1fr 1fr;}
-  .score-row{grid-template-columns:1fr 55px 55px 45px 60px;gap:4px;}
-  .cd-num{font-size:60px;}
-  .reg-grid{grid-template-columns:1fr;}
-}
+@media(max-width:600px){.sgrid{grid-template-columns:1fr 1fr;}.score-row{grid-template-columns:1fr 55px 55px 45px 60px;gap:4px;}}
 </style>
 </head>
 <body>
 
-<!-- ══ LOGIN ══ -->
+<!-- LOGIN -->
 <div id="screen-login" class="screen active">
-  <div class="logo">WZ HQ</div>
+  <div class="logo">WZ PS</div>
   <div class="logo-sub">Tournament Command Center</div>
   <div class="auth-card">
     <div class="role-tabs">
-      <button class="role-tab active" onclick="setRole('admin',this)">⚙ ADMIN</button>
-      <button class="role-tab" onclick="setRole('player',this)">🎮 JUGADOR</button>
+      <button class="role-tab active" onclick="setRole(&#39;admin&#39;,this)">⚙ ADMIN</button>
+      <button class="role-tab" onclick="setRole(&#39;player&#39;,this)">🎮 JUGADOR</button>
     </div>
-
-    <!-- ADMIN LOGIN -->
     <div id="sec-admin">
-      <label class="flabel">Contraseña de admin</label>
-      <input type="password" class="finput" id="admin-pwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')loginAdmin()">
+      <label class="flabel">Contrasena de admin</label>
+      <input type="password" class="finput" id="admin-pwd" placeholder="••••••••" onkeydown="if(event.key===&#39;Enter&#39;)loginAdmin()">
       <button class="fbtn fbtn-primary" onclick="loginAdmin()">INGRESAR COMO ADMIN</button>
     </div>
-
-    <!-- PLAYER LOGIN -->
     <div id="sec-player" style="display:none">
       <label class="flabel">Nombre de tu equipo</label>
-      <input type="text" class="finput" id="player-team-in" placeholder="Exactamente como lo registraste" style="letter-spacing:1px" onkeydown="if(event.key==='Enter')loginPlayer()">
+      <input type="text" class="finput" id="player-team-in" placeholder="Exactamente como lo registraste" onkeydown="if(event.key===&#39;Enter&#39;)loginPlayer()">
       <button class="fbtn fbtn-secondary" onclick="loginPlayer()">ENTRAR AL TORNEO</button>
       <div class="auth-divider">O</div>
-      <button class="fbtn fbtn-ghost" onclick="showScreen('register')">📝 REGISTRAR MI EQUIPO</button>
+      <button class="fbtn fbtn-ghost" onclick="showScreen(&#39;register&#39;)">📝 REGISTRAR MI EQUIPO</button>
     </div>
-
+    <div class="auth-divider" style="margin-top:20px">VER SIN INGRESAR</div>
+    <button class="fbtn fbtn-ghost" onclick="openPublicResults()" style="border-color:var(--accent3);color:var(--accent3)">📊 RESULTADOS PUBLICOS EN VIVO</button>
     <div class="auth-error" id="login-err"></div>
   </div>
 </div>
 
-<!-- ══ REGISTER ══ -->
+<!-- REGISTER -->
 <div id="screen-register" class="screen">
   <div class="logo" style="font-size:40px">📝 REGISTRO</div>
-  <div class="logo-sub">Inscribí tu equipo al torneo</div>
+  <div class="logo-sub">Inscribi tu equipo al torneo</div>
   <div class="auth-card" style="max-width:460px;width:100%">
-
     <div class="reg-section-title">⚡ DATOS DEL EQUIPO</div>
     <label class="flabel">Nombre del equipo *</label>
     <input type="text" class="finput" id="reg-team" placeholder="Nombre exacto de tu equipo" oninput="updatePwdNote()">
-    <div class="pwd-note" id="pwd-note">🔑 Tu contraseña será: <strong id="pwd-preview">el nombre de tu equipo</strong></div>
-
-    <div class="reg-section-title">👥 JUGADORES (4 obligatorios)</div>
-
-    <div class="player-slot">
-      <div class="player-slot-title">JUGADOR 1 — CAPITÁN *</div>
-      <input type="text" class="finput" id="r-n1" placeholder="Nombre / GamerTag">
-      <div class="phone-wrap" style="margin-bottom:0">
-        <div class="phone-prefix" style="font-size:13px">+549</div>
-        <input type="tel" class="finput" id="r-p1" placeholder="WhatsApp del capitán" style="margin-bottom:0;flex:1">
+    <div class="pwd-note" id="pwd-note">🔑 Tu contrasena sera: <strong id="pwd-preview">el nombre de tu equipo</strong></div>
+    <div class="reg-section-title">🖼 LOGO DEL EQUIPO</div>
+    <div style="margin-bottom:12px">
+      <input type="file" class="finput" id="reg-logo" accept="image/*" onchange="previewLogo(this)" style="padding:7px">
+      <div id="logo-preview-wrap" style="display:none;text-align:center;margin-top:10px">
+        <img id="logo-preview" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--accent)">
       </div>
     </div>
-
+    <div class="reg-section-title">👥 JUGADORES (4 obligatorios)</div>
+    <div class="player-slot">
+      <div class="player-slot-title">JUGADOR 1 - CAPITAN *</div>
+      <input type="text" class="finput" id="r-n1" placeholder="Nombre / GamerTag">
+      <input type="text" class="finput" id="r-a1" placeholder="Activision ID (ej: Pablo#1234567)">
+      <div class="phone-wrap" style="margin-bottom:0">
+        <div class="phone-prefix" style="font-size:13px">+549</div>
+        <input type="tel" class="finput" id="r-p1" placeholder="WhatsApp del capitan" style="margin-bottom:0;flex:1">
+      </div>
+    </div>
     <div class="player-slot">
       <div class="player-slot-title">JUGADOR 2 *</div>
-      <input type="text" class="finput" id="r-n2" placeholder="Nombre / GamerTag" style="margin-bottom:0">
+      <input type="text" class="finput" id="r-n2" placeholder="Nombre / GamerTag">
+      <input type="text" class="finput" id="r-a2" placeholder="Activision ID" style="margin-bottom:0">
     </div>
-
     <div class="player-slot">
       <div class="player-slot-title">JUGADOR 3 *</div>
-      <input type="text" class="finput" id="r-n3" placeholder="Nombre / GamerTag" style="margin-bottom:0">
+      <input type="text" class="finput" id="r-n3" placeholder="Nombre / GamerTag">
+      <input type="text" class="finput" id="r-a3" placeholder="Activision ID" style="margin-bottom:0">
     </div>
-
     <div class="player-slot">
       <div class="player-slot-title">JUGADOR 4 *</div>
-      <input type="text" class="finput" id="r-n4" placeholder="Nombre / GamerTag" style="margin-bottom:0">
+      <input type="text" class="finput" id="r-n4" placeholder="Nombre / GamerTag">
+      <input type="text" class="finput" id="r-a4" placeholder="Activision ID" style="margin-bottom:0">
     </div>
-
     <div class="auth-error" id="reg-err"></div>
     <button class="fbtn fbtn-primary" onclick="submitRegistration()" style="margin-top:8px">ENVIAR REGISTRO</button>
-    <button class="fbtn fbtn-ghost" onclick="showScreen('login')" style="margin-top:8px">← VOLVER</button>
+    <button class="fbtn fbtn-ghost" onclick="showScreen(&#39;login&#39;)" style="margin-top:8px">← VOLVER</button>
   </div>
 </div>
 
-<!-- ══ ADMIN ══ -->
+<!-- ADMIN -->
 <div id="screen-admin" class="screen">
 <div class="panel">
   <div class="top-bar">
-    <div><h1>⚔ WZ HQ — ADMIN</h1><p>Panel de control completo</p></div>
+    <div><h1>⚔ WZ PS - ADMIN</h1><p>Panel de control completo</p></div>
     <div class="top-actions">
       <button class="top-btn hl" onclick="openCountdown()">⏱ COUNTDOWN</button>
       <button class="top-btn danger" onclick="goLogin()">⏻ SALIR</button>
     </div>
   </div>
   <div class="tabs">
-    <button class="tab active" onclick="aTab('a-requests',this)">🔔 REGISTROS <span id="req-count-badge"></span></button>
-    <button class="tab" onclick="aTab('a-players',this)">👥 JUGADORES</button>
-    <button class="tab" onclick="aTab('a-scoring',this)">⚡ PUNTOS</button>
-    <button class="tab" onclick="aTab('a-kills',this)">💀 KILLS</button>
-    <button class="tab" onclick="aTab('a-ranking',this)">🏆 RANKING</button>
-    <button class="tab" onclick="aTab('a-torneo',this)">⚙ TORNEO</button>
-    <button class="tab" onclick="aTab('a-msg',this)">💬 MENSAJES</button>
+    <button class="tab active" onclick="aTab(&#39;a-req&#39;,this)">🔔 REGISTROS <span id="req-count-badge"></span></button>
+    <button class="tab" onclick="aTab(&#39;a-players&#39;,this)">👥 JUGADORES</button>
+    <button class="tab" onclick="aTab(&#39;a-scoring&#39;,this)">⚡ PUNTOS</button>
+    <button class="tab" onclick="aTab(&#39;a-kills&#39;,this)">💀 KILLS</button>
+    <button class="tab" onclick="aTab(&#39;a-ranking&#39;,this)">🏆 RANKING</button>
+    <button class="tab" onclick="aTab(&#39;a-torneo&#39;,this)">⚙ TORNEO</button>
+    <button class="tab" onclick="aTab(&#39;a-msg&#39;,this)">💬 MENSAJES</button>
+    <button class="tab" onclick="aTab(&#39;a-chat-admin&#39;,this)">🗨 CHAT</button>
+    <button class="tab" onclick="aTab(&#39;a-history&#39;,this)">📁 HISTORIAL</button>
   </div>
 
-  <!-- REGISTROS PENDIENTES -->
-  <div id="a-requests" class="tab-content active">
+  <div id="a-req" class="tab-content active">
     <div class="card">
-      <div class="card-title">🔔 Solicitudes de registro
-        <span class="badge badge-orange" id="pending-badge">0 pendientes</span>
-      </div>
-      <div id="requests-list"><div class="empty"><span>📭</span>Sin solicitudes pendientes</div></div>
+      <div class="card-title">Solicitudes pendientes <span class="badge badge-orange" id="pending-badge">0</span></div>
+      <div id="requests-list"><div class="empty"><span>📭</span>Sin solicitudes</div></div>
     </div>
     <div class="card">
-      <div class="card-title">✅ Equipos aprobados <span class="badge badge-green" id="approved-badge">0</span></div>
-      <div id="approved-list"><div class="empty"><span>👥</span>Sin equipos aprobados aún</div></div>
+      <div class="card-title">Equipos aprobados <span class="badge badge-green" id="approved-badge">0</span></div>
+      <div id="approved-list"><div class="empty"><span>👥</span>Sin equipos aun</div></div>
     </div>
   </div>
 
-  <!-- JUGADORES -->
   <div id="a-players" class="tab-content">
     <div class="card">
-      <div class="card-title">Lista de Jugadores <span class="badge badge-green" id="count-badge">0</span></div>
+      <div class="card-title">Lista <span class="badge badge-green" id="count-badge">0</span></div>
       <div class="toolbar">
-        <input type="text" class="toolbar-search" id="search-in" placeholder="🔍 Buscar..." oninput="renderPlayers()">
+        <input type="text" class="toolbar-search" id="search-in" placeholder="Buscar..." oninput="renderPlayers()">
         <select class="toolbar-select" id="filter-team" onchange="renderPlayers()"><option value="">Todos los equipos</option></select>
         <select class="toolbar-select" id="filter-status" onchange="renderPlayers()">
-          <option value="">Todos</option><option value="confirmado">✅</option>
-          <option value="pendiente">⏳</option><option value="espera">⛔</option>
+          <option value="">Todos</option><option value="confirmado">OK</option>
+          <option value="pendiente">Pend</option><option value="espera">Espera</option>
         </select>
-        <button class="toolbar-btn" id="btn-grp" onclick="toggleGroup()">⚙ Equipo</button>
+        <button class="toolbar-btn" id="btn-grp" onclick="toggleGroup()">Por Equipo</button>
       </div>
       <div class="player-list" id="player-list"><div class="empty"><span>🎮</span>Sin jugadores</div></div>
       <div class="export-bar">
-        <button class="export-btn exp-xl" onclick="exportExcel()">📊 EXCEL</button>
-        <button class="export-btn exp-pdf" onclick="exportPDF()">📄 PDF</button>
+        <button class="export-btn exp-xl" onclick="exportExcel()">EXCEL</button>
+        <button class="export-btn exp-pdf" onclick="exportPDF()">PDF</button>
       </div>
     </div>
   </div>
 
-  <!-- KILLS INDIVIDUALES -->
-  <div id="a-kills" class="tab-content">
-    <div class="card">
-      <div class="card-title">💀 Kills Individuales por Partida
-        <span class="badge badge-orange" id="kills-round-badge">Partida 1</span>
-      </div>
-      <div id="kills-ui"></div>
-      <div style="display:flex;gap:7px;margin-top:8px">
-        <button class="btn btn-o btn-full" onclick="prevKillRound()" id="btn-kprev">◀ ANTERIOR</button>
-        <button class="btn btn-full" style="background:var(--accent3);color:#000" onclick="nextKillRound()" id="btn-knext">SIGUIENTE ▶</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">🏆 Top Killers del Torneo</div>
-      <div id="top-killers"></div>
-    </div>
-  </div>
-
-  <!-- SCORING -->
   <div id="a-scoring" class="tab-content">
     <div class="card">
-      <div class="card-title">⚡ Calculadora de Puntos
-        <span class="badge badge-orange" id="cur-round-badge">Partida 1</span>
-      </div>
+      <div class="card-title">Calculadora de Puntos <span class="badge badge-orange" id="cur-round-badge">Partida 1</span></div>
       <div id="scoring-ui"></div>
       <div style="display:flex;gap:7px;margin-top:8px">
-        <button class="btn btn-o btn-full" onclick="prevRound()" id="btn-prev">◀ ANTERIOR</button>
-        <button class="btn btn-full" style="background:var(--accent3);color:#000" onclick="nextRound()" id="btn-next">SIGUIENTE ▶</button>
+        <button class="btn btn-o btn-full" onclick="prevRound()" id="btn-prev">ANTERIOR</button>
+        <button class="btn btn-full" style="background:var(--accent3);color:#000" onclick="nextRound()" id="btn-next">SIGUIENTE</button>
       </div>
     </div>
     <div class="card">
-      <div class="card-title">📲 Mensaje WA automático</div>
-      <div class="msg-pre" id="wa-score-pre">— Guardá una partida para ver el mensaje —</div>
-      <button class="btn btn-wa btn-full" onclick="sendScoreWA()">📲 ABRIR WHATSAPP</button>
-      <button class="btn btn-o btn-full" onclick="copyScoreMsg()">📋 COPIAR</button>
+      <div class="card-title">Mensaje WA automatico</div>
+      <div class="msg-pre" id="wa-score-pre">Guarda una partida para ver el mensaje</div>
+      <button class="btn btn-wa btn-full" onclick="sendScoreWA()">ABRIR WHATSAPP</button>
+      <button class="btn btn-o btn-full" onclick="copyScoreMsg()">COPIAR</button>
     </div>
   </div>
 
-  <!-- RANKING -->
-  <div id="a-ranking" class="tab-content">
-    <div class="card"><div class="card-title">🏆 Ranking Equipos</div><div id="a-team-rank"></div></div>
-    <div class="card"><div class="card-title">👤 Ranking Individual</div><div id="a-player-rank"></div></div>
+  <div id="a-kills" class="tab-content">
     <div class="card">
-      <div class="card-title">📊 Detalle por Partida</div>
+      <div class="card-title">Kills Individuales <span class="badge badge-orange" id="kills-round-badge">Partida 1</span></div>
+      <div id="kills-ui"></div>
+      <div style="display:flex;gap:7px;margin-top:8px">
+        <button class="btn btn-o btn-full" onclick="prevKillRound()" id="btn-kprev">ANTERIOR</button>
+        <button class="btn btn-full" style="background:var(--accent3);color:#000" onclick="nextKillRound()" id="btn-knext">SIGUIENTE</button>
+      </div>
+    </div>
+    <div class="card"><div class="card-title">Top Killers del Torneo</div><div id="top-killers"></div></div>
+  </div>
+
+  <div id="a-ranking" class="tab-content">
+    <div class="card"><div class="card-title">Ranking Equipos</div><div id="a-team-rank"></div></div>
+    <div class="card"><div class="card-title">Ranking Individual</div><div id="a-player-rank"></div></div>
+    <div class="card">
+      <div class="card-title">Detalle por Partida</div>
       <div class="mpills" id="a-pills"></div>
       <div id="a-match-det"></div>
     </div>
   </div>
 
-  <!-- TORNEO -->
   <div id="a-torneo" class="tab-content">
     <div class="card">
       <div class="card-title">Datos del Torneo</div>
+      <div style="background:rgba(255,162,0,.06);border:1px solid rgba(255,162,0,.2);border-radius:3px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px">
+        <div style="flex:1">
+          <div style="font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px">Nombre visible en la app</div>
+          <input type="text" id="app-title" placeholder="WZ PS" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:7px 10px;color:var(--accent);font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:18px;letter-spacing:2px;outline:none">
+        </div>
+        <button onclick="saveAppTitle()" style="background:var(--accent3);color:#000;border:none;border-radius:3px;padding:8px 14px;font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer">GUARDAR</button>
+      </div>
       <div class="form-row">
-        <div class="field"><label>Nombre</label><input type="text" id="t-name" placeholder="WZ RG Cup #1" oninput="saveT()"></div>
-        <div class="field"><label>Modalidad</label><select id="t-mode" onchange="saveT()"><option>Resurgence - Squad (4)</option><option>Resurgence - Trio</option><option>Battle Royale - Squad</option></select></div>
+        <div class="field"><label>Nombre</label><input type="text" id="t-name" placeholder="WZ PS Cup #1" oninput="saveT()"></div>
+        <div class="field"><label>Modalidad</label><select id="t-mode" onchange="saveT()"><option>Resurgence Squad</option><option>Resurgence Trio</option><option>Battle Royale Squad</option></select></div>
       </div>
       <div class="form-row">
         <div class="field"><label>Fecha</label><input type="date" id="t-date" oninput="saveT()"></div>
         <div class="field"><label>Hora</label><input type="time" id="t-time" oninput="saveT()"></div>
       </div>
       <div class="form-row tri">
-        <div class="field"><label>Premio 🥇</label><input type="text" id="t-p1" placeholder="$50.000" oninput="saveT()"></div>
-        <div class="field"><label>Premio 🥈</label><input type="text" id="t-p2" placeholder="$20.000" oninput="saveT()"></div>
-        <div class="field"><label>Premio 🥉</label><input type="text" id="t-p3" placeholder="$10.000" oninput="saveT()"></div>
+        <div class="field"><label>Premio 1</label><input type="text" id="t-p1" placeholder="$50.000" oninput="saveT()"></div>
+        <div class="field"><label>Premio 2</label><input type="text" id="t-p2" placeholder="$20.000" oninput="saveT()"></div>
+        <div class="field"><label>Premio 3</label><input type="text" id="t-p3" placeholder="$10.000" oninput="saveT()"></div>
       </div>
       <div class="form-row">
-        <div class="field"><label>Inscripción</label><input type="text" id="t-fee" placeholder="1° torneo: Gratuito" oninput="saveT()"></div>
+        <div class="field"><label>Inscripcion</label><input type="text" id="t-fee" placeholder="Gratuito" oninput="saveT()"></div>
         <div class="field"><label>Cupos</label><input type="number" id="t-slots" placeholder="40" oninput="saveT()"></div>
       </div>
-      <div class="form-row full">
-        <div class="field"><label>Link YouTube</label><input type="text" id="t-yt" placeholder="https://youtube.com/live/..." oninput="saveT()"></div>
-      </div>
-      <div class="form-row full">
-        <div class="field"><label>Plataforma</label><select id="t-plat" onchange="saveT()"><option>Todas las plataformas</option><option>PC (Battle.net)</option><option>PlayStation</option><option>Xbox</option></select></div>
-      </div>
+      <div class="form-row full"><div class="field"><label>YouTube</label><input type="text" id="t-yt" placeholder="https://youtube.com/live/..." oninput="saveT()"></div></div>
       <hr class="divider">
       <div class="sgrid">
         <div class="sbox"><div class="sbox-l">Jugadores</div><div class="sbox-v" id="st-pl">0</div></div>
-        <div class="sbox"><div class="sbox-l">Cupos libres</div><div class="sbox-v" id="st-sl">—</div></div>
+        <div class="sbox"><div class="sbox-l">Cupos libres</div><div class="sbox-v" id="st-sl">-</div></div>
         <div class="sbox"><div class="sbox-l">Confirmados</div><div class="sbox-v" id="st-cf">0</div></div>
         <div class="sbox"><div class="sbox-l">Equipos</div><div class="sbox-v" id="st-tm">0</div></div>
       </div>
+      <div id="tournament-stats-card" style="margin-top:10px"></div>
+      <button onclick="openPublicResults()" style="width:100%;margin-top:10px;padding:10px;background:rgba(255,162,0,.1);border:1px solid var(--accent3);color:var(--accent3);border-radius:3px;font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:16px;letter-spacing:2px;cursor:pointer">VER PANEL PUBLICO</button>
     </div>
   </div>
 
-  <!-- MENSAJES -->
   <div id="a-msg" class="tab-content">
     <div class="card">
       <div class="card-title">Generar Mensaje</div>
       <div class="form-row">
         <div class="field"><label>Tipo</label><select id="msg-type" onchange="genMsg()">
-          <option value="convocatoria">📢 Convocatoria</option>
-          <option value="reglas">📋 Reglas</option>
-          <option value="confirmacion">✅ Confirmación</option>
-          <option value="recordatorio">⏰ Recordatorio</option>
-          <option value="resultado">🏆 Resultados</option>
-          <option value="custom">✏️ Personalizado</option>
+          <option value="convocatoria">Convocatoria</option>
+          <option value="reglas">Reglas</option>
+          <option value="confirmacion">Confirmacion</option>
+          <option value="recordatorio">Recordatorio</option>
+          <option value="resultado">Resultados</option>
+          <option value="custom">Personalizado</option>
         </select></div>
-        <div class="field"><label>Jugador</label><select id="msg-player" onchange="genMsg()"><option value="">— General —</option></select></div>
+        <div class="field"><label>Jugador</label><select id="msg-player" onchange="genMsg()"><option value="">General</option></select></div>
       </div>
       <div class="form-row full" id="custom-row" style="display:none">
-        <div class="field"><textarea id="custom-txt" oninput="genMsg()" style="min-height:90px" placeholder="Escribí el mensaje..."></textarea></div>
+        <div class="field"><textarea id="custom-txt" oninput="genMsg()" style="min-height:90px" placeholder="Escribi el mensaje..."></textarea></div>
       </div>
-      <div class="msg-pre" id="msg-pre">—</div>
-      <button class="btn btn-a btn-full" onclick="copyMsg()">📋 COPIAR</button>
-      <button class="btn btn-wa btn-full" onclick="openWA()">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        WHATSAPP
-      </button>
-      <button class="btn btn-o btn-full" onclick="openWAmy()">📱 A MI NÚMERO</button>
+      <div class="msg-pre" id="msg-pre">-</div>
+      <button class="btn btn-a btn-full" onclick="copyMsg()">COPIAR</button>
+      <button class="btn btn-wa btn-full" onclick="openWA()">WHATSAPP</button>
+      <button class="btn btn-o btn-full" onclick="openWAmy()">A MI NUMERO</button>
     </div>
     <div class="card" style="margin-bottom:0">
-      <div class="card-title">Mi número</div>
+      <div class="card-title">Mi numero</div>
       <div class="field"><div class="phone-wrap"><div class="phone-prefix">+549</div><input type="tel" id="my-phone" placeholder="2964xxxxxxx" oninput="saveMyPhone()" style="flex:1"></div></div>
     </div>
   </div>
+
+  <div id="a-chat-admin" class="tab-content">
+    <div class="card">
+      <div class="card-title">Chat <span class="badge badge-red" id="admin-chat-count">0</span></div>
+      <div id="admin-chat-messages" style="display:flex;flex-direction:column;gap:7px;max-height:400px;overflow-y:auto;padding-right:4px;margin-bottom:14px">
+        <div class="empty"><span>💬</span>Sin mensajes</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button onclick="clearAllChat()" style="background:rgba(255,58,58,.1);border:1px solid var(--accent2);color:var(--accent2);padding:9px 16px;border-radius:3px;font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;flex:1">LIMPIAR CHAT</button>
+        <button onclick="refreshAdminChat()" style="background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:9px 16px;border-radius:3px;font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;flex:1">ACTUALIZAR</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Equipos Bloqueados <span class="badge badge-red" id="blocked-count">0</span></div>
+      <div id="blocked-list"><div class="empty"><span>OK</span>Sin bloqueados</div></div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-title">Filtro de Palabras</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Se reemplazan por *** y el mensaje queda marcado en rojo.</div>
+      <textarea id="badwords-input" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:10px;color:var(--text);font-family:&#39;Rajdhani&#39;,sans-serif;font-size:13px;outline:none;min-height:80px;resize:vertical" placeholder="Una palabra por linea..."></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button onclick="saveBadWords()" style="flex:1;background:var(--accent);color:#000;border:none;border-radius:3px;padding:9px;font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:15px;letter-spacing:2px;cursor:pointer">GUARDAR</button>
+        <button onclick="resetBadWords()" style="background:var(--surface2);border:1px solid var(--border);color:var(--muted);border-radius:3px;padding:9px 14px;font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:15px;cursor:pointer">RESET</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="a-history" class="tab-content">
+    <div class="card">
+      <div class="card-title">Historial de Torneos</div>
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <button onclick="archiveTournament()" style="background:var(--accent);color:#000;border:none;border-radius:3px;padding:10px 16px;font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:16px;letter-spacing:2px;cursor:pointer;flex:1">ARCHIVAR TORNEO</button>
+        <button onclick="clearHistory()" style="background:rgba(255,58,58,.1);border:1px solid var(--accent2);color:var(--accent2);border-radius:3px;padding:10px 16px;font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:16px;letter-spacing:2px;cursor:pointer">LIMPIAR</button>
+      </div>
+      <div id="history-list"><div class="empty"><span>📁</span>Sin torneos archivados</div></div>
+    </div>
+  </div>
 </div>
 </div>
 
-<!-- ══ PLAYER VIEW ══ -->
+<!-- PLAYER -->
 <div id="screen-player" class="screen">
 <div class="panel">
   <div class="top-bar">
-    <div><h1>⚔ WZ TOURNAMENT</h1><p id="p-team-label">—</p></div>
+    <div><h1>⚔ WZ PS</h1><p id="p-team-label">-</p></div>
     <div class="top-actions">
-      <button class="top-btn danger" onclick="goLogin()">⏻ SALIR</button>
+      <button class="top-btn" onclick="openPublicResults()" style="border-color:var(--accent3);color:var(--accent3)">RESULTADOS</button>
+      <button class="top-btn danger" onclick="goLogin()">SALIR</button>
     </div>
   </div>
   <div class="tabs">
-    <button class="tab active" onclick="pTab('p-home',this)">🏠 INICIO</button>
-    <button class="tab" onclick="pTab('p-ranking',this)">🏆 RANKING</button>
-    <button class="tab" onclick="pTab('p-rules',this)">📋 REGLAS</button>
+    <button class="tab active" onclick="pTab(&#39;p-home&#39;,this)">INICIO</button>
+    <button class="tab" onclick="pTab(&#39;p-ranking&#39;,this)">RANKING</button>
+    <button class="tab" onclick="pTab(&#39;p-teams&#39;,this)">EQUIPOS</button>
+    <button class="tab" onclick="pTab(&#39;p-chat&#39;,this)">CHAT</button>
+    <button class="tab" onclick="pTab(&#39;p-rules&#39;,this)">REGLAS</button>
   </div>
 
-  <!-- HOME -->
   <div id="p-home" class="tab-content active">
     <div id="yt-wrap"></div>
+    <div id="p-cd-banner" style="display:none;background:linear-gradient(135deg,#050608,#0d1a0f);border:2px solid var(--accent);border-radius:4px;padding:20px;margin-bottom:12px;text-align:center">
+      <div style="font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:13px;letter-spacing:4px;color:var(--muted);margin-bottom:4px">DESCANSO ENTRE PARTIDAS</div>
+      <div style="font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:14px;letter-spacing:2px;color:var(--accent3);margin-bottom:12px" id="p-cd-match-label">-</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px">
+        <div><div style="font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:56px;color:var(--text);line-height:1" id="p-cd-min">15</div><div style="font-size:9px;letter-spacing:3px;color:var(--muted)">MIN</div></div>
+        <div style="font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:46px;color:var(--border);animation:pulse 1s infinite">:</div>
+        <div><div style="font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:56px;color:var(--text);line-height:1" id="p-cd-sec">00</div><div style="font-size:9px;letter-spacing:3px;color:var(--muted)">SEG</div></div>
+      </div>
+      <div style="width:100%;height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:10px"><div id="p-cd-bar" style="height:100%;background:linear-gradient(90deg,var(--accent),var(--accent3));border-radius:2px;transition:width 1s linear;width:100%"></div></div>
+      <div style="font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:13px;letter-spacing:2px;color:var(--muted)" id="p-cd-msg">MANDA LA CAPTURA AL GRUPO</div>
+    </div>
     <div class="card">
-      <div class="card-title">⏱ Próximo inicio</div>
+      <div class="card-title">Proximo inicio</div>
       <div style="text-align:center;padding:14px 0">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:46px;color:var(--accent);letter-spacing:4px;line-height:1" id="p-timer">—</div>
+        <div style="font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:46px;color:var(--accent);letter-spacing:4px;line-height:1" id="p-timer">-</div>
         <div style="font-size:11px;letter-spacing:3px;color:var(--muted);margin-top:5px" id="p-timer-lbl">CARGANDO...</div>
       </div>
     </div>
     <div class="card">
-      <div class="card-title">📊 Mi equipo</div>
-      <div id="p-myteam"><div class="empty"><span>📊</span>Sin puntajes aún</div></div>
+      <div class="card-title">Mi equipo</div>
+      <div id="p-myteam"><div class="empty"><span>📊</span>Sin puntajes aun</div></div>
     </div>
   </div>
 
-  <!-- RANKING -->
   <div id="p-ranking" class="tab-content">
-    <div class="card"><div class="card-title">🏆 Ranking Equipos</div><div id="p-team-rank"></div></div>
-    <div class="card"><div class="card-title">👤 Ranking Individual</div><div id="p-player-rank"></div></div>
+    <div class="card"><div class="card-title">Ranking Equipos</div><div id="p-team-rank"></div></div>
+    <div class="card"><div class="card-title">Ranking Individual</div><div id="p-player-rank"></div></div>
     <div class="card">
-      <div class="card-title">📊 Detalle por Partida</div>
+      <div class="card-title">Detalle por Partida</div>
       <div class="mpills" id="p-pills"></div>
       <div id="p-match-det"></div>
     </div>
   </div>
 
-  <!-- RULES -->
-  <div id="p-rules" class="tab-content">
+  <div id="p-teams" class="tab-content">
+    <div class="card"><div class="card-title">Equipos Inscriptos</div><div id="p-teams-list"><div class="empty"><span>👥</span>Cargando...</div></div></div>
+  </div>
+
+  <div id="p-chat" class="tab-content">
     <div class="card">
-      <div class="card-title">⚡ Sistema de Puntuación</div>
-      <table class="mtable">
-        <thead><tr><th>Posición final</th><th>Multiplicador</th><th>Ejemplo (6 kills)</th></tr></thead>
-        <tbody>
-          <tr><td>🥇 1° Lugar</td><td class="mv" style="color:var(--gold)">× 2.0</td><td>6 × 2.0 = <strong>12 pts</strong></td></tr>
-          <tr><td>🥈 2° Lugar</td><td class="mv" style="color:var(--silver)">× 1.7</td><td>6 × 1.7 = <strong>10.2 pts</strong></td></tr>
-          <tr><td>🥉 3°–5°</td><td class="mv" style="color:var(--bronze)">× 1.4</td><td>6 × 1.4 = <strong>8.4 pts</strong></td></tr>
-          <tr><td>📍 6°–10°</td><td class="mv" style="color:var(--accent)">× 1.2</td><td>6 × 1.2 = <strong>7.2 pts</strong></td></tr>
-        </tbody>
-      </table>
-      <div style="background:rgba(0,255,136,.05);border:1px solid rgba(0,255,136,.15);border-radius:3px;padding:10px;text-align:center;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--accent);letter-spacing:2px">PUNTOS = KILLS × MULTIPLICADOR</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:3px">Sistema WSOW · 10 partidas · Puntaje acumulado</div>
+      <div class="card-title">Chat del Torneo <span class="badge badge-green" id="chat-team-badge"></span></div>
+      <div id="chat-messages" style="display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto;padding-right:4px;margin-bottom:14px">
+        <div class="empty"><span>💬</span>Sin mensajes aun</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <input type="text" id="chat-input" placeholder="Escribi tu mensaje..." maxlength="200" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:10px 12px;color:var(--text);font-family:&#39;Rajdhani&#39;,sans-serif;font-size:14px;outline:none" onkeydown="if(event.key===&#39;Enter&#39;)sendChat()">
+        <button onclick="sendChat()" style="background:var(--accent);color:#000;border:none;border-radius:3px;padding:10px 16px;font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:15px;letter-spacing:2px;cursor:pointer">ENVIAR</button>
       </div>
     </div>
+  </div>
+
+  <div id="p-rules" class="tab-content">
     <div class="card">
-      <div class="card-title">📜 Reglas del Torneo</div>
-      <div class="rb"><div class="rb-icon">🎮</div><div><div class="rb-title">Formato</div><div class="rb-desc"><span class="hl">10 partidas de Resurgimiento</span> · Lobby privado · <span class="hl">10 equipos de 4 jugadores</span> = 40 jugadores</div></div></div>
-      <div class="rb"><div class="rb-icon">⏱</div><div><div class="rb-title">Cronograma</div><div class="rb-desc"><span class="hlo">30 min antes:</span> armar clases de armas<br><span class="hlo">15 min antes:</span> check-in por WhatsApp<br><span class="hlo">Entre partidas:</span> 15 min de descanso · 📺 En vivo por YouTube</div></div></div>
-      <div class="rb"><div class="rb-icon">📸</div><div><div class="rb-title">Captura obligatoria</div><div class="rb-desc">Al terminar cada partida mandá <span class="hl">captura de resultados</span> al grupo de WhatsApp antes de que termine el descanso. Sin captura = <span class="hlr">partida no válida</span>.</div></div></div>
-      <div class="rb"><div class="rb-icon">💰</div><div><div class="rb-title">Inscripción</div><div class="rb-desc"><span class="hl">1° torneo: GRATUITO</span> · Torneos siguientes con inscripción y <span class="hl">100% al premio</span>.</div></div></div>
-      <div class="rb"><div class="rb-icon">🔒</div><div><div class="rb-title">Plantilla cerrada</div><div class="rb-desc">Una vez comenzado el torneo <span class="hlr">no se agregan jugadores nuevos</span>. El equipo juega con los que quedan.</div></div></div>
-      <div class="rb"><div class="rb-icon">🆔</div><div><div class="rb-title">Activision ID verificado</div><div class="rb-desc">Jugá con tu cuenta registrada. Cuenta diferente = <span class="hlr">descalificación</span>.</div></div></div>
-      <div class="rb"><div class="rb-icon">⛔</div><div><div class="rb-title">Prohibido</div><div class="rb-desc"><span class="hlr">Crossteaming · Cheats / glitches · Faltas de respeto</span> → descalificación inmediata.</div></div></div>
-      <div class="rb"><div class="rb-icon">📡</div><div><div class="rb-title">Conexión</div><div class="rb-desc">Cada jugador es responsable de su conexión. <span class="hlr">No se repite ninguna partida</span> por lag.</div></div></div>
-      <div class="rb"><div class="rb-icon">🚩</div><div><div class="rb-title">Desempate</div><div class="rb-desc">1) Más kills totales sin mult. · 2) Mejor posición promedio · 3) Más kills en una partida</div></div></div>
+      <div class="card-title">Sistema de Puntuacion</div>
+      <table class="mtable">
+        <thead><tr><th>Posicion</th><th>Multiplicador</th><th>Ej (6 kills)</th></tr></thead>
+        <tbody>
+          <tr><td>1 Lugar</td><td class="mv" style="color:var(--gold)">x 2.0</td><td>= 12 pts</td></tr>
+          <tr><td>2 Lugar</td><td class="mv" style="color:var(--silver)">x 1.7</td><td>= 10.2 pts</td></tr>
+          <tr><td>3-5</td><td class="mv" style="color:var(--bronze)">x 1.4</td><td>= 8.4 pts</td></tr>
+          <tr><td>6-10</td><td class="mv" style="color:var(--accent)">x 1.2</td><td>= 7.2 pts</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">Reglas</div>
+      <div class="rb"><div class="rb-icon">🎮</div><div><div class="rb-title">Formato</div><div class="rb-desc"><span class="hl">10 partidas de Resurgimiento</span> - Lobby privado - <span class="hl">10 equipos de 4 jugadores</span></div></div></div>
+      <div class="rb"><div class="rb-icon">⏱</div><div><div class="rb-title">Cronograma</div><div class="rb-desc"><span class="hlo">30 min antes:</span> armar clases - <span class="hlo">15 min antes:</span> check-in - <span class="hlo">Entre partidas:</span> 15 min de descanso</div></div></div>
+      <div class="rb"><div class="rb-icon">📸</div><div><div class="rb-title">Captura obligatoria</div><div class="rb-desc">Manda <span class="hl">captura de resultados</span> al grupo. Sin captura = <span class="hlr">partida no valida</span>.</div></div></div>
+      <div class="rb"><div class="rb-icon">💰</div><div><div class="rb-title">Inscripcion</div><div class="rb-desc"><span class="hl">1 torneo: GRATUITO</span> - Siguientes con inscripcion y <span class="hl">100% al premio</span>.</div></div></div>
+      <div class="rb"><div class="rb-icon">⛔</div><div><div class="rb-title">Prohibido</div><div class="rb-desc"><span class="hlr">Crossteaming - Cheats - Faltas de respeto</span> - descalificacion.</div></div></div>
+      <div class="rb"><div class="rb-icon">🚩</div><div><div class="rb-title">Desempate</div><div class="rb-desc">1) Mas kills totales - 2) Mejor posicion promedio - 3) Mas kills en una partida</div></div></div>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ══ COUNTDOWN ══ -->
-<div id="screen-countdown" class="screen">
-  <button class="cd-close" onclick="closeCountdown()">✕ CERRAR</button>
-  <div class="cd-wrap">
-    <div class="cd-label-top">DESCANSO ENTRE PARTIDAS</div>
-    <div class="cd-match" id="cd-match">—</div>
+<!-- PUBLIC -->
+<div id="screen-public" class="screen">
+<div class="panel">
+  <div class="top-bar">
+    <div><h1 id="public-title">WZ PS</h1><p>Resultados en vivo</p></div>
+    <div class="top-actions"><button class="top-btn" onclick="showScreen(&#39;login&#39;)">VOLVER</button></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Ranking en Vivo <span class="badge badge-green" id="pub-last-update">-</span></div>
+    <div id="pub-team-ranking"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Top Killers</div>
+    <div id="pub-killer-ranking"></div>
+  </div>
+  <div class="card" style="margin-bottom:0">
+    <div style="text-align:center;padding:6px 0;font-size:11px;letter-spacing:2px;color:var(--muted)">ACTUALIZA CADA 30 SEGUNDOS</div>
+  </div>
+</div>
+</div>
+
+<!-- COUNTDOWN FLOATING -->
+<div id="cd-overlay">
+  <div class="cd-hdr">
+    <div class="cd-hdr-title">COUNTDOWN</div>
+    <div style="display:flex;gap:5px">
+      <button class="cd-hbtn" id="cd-min-btn" onclick="minimizeCountdown()" style="border-color:var(--accent3);color:var(--accent3)">-</button>
+      <button class="cd-hbtn" onclick="closeCountdown()" style="border-color:var(--accent2);color:var(--accent2)">X</button>
+    </div>
+  </div>
+  <div class="cd-body" id="cd-body">
+    <div class="cd-match-lbl" id="cd-match">-</div>
     <div class="cd-digits">
-      <div class="cd-block"><div class="cd-num" id="cd-min">15</div><div class="cd-unit">minutos</div></div>
+      <div class="cd-block"><div class="cd-num" id="cd-min">15</div><div class="cd-unit">MIN</div></div>
       <div class="cd-sep">:</div>
-      <div class="cd-block"><div class="cd-num" id="cd-sec">00</div><div class="cd-unit">segundos</div></div>
+      <div class="cd-block"><div class="cd-num" id="cd-sec">00</div><div class="cd-unit">SEG</div></div>
     </div>
-    <div class="cd-bar"><div class="cd-bar-fill" id="cd-fill" style="width:100%"></div></div>
-    <div class="cd-msg" id="cd-msg">📸 MANDÁ LA CAPTURA AL GRUPO DE WHATSAPP</div>
-    <div class="cd-ranking">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;color:var(--muted);margin-bottom:8px">TOP 5 ACTUAL</div>
-      <div id="cd-rank"></div>
-    </div>
+    <div class="cd-bar-wrap"><div class="cd-bar-fill" id="cd-fill"></div></div>
+    <div class="cd-msg-lbl" id="cd-msg">MANDA LA CAPTURA AL GRUPO</div>
+    <div id="cd-rank" style="font-size:12px"></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════
-//  CONFIG
-// ══════════════════════════════════
-const ADMIN_PWD   = "warzone2024"; // ← CAMBIÁ ESTA
-const TOTAL_RNDS  = 10;
-const MULT = {1:2.0,2:1.7,3:1.4,4:1.4,5:1.4,6:1.2,7:1.2,8:1.2,9:1.2,10:1.2};
+var ADMIN_PWD  = "warzone2024";
+var TOTAL_RNDS = 10;
+var MULT = {1:2.0,2:1.7,3:1.4,4:1.4,5:1.4,6:1.2,7:1.2,8:1.2,9:1.2,10:1.2};
+var ADMIN_PHONE = "5492964578388";
+var DEFAULT_BAD_WORDS = ["puta","puto","mierda","concha","culo","pelotudo","boludo","hdp","forro","cagon","marica"];
 
-// ══════════════════════════════════
-//  SUPABASE CONFIG
-// ══════════════════════════════════
-const SB_URL = 'https://vsiojxywzrdcjlbdqiyp.supabase.co';
-const SB_KEY = 'sb_publishable_FdpfXd3xKGqZgmXwzULtmA_B-jx4i6u';
+var SB_URL = "https://vsiojxywzrdcjlbdqiyp.supabase.co";
+var SB_KEY = "sb_publishable_FdpfXd3xKGqZgmXwzULtmA_B-jx4i6u";
 
-async function sbGet(key, def){
+async function sbGet(key, def) {
   try {
-    const r = await fetch(`${SB_URL}/rest/v1/wz_data?key=eq.${encodeURIComponent(key)}&select=value`, {
-      headers: {
-        'apikey': SB_KEY,
-        'Authorization': 'Bearer '+SB_KEY,
-        'Content-Type': 'application/json'
-      }
+    var r = await fetch(SB_URL + "/rest/v1/wz_data?key=eq." + encodeURIComponent(key) + "&select=value", {
+      headers: {"apikey":SB_KEY,"Authorization":"Bearer "+SB_KEY,"Content-Type":"application/json"}
     });
-    if(!r.ok) return def;
-    const d = await r.json();
-    if(d && d.length > 0) return JSON.parse(d[0].value);
+    if (!r.ok) return def;
+    var d = await r.json();
+    if (d && d.length > 0) return JSON.parse(d[0].value);
     return def;
-  } catch(e){ return def; }
+  } catch(e) { return def; }
 }
 
-async function sbSet(key, val){
+async function sbSet(key, val) {
   try {
-    // Try upsert via PATCH first, then POST
-    const body = JSON.stringify({ key, value: JSON.stringify(val), updated_at: new Date().toISOString() });
-    const headers = {
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer '+SB_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': 'resolution=merge-duplicates,return=minimal'
-    };
-    const r = await fetch(`${SB_URL}/rest/v1/wz_data`, {
-      method: 'POST', headers, body
+    await fetch(SB_URL + "/rest/v1/wz_data", {
+      method: "POST",
+      headers: {"apikey":SB_KEY,"Authorization":"Bearer "+SB_KEY,"Content-Type":"application/json","Prefer":"resolution=merge-duplicates,return=minimal"},
+      body: JSON.stringify({key:key, value:JSON.stringify(val), updated_at:new Date().toISOString()})
     });
-    if(!r.ok){
-      const err = await r.text();
-      console.warn('sbSet error:', r.status, err);
-    }
-  } catch(e){ console.error('sbSet exception', e); }
+  } catch(e) {}
 }
 
-// ── Sync cache: fast local reads, async remote writes ──
-const _cache = {};
-function load(k, d){
-  if(_cache[k] !== undefined) return _cache[k];
-  try { const v = JSON.parse(localStorage.getItem(k)); if(v !== null){ _cache[k]=v; return v; } } catch{}
+var _cache = {};
+function load(k, d) {
+  if (_cache[k] !== undefined) return _cache[k];
+  try { var v = JSON.parse(localStorage.getItem(k)); if (v !== null) { _cache[k]=v; return v; } } catch(e) {}
   return d;
 }
-function save(k, v){
+function save(k, v) {
   _cache[k] = v;
   localStorage.setItem(k, JSON.stringify(v));
-  sbSet(k, v); // async write to Supabase
+  sbSet(k, v);
 }
-async function syncFromRemote(keys){
-  for(const [k,d] of keys){
-    const v = await sbGet(k, d);
+async function syncFromRemote(keys) {
+  for (var i=0; i<keys.length; i++) {
+    var k=keys[i][0], d=keys[i][1];
+    var v = await sbGet(k, d);
     _cache[k] = v;
     localStorage.setItem(k, JSON.stringify(v));
   }
 }
 
-let players    = load('wz_players',[]);
-let tournament = load('wz_tournament',{});
-let scores     = load('wz_scores',{});
-let requests   = load('wz_requests',[]);  // equipos pendientes de aprobación
-let myPhone    = localStorage.getItem('wz_myphone')||'';
-let groupByTeam= false;
-let curRound   = 1;
-let cdTimer    = null;
-let playerTeam = '';
-let viewRound  = 1;
+var players    = load("wz_players",[]);
+var tournament = load("wz_tournament",{});
+var scores     = load("wz_scores",{});
+var requests   = load("wz_requests",[]);
+var myPhone    = localStorage.getItem("wz_myphone") || "";
+var groupByTeam = false;
+var curRound   = 1;
+var curKillRound = 1;
+var cdTimer    = null;
+var cdSecs     = 900;
+var cdTotal    = 900;
+var playerTeam = "";
+var viewRound  = 1;
+var pCdTimer   = null;
+var pCdSecs    = 0;
+var pubRefreshTimer = null;
 
-// ══════════════════════════════════
-//  SCREENS
-// ══════════════════════════════════
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+id).classList.add('active');
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active");});
+  document.getElementById("screen-"+id).classList.add("active");
 }
-function goLogin(){ stopCountdown(); showScreen('login'); }
+function goLogin() { stopCountdown(); showScreen("login"); }
 
-// ══════════════════════════════════
-//  LOGIN
-// ══════════════════════════════════
-function setRole(role,btn){
-  document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('sec-admin').style.display  = role==='admin'?'block':'none';
-  document.getElementById('sec-player').style.display = role==='player'?'block':'none';
-  document.getElementById('login-err').textContent='';
+function setRole(role, btn) {
+  document.querySelectorAll(".role-tab").forEach(function(t){t.classList.remove("active");});
+  btn.classList.add("active");
+  document.getElementById("sec-admin").style.display  = role==="admin"  ? "block" : "none";
+  document.getElementById("sec-player").style.display = role==="player" ? "block" : "none";
+  document.getElementById("login-err").textContent = "";
 }
-function loginAdmin(){
-  if(document.getElementById('admin-pwd').value===ADMIN_PWD){
-    document.getElementById('admin-pwd').value='';
-    showScreen('admin');
-    const btn = document.querySelector('#sec-admin .fbtn-primary');
-    if(btn){ btn.textContent='SINCRONIZANDO...'; btn.disabled=true; }
-    syncFromRemote([
-      ['wz_players',[]],['wz_tournament',{}],['wz_scores',{}],
-      ['wz_requests',[]],['wz_kills',{}]
-    ]).then(()=>{
-      if(btn){ btn.textContent='INGRESAR COMO ADMIN'; btn.disabled=false; }
-      loadAdminData();
-    });
+
+function loginAdmin() {
+  if (document.getElementById("admin-pwd").value === ADMIN_PWD) {
+    document.getElementById("admin-pwd").value = "";
+    showScreen("admin");
+    syncFromRemote([["wz_players",[]],["wz_tournament",{}],["wz_scores",{}],["wz_requests",[]],["wz_kills",{}],["wz_history",[]]]).then(function(){loadAdminData();});
   } else {
-    showErr('login-err','✗ Contraseña incorrecta');
+    showErr("login-err","Contrasena incorrecta");
   }
 }
-function loginPlayer(){
-  const raw = document.getElementById('player-team-in').value.trim();
-  if(!raw){ showErr('login-err','⚠ Ingresá el nombre de tu equipo'); return; }
-  const btn = document.querySelector('#sec-player .fbtn-secondary');
-  if(btn){ btn.textContent='BUSCANDO...'; btn.disabled=true; }
-  syncFromRemote([['wz_players',[]],['wz_requests',[]]]).then(()=>{
-    if(btn){ btn.textContent='ENTRAR AL TORNEO'; btn.disabled=false; }
-    players  = load('wz_players',[]);
-    requests = load('wz_requests',[]);
-    const teams = [...new Set(players.map(p=>p.team).filter(Boolean))];
-    const match = teams.find(t=>t.toLowerCase()===raw.toLowerCase());
-    if(match){
+
+function loginPlayer() {
+  var raw = document.getElementById("player-team-in").value.trim();
+  if (!raw) { showErr("login-err","Ingresa el nombre de tu equipo"); return; }
+  syncFromRemote([["wz_players",[]],["wz_requests",[]]]).then(function(){
+    players  = load("wz_players",[]);
+    requests = load("wz_requests",[]);
+    var teams = Array.from(new Set(players.map(function(p){return p.team;}).filter(Boolean)));
+    var match = teams.find(function(t){return t.toLowerCase()===raw.toLowerCase();});
+    if (match) {
       playerTeam = match;
-      document.getElementById('player-team-in').value='';
-      document.getElementById('p-team-label').textContent='Equipo: '+match;
-      showScreen('player');
+      document.getElementById("player-team-in").value = "";
+      document.getElementById("p-team-label").textContent = "Equipo: "+match;
+      showScreen("player");
       renderPlayerView();
     } else {
-      const pending = requests.find(r=>r.team.toLowerCase()===raw.toLowerCase());
-      if(pending){
-        showErr('login-err','⏳ Tu equipo está pendiente de aprobación por el admin');
-      } else {
-        showErr('login-err','✗ Equipo no encontrado — ¿ya te registraste?');
-      }
+      var pending = requests.find(function(r){return r.team.toLowerCase()===raw.toLowerCase();});
+      if (pending) showErr("login-err","Tu equipo esta pendiente de aprobacion");
+      else showErr("login-err","Equipo no encontrado");
     }
   });
 }
 
-// ══════════════════════════════════
-//  REGISTER
-// ══════════════════════════════════
-function updatePwdNote(){
-  const v = document.getElementById('reg-team').value.trim();
-  document.getElementById('pwd-preview').textContent = v || 'el nombre de tu equipo';
+function updatePwdNote() {
+  var v = document.getElementById("reg-team").value.trim();
+  document.getElementById("pwd-preview").textContent = v || "el nombre de tu equipo";
+}
+function previewLogo(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById("logo-preview").src = e.target.result;
+      document.getElementById("logo-preview-wrap").style.display = "block";
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
 }
 
-async function submitRegistration(){
-  const team = document.getElementById('reg-team').value.trim();
-  const n1   = document.getElementById('r-n1').value.trim();
-  const n2   = document.getElementById('r-n2').value.trim();
-  const n3   = document.getElementById('r-n3').value.trim();
-  const n4   = document.getElementById('r-n4').value.trim();
-  const p1   = document.getElementById('r-p1').value.trim();
-
-  if(!team)        { showErr('reg-err','⚠ Ingresá el nombre del equipo'); return; }
-  if(!n1||!n2||!n3||!n4){ showErr('reg-err','⚠ Completá los 4 jugadores'); return; }
-  if(!p1)          { showErr('reg-err','⚠ El capitán debe ingresar su WhatsApp'); return; }
-
-  // reload from Supabase to avoid duplicate teams
-  const regBtn = document.querySelector('#screen-register .fbtn-primary');
-  if(regBtn){ regBtn.textContent='VERIFICANDO...'; regBtn.disabled=true; }
-  await syncFromRemote([['wz_requests',[]],['wz_players',[]]]);
-  if(regBtn){ regBtn.textContent='ENVIAR REGISTRO'; regBtn.disabled=false; }
-  requests = load('wz_requests',[]);
-  players  = load('wz_players',[]);
-
-  // check duplicate
-  const allTeams = [
-    ...new Set(players.map(p=>p.team).filter(Boolean)),
-    ...requests.map(r=>r.team)
-  ];
-  if(allTeams.some(t=>t.toLowerCase()===team.toLowerCase())){
-    showErr('reg-err','✗ Ya existe un equipo con ese nombre'); return;
+async function submitRegistration() {
+  var team = document.getElementById("reg-team").value.trim();
+  var n1   = document.getElementById("r-n1").value.trim();
+  var n2   = document.getElementById("r-n2").value.trim();
+  var n3   = document.getElementById("r-n3").value.trim();
+  var n4   = document.getElementById("r-n4").value.trim();
+  var a1   = document.getElementById("r-a1").value.trim();
+  var a2   = document.getElementById("r-a2").value.trim();
+  var a3   = document.getElementById("r-a3").value.trim();
+  var a4   = document.getElementById("r-a4").value.trim();
+  var p1   = document.getElementById("r-p1").value.trim();
+  var logoInput = document.getElementById("reg-logo");
+  if (!team) { showErr("reg-err","Ingresa el nombre del equipo"); return; }
+  if (!n1||!n2||!n3||!n4) { showErr("reg-err","Completa los 4 jugadores"); return; }
+  if (!p1) { showErr("reg-err","El capitan debe ingresar su WhatsApp"); return; }
+  await syncFromRemote([["wz_requests",[]],["wz_players",[]]]);
+  requests = load("wz_requests",[]);
+  players  = load("wz_players",[]);
+  var allTeams = Array.from(new Set(players.map(function(p){return p.team;}).filter(Boolean).concat(requests.map(function(r){return r.team;}))));
+  if (allTeams.some(function(t){return t.toLowerCase()===team.toLowerCase();})) { showErr("reg-err","Ya existe un equipo con ese nombre"); return; }
+  var logoData = "";
+  if (logoInput && logoInput.files && logoInput.files[0]) {
+    logoData = await new Promise(function(res) {
+      var reader = new FileReader();
+      reader.onload = function(e){res(e.target.result);};
+      reader.readAsDataURL(logoInput.files[0]);
+    });
   }
-
-  const req = {
-    id: Date.now(),
-    team,
-    registeredAt: new Date().toLocaleString('es-AR'),
-    players:[
-      {name:n1, phone:p1},
-      {name:n2, phone:''},
-      {name:n3, phone:''},
-      {name:n4, phone:''},
-    ]
-  };
+  var req = {id:Date.now(), team:team, logo:logoData, registeredAt:new Date().toLocaleString("es-AR"),
+    players:[{name:n1,actid:a1,phone:p1},{name:n2,actid:a2,phone:""},{name:n3,actid:a3,phone:""},{name:n4,actid:a4,phone:""}]};
   requests.push(req);
-  save('wz_requests', requests);
-
-  // Clear form
-  ['reg-team','r-n1','r-n2','r-n3','r-n4','r-p1'].forEach(id=>{
-    const el=document.getElementById(id); if(el) el.value='';
-  });
-  document.getElementById('pwd-preview').textContent='el nombre de tu equipo';
-
-  // show success
-  showErr('reg-err','');
-  showScreen('login');
-  showToast('✓ Registro enviado — esperá la aprobación del admin');
+  save("wz_requests", requests);
+  ["reg-team","r-n1","r-n2","r-n3","r-n4","r-a1","r-a2","r-a3","r-a4","r-p1"].forEach(function(id){var el=document.getElementById(id);if(el)el.value="";});
+  document.getElementById("logo-preview-wrap").style.display="none";
+  document.getElementById("logo-preview").src="";
+  if(document.getElementById("reg-logo"))document.getElementById("reg-logo").value="";
+  document.getElementById("pwd-preview").textContent="el nombre de tu equipo";
+  showScreen("login");
+  showToast("Registro enviado - espera la aprobacion");
 }
 
-// ══════════════════════════════════
-//  ADMIN — REQUESTS
-// ══════════════════════════════════
-function renderRequests(){
-  requests = load('wz_requests',[]);
-  const pending = requests.filter(r=>!r.approved&&!r.rejected);
-  const approved = requests.filter(r=>r.approved);
-
-  const badge = document.getElementById('pending-badge');
-  const reqCount = document.getElementById('req-count-badge');
-  if(badge) badge.textContent = pending.length+' pendientes';
-  if(reqCount) reqCount.textContent = pending.length>0 ? ` (${pending.length})` : '';
-
-  const rl = document.getElementById('requests-list');
+function renderRequests() {
+  requests = load("wz_requests",[]);
+  var pending  = requests.filter(function(r){return !r.approved&&!r.rejected;});
+  var approved = requests.filter(function(r){return r.approved;});
+  var pb=document.getElementById("pending-badge"); if(pb)pb.textContent=pending.length+" pendientes";
+  var rc=document.getElementById("req-count-badge"); if(rc)rc.textContent=pending.length>0?" ("+pending.length+")":"";
+  var rl=document.getElementById("requests-list");
   if(rl){
-    if(!pending.length){ rl.innerHTML='<div class="empty"><span>📭</span>Sin solicitudes pendientes</div>'; }
-    else {
-      rl.innerHTML = pending.map(r=>`
-        <div class="req-item" id="req-${r.id}">
-          <div class="req-header">
-            <div class="req-team">⚡ ${r.team}</div>
-            <div class="req-actions">
-              <button class="req-approve" onclick="approveReq(${r.id})">✓ APROBAR</button>
-              <button class="req-reject" onclick="rejectReq(${r.id})">✕</button>
-            </div>
-          </div>
-          <div class="req-players">
-            ${r.players.map(p=>`<span class="req-player-tag">👤 ${p.name}${p.actid?' · '+p.actid:''}${p.phone?' · +549'+p.phone:''}</span>`).join('')}
-          </div>
-          <div style="font-size:11px;color:var(--muted);margin-top:6px;letter-spacing:1px">📅 ${r.registeredAt}</div>
-        </div>`).join('');
+    if(!pending.length){rl.innerHTML="<div class=\"empty\"><span>Sin solicitudes</span></div>";}
+    else{
+      rl.innerHTML=pending.map(function(r){
+        return "<div class=\"req-item\" id=\"req-"+r.id+"\">"+
+          "<div class=\"req-header\"><div class=\"req-team\">"+r.team+"</div>"+
+          "<div class=\"req-actions\">"+
+          "<button class=\"req-approve\" onclick=\"approveReq("+r.id+")\">APROBAR</button>"+
+          "<button class=\"req-reject\" onclick=\"rejectReq("+r.id+")\">X</button>"+
+          "</div></div>"+
+          "<div style=\"display:flex;flex-wrap:wrap;gap:5px\">"+
+          r.players.map(function(p){return "<span class=\"req-player-tag\">"+p.name+(p.actid?" - "+p.actid:"")+(p.phone?" - +549"+p.phone:"")+"</span>";}).join("")+
+          "</div><div style=\"font-size:11px;color:var(--muted);margin-top:6px\">"+r.registeredAt+"</div></div>";
+      }).join("");
     }
   }
-
-  const al = document.getElementById('approved-list');
+  var al=document.getElementById("approved-list");
   if(al){
-    if(!approved.length){ al.innerHTML='<div class="empty"><span>👥</span>Sin equipos aprobados aún</div>'; }
-    else {
-      al.innerHTML = approved.map(r=>`
-        <div style="background:var(--surface2);border:1px solid rgba(0,255,136,.2);border-radius:3px;padding:10px 13px;margin-bottom:7px">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:2px;color:var(--accent);margin-bottom:5px">✅ ${r.team}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:5px">
-            ${r.players.map(p=>`<span style="background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:2px 7px;font-size:11px">👤 ${p.name}</span>`).join('')}
-          </div>
-        </div>`).join('');
+    if(!approved.length){al.innerHTML="<div class=\"empty\"><span>Sin equipos</span></div>";}
+    else{
+      al.innerHTML=approved.map(function(r){
+        return "<div style=\"background:var(--surface2);border:1px solid rgba(0,255,136,.2);border-radius:3px;padding:10px 13px;margin-bottom:7px\">"+
+          "<div style=\"display:flex;align-items:center;gap:10px;margin-bottom:6px\">"+
+          (r.logo?"<img src=\""+r.logo+"\" style=\"width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--accent)\">":
+            "<div style=\"width:36px;height:36px;border-radius:50%;background:rgba(0,255,136,.1);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px\">X</div>")+
+          "<div style=\"font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:2px;color:var(--accent)\">"+r.team+"</div></div>"+
+          "<div style=\"display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px\">"+
+          r.players.map(function(p){return "<span style=\"background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:2px 7px;font-size:11px\">"+p.name+"</span>";}).join("")+
+          "</div>"+
+          "<button onclick=\"deleteTeamById("+r.id+")\" style=\"background:rgba(255,58,58,.1);border:1px solid var(--accent2);color:var(--accent2);padding:4px 12px;border-radius:3px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer\">ELIMINAR EQUIPO</button>"+
+          "</div>";
+      }).join("");
     }
   }
-
-  if(document.getElementById('approved-badge'))
-    document.getElementById('approved-badge').textContent = approved.length;
+  var ab=document.getElementById("approved-badge"); if(ab)ab.textContent=approved.length;
 }
 
 function approveReq(id){
-  requests = load('wz_requests',[]);
-  players  = load('wz_players',[]);
-  const req = requests.find(r=>r.id===id);
-  if(!req) return;
-  req.approved = true;
-  // add players
-  req.players.forEach(p=>{
-    players.push({
-      id: Date.now()+Math.random(),
-      name: p.name,
-      team: req.team,
-      phone: p.phone||'',
-      actid: p.actid||'',
-      status: 'confirmado',
-      notes: '',
-      kills: {},
-      registered: new Date().toLocaleDateString('es-AR')
-    });
+  requests=load("wz_requests",[]); players=load("wz_players",[]);
+  var req=requests.find(function(r){return r.id===id;}); if(!req)return;
+  req.approved=true;
+  req.players.forEach(function(p){
+    players.push({id:Date.now()+Math.random(),name:p.name,team:req.team,phone:p.phone||"",actid:p.actid||"",logo:req.logo||"",status:"confirmado",notes:"",kills:{},registered:new Date().toLocaleDateString("es-AR")});
   });
-  save('wz_requests', requests);
-  save('wz_players', players);
-  renderRequests();
-  renderPlayers();
-  updateStats();
-  updateTeamFilter();
-  showToast(`✓ Equipo "${req.team}" aprobado`);
+  save("wz_requests",requests); save("wz_players",players);
+  renderRequests(); renderPlayers(); updateStats(); updateTeamFilter();
+  showToast("Equipo "+req.team+" aprobado");
 }
 
 function rejectReq(id){
-  if(!confirm('¿Rechazar esta solicitud?')) return;
-  requests = load('wz_requests',[]);
-  requests = requests.filter(r=>r.id!==id);
-  save('wz_requests', requests);
-  renderRequests();
-  showToast('Solicitud rechazada');
+  if(!confirm("Rechazar?"))return;
+  requests=load("wz_requests",[]);
+  requests=requests.filter(function(r){return r.id!==id;});
+  save("wz_requests",requests); renderRequests();
+  showToast("Rechazado");
 }
 
-// ══════════════════════════════════
-//  PLAYERS (manual admin)
-// ══════════════════════════════════
-function addPlayer(){
-  const name  = document.getElementById('p-name').value.trim();
-  const team  = document.getElementById('p-team').value.trim();
-  const phone = document.getElementById('p-phone').value.trim();
-  const actid = document.getElementById('p-actid').value.trim();
-  const status= document.getElementById('p-status').value;
-  const notes = document.getElementById('p-notes').value.trim();
-  if(!name){ showToast('⚠ Ingresá el nombre'); return; }
-  players = load('wz_players',[]);
-  players.push({id:Date.now(),name,team,phone,actid,status,notes,kills:{},registered:new Date().toLocaleDateString('es-AR')});
-  save('wz_players',players);
-  renderPlayers(); updateStats(); updateTeamFilter();
-  ['p-name','p-team','p-phone','p-actid','p-notes'].forEach(id=>{ const el=document.getElementById(id); if(el)el.value=''; });
-  showToast('✓ Jugador agregado');
+function deleteTeam(teamName){
+  if(!confirm("Eliminar el equipo "+teamName+" y todos sus jugadores?"))return;
+  players=load("wz_players",[]); requests=load("wz_requests",[]);
+  players=players.filter(function(p){return p.team!==teamName;});
+  requests=requests.filter(function(r){return r.team!==teamName;});
+  save("wz_players",players); save("wz_requests",requests);
+  renderRequests(); renderPlayers(); updateStats(); updateTeamFilter();
+  showToast("Equipo "+teamName+" eliminado");
 }
+
+function deleteTeamById(reqId){
+  requests=load("wz_requests",[]);
+  var req=requests.find(function(r){return r.id===reqId;});
+  if(req) deleteTeam(req.team);
+}
+
 function removePlayer(id){
-  if(!confirm('¿Eliminar?')) return;
-  players = load('wz_players',[]);
-  players = players.filter(p=>p.id!==id);
-  save('wz_players',players);
-  renderPlayers(); updateStats(); updateTeamFilter();
+  if(!confirm("Eliminar?"))return;
+  players=load("wz_players",[]);
+  players=players.filter(function(p){return p.id!==id;});
+  save("wz_players",players); renderPlayers(); updateStats(); updateTeamFilter();
 }
+
 function cycleStatus(id){
-  players = load('wz_players',[]);
-  const order=['confirmado','pendiente','espera'];
-  const p=players.find(x=>x.id===id); if(!p) return;
+  var order=["confirmado","pendiente","espera"];
+  players=load("wz_players",[]);
+  var p=players.find(function(x){return x.id===id;}); if(!p)return;
   p.status=order[(order.indexOf(p.status)+1)%order.length];
-  save('wz_players',players); renderPlayers(); updateStats();
+  save("wz_players",players); renderPlayers(); updateStats();
 }
+
+function editPlayer(id){
+  players=load("wz_players",[]);
+  var p=players.find(function(x){return x.id===id;}); if(!p)return;
+  var el=document.getElementById("pitem-"+id); if(!el)return;
+  var nv=(p.name||"").replace(/"/g,"&quot;");
+  var av=(p.actid||"").replace(/"/g,"&quot;");
+  var ph=p.phone||"";
+  el.innerHTML="<div style=\"flex:1;display:flex;flex-direction:column;gap:6px\">"+
+    "<div style=\"font-size:10px;letter-spacing:2px;color:var(--accent3);text-transform:uppercase;margin-bottom:2px\">Editando: "+p.team+"</div>"+
+    "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:6px\">"+
+    "<input type=\"text\" id=\"edit-name-"+id+"\" value=\""+nv+"\" placeholder=\"Nombre / GamerTag\" style=\"background:var(--bg);border:1px solid var(--accent3);border-radius:3px;padding:7px 10px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;outline:none\">"+
+    "<input type=\"text\" id=\"edit-actid-"+id+"\" value=\""+av+"\" placeholder=\"Activision ID\" style=\"background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:7px 10px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;outline:none\">"+
+    "</div><div style=\"display:grid;grid-template-columns:1fr 1fr;gap:6px\">"+
+    "<input type=\"tel\" id=\"edit-phone-"+id+"\" value=\""+ph+"\" placeholder=\"WhatsApp (sin +549)\" style=\"background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:7px 10px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;outline:none\">"+
+    "<div style=\"display:flex;gap:5px\">"+
+    "<button onclick=\"savePlayerEdit("+id+")\" style=\"flex:1;background:var(--accent);color:#000;border:none;border-radius:3px;padding:7px;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;cursor:pointer\">GUARDAR</button>"+
+    "<button onclick=\"renderPlayers()\" style=\"background:var(--surface2);border:1px solid var(--border);color:var(--muted);border-radius:3px;padding:7px 10px;font-family:'Bebas Neue',sans-serif;font-size:14px;cursor:pointer\">X</button>"+
+    "</div></div></div>";
+}
+
+function savePlayerEdit(id){
+  players=load("wz_players",[]);
+  var p=players.find(function(x){return x.id===id;}); if(!p){renderPlayers();return;}
+  var nn=(document.getElementById("edit-name-"+id)||{}).value||"";
+  var na=(document.getElementById("edit-actid-"+id)||{}).value||"";
+  var np=(document.getElementById("edit-phone-"+id)||{}).value||"";
+  nn=nn.trim(); if(!nn){showToast("El nombre no puede estar vacio");return;}
+  p.name=nn; p.actid=na.trim(); p.phone=np.trim();
+  save("wz_players",players); renderPlayers(); updateTeamFilter();
+  showToast("Jugador actualizado");
+}
+
 function toggleGroup(){
   groupByTeam=!groupByTeam;
-  document.getElementById('btn-grp').classList.toggle('active',groupByTeam);
+  document.getElementById("btn-grp").classList.toggle("active",groupByTeam);
   renderPlayers();
 }
+
 function getFiltered(){
-  players = load('wz_players',[]);
-  const search=document.getElementById('search-in')?.value.toLowerCase()||'';
-  const fT=document.getElementById('filter-team')?.value||'';
-  const fS=document.getElementById('filter-status')?.value||'';
-  return players.filter(p=>{
-    const ms=!search||p.name.toLowerCase().includes(search)||(p.team||'').toLowerCase().includes(search);
+  players=load("wz_players",[]);
+  var search=((document.getElementById("search-in")||{}).value||"").toLowerCase();
+  var fT=(document.getElementById("filter-team")||{}).value||"";
+  var fS=(document.getElementById("filter-status")||{}).value||"";
+  return players.filter(function(p){
+    var ms=!search||p.name.toLowerCase().includes(search)||(p.team||"").toLowerCase().includes(search);
     return ms&&(!fT||p.team===fT)&&(!fS||p.status===fS);
   });
 }
+
 function renderPlayers(){
-  players = load('wz_players',[]);
-  const list=getFiltered();
-  const el=document.getElementById('player-list'); if(!el) return;
-  document.getElementById('count-badge').textContent=players.length;
-  if(!list.length){ el.innerHTML='<div class="empty"><span>🎮</span>Sin resultados</div>'; return; }
-  const sl={confirmado:'✅ Conf',pendiente:'⏳ Pend',espera:'⛔ Espera'};
+  players=load("wz_players",[]);
+  var list=getFiltered();
+  var el=document.getElementById("player-list"); if(!el)return;
+  var cb=document.getElementById("count-badge"); if(cb)cb.textContent=players.length;
+  if(!list.length){el.innerHTML="<div class=\"empty\"><span>Sin resultados</span></div>";return;}
+  var sl={confirmado:"OK",pendiente:"Pend",espera:"Espera"};
   if(groupByTeam){
-    const g={};
-    list.forEach(p=>{ const k=p.team||'Sin equipo'; if(!g[k])g[k]=[]; g[k].push(p); });
-    el.innerHTML=Object.entries(g).map(([team,members])=>
-      `<div class="team-hdr">⚡ ${team} (${members.length})</div>`+
-      members.map((p,i)=>pH(p,i+1,sl)).join('')).join('');
+    var g={};
+    list.forEach(function(p){var k=p.team||"Sin equipo";if(!g[k])g[k]=[];g[k].push(p);});
+    el.innerHTML=Object.keys(g).map(function(team){
+      return "<div class=\"team-hdr\">"+team+" ("+g[team].length+")</div>"+g[team].map(function(p,i){return pHTML(p,i+1,sl);}).join("");
+    }).join("");
   } else {
-    el.innerHTML=list.map((p,i)=>pH(p,i+1,sl)).join('');
+    el.innerHTML=list.map(function(p,i){return pHTML(p,i+1,sl);}).join("");
   }
 }
-function pH(p,rank,sl){
-  return `<div class="pitem">
-    <div class="prank">${rank}</div>
-    <div class="pinfo">
-      <div class="pname">${p.name}${p.team?` <span style="color:var(--muted);font-size:11px;font-weight:400">· ${p.team}</span>`:''}</div>
-      <div class="pmeta">${p.actid||'Sin Activ.ID'}${p.phone?' · +549'+p.phone:''}</div>
-    </div>
-    <span class="pstatus s-${p.status}" onclick="cycleStatus(${p.id})">${sl[p.status]||p.status}</span>
-    <div style="display:flex;gap:4px">
-      ${p.phone?`<button class="iBtn wa" onclick="openPWA('${p.phone}','${p.name.replace(/'/g,"\\'")}')">💬</button>`:''}
-      <button class="iBtn" onclick="removePlayer(${p.id})">✕</button>
-    </div>
-  </div>`;
-}
-function updateTeamFilter(){
-  players = load('wz_players',[]);
-  const teams=[...new Set(players.map(p=>p.team).filter(Boolean))].sort();
-  const sel=document.getElementById('filter-team'); if(!sel) return;
-  const cur=sel.value;
-  sel.innerHTML='<option value="">Todos los equipos</option>'+teams.map(t=>`<option value="${t}"${t===cur?' selected':''}>${t}</option>`).join('');
-  const ds=document.getElementById('team-sug'); if(ds) ds.innerHTML=teams.map(t=>`<option value="${t}">`).join('');
-}
-function updateStats(){
-  players = load('wz_players',[]);
-  const conf=players.filter(p=>p.status==='confirmado').length;
-  const teams=new Set(players.map(p=>p.team).filter(Boolean)).size;
-  const slots=parseInt(document.getElementById('t-slots')?.value)||0;
-  document.getElementById('st-pl').textContent=players.length;
-  document.getElementById('st-sl').textContent=slots?Math.max(0,slots-players.length):'—';
-  document.getElementById('st-cf').textContent=conf;
-  document.getElementById('st-tm').textContent=teams;
+
+function pHTML(p,rank,sl){
+  var waBtn=p.phone?"<button class=\"iBtn wa\" onclick=\"openPWA('"+p.phone.replace(/'/g,"\\'")+"','"+p.name.replace(/'/g,"\\'")+"')\">WA</button>":"";
+  return "<div class=\"pitem\" id=\"pitem-"+p.id+"\">"+
+    "<div class=\"prank\">"+rank+"</div>"+
+    "<div class=\"pinfo\">"+
+    "<div class=\"pname\">"+p.name+(p.team?" <span style=\"color:var(--muted);font-size:11px;font-weight:400\">- "+p.team+"</span>":"")+"</div>"+
+    "<div class=\"pmeta\">"+(p.actid?"ID: "+p.actid:"Sin ID")+(p.phone?" - +549"+p.phone:"")+"</div>"+
+    "</div>"+
+    "<span class=\"pstatus s-"+p.status+"\" onclick=\"cycleStatus("+p.id+")\">"+( sl[p.status]||p.status)+"</span>"+
+    "<div style=\"display:flex;gap:4px\">"+waBtn+
+    "<button class=\"iBtn\" style=\"color:var(--accent3);border-color:rgba(255,162,0,.3)\" onclick=\"editPlayer("+p.id+")\">E</button>"+
+    "<button class=\"iBtn\" onclick=\"removePlayer("+p.id+")\">X</button>"+
+    "</div></div>";
 }
 
-// ══════════════════════════════════
-//  SCORING
-// ══════════════════════════════════
-function getTeams(){ players=load('wz_players',[]); return [...new Set(players.map(p=>p.team).filter(Boolean))].sort(); }
-function getMult(pos){ return MULT[Math.min(Math.max(parseInt(pos)||5,1),10)]||1.0; }
+function updateTeamFilter(){
+  players=load("wz_players",[]);
+  var teams=Array.from(new Set(players.map(function(p){return p.team;}).filter(Boolean))).sort();
+  var sel=document.getElementById("filter-team"); if(!sel)return;
+  var cur=sel.value;
+  sel.innerHTML="<option value=\"\">Todos los equipos</option>"+teams.map(function(t){return "<option value=\""+t+"\""+(t===cur?" selected":"")+">"+t+"</option>";}).join("");
+}
+
+function updateStats(){
+  players=load("wz_players",[]);
+  var conf=players.filter(function(p){return p.status==="confirmado";}).length;
+  var teams=new Set(players.map(function(p){return p.team;}).filter(Boolean)).size;
+  var slots=parseInt((document.getElementById("t-slots")||{}).value)||0;
+  var stPl=document.getElementById("st-pl"); if(stPl)stPl.textContent=players.length;
+  var stSl=document.getElementById("st-sl"); if(stSl)stSl.textContent=slots?Math.max(0,slots-players.length):"-";
+  var stCf=document.getElementById("st-cf"); if(stCf)stCf.textContent=conf;
+  var stTm=document.getElementById("st-tm"); if(stTm)stTm.textContent=teams;
+  var sc=document.getElementById("tournament-stats-card");
+  if(sc){
+    try{
+      var s=getTournamentStats();
+      if(s.totalRounds>0){
+        sc.innerHTML="<div style=\"background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.12);border-radius:3px;padding:12px 14px\">"+
+          "<div style=\"font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px\">ESTADISTICAS EN VIVO</div>"+
+          "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px\">"+
+          "<div><span style=\"color:var(--muted)\">Mejor partida: </span><span style=\"color:var(--accent3);font-weight:700\">"+s.bestTeamRound.team+" (P"+s.bestTeamRound.round+" - "+s.bestTeamRound.pts+" pts)</span></div>"+
+          "<div><span style=\"color:var(--muted)\">Top killer: </span><span style=\"color:var(--accent2);font-weight:700\">"+s.topKiller.name+" ("+s.topKiller.kills+" kills)</span></div>"+
+          "<div><span style=\"color:var(--muted)\">Kills totales: </span><span style=\"color:var(--accent);font-weight:700\">"+s.totalKills+"</span></div>"+
+          "<div><span style=\"color:var(--muted)\">Partidas: </span><span style=\"color:var(--accent);font-weight:700\">"+s.totalRounds+"/"+TOTAL_RNDS+"</span></div>"+
+          "</div></div>";
+      }
+    }catch(e){}
+  }
+}
+
+function saveT(){
+  tournament={
+    name:(document.getElementById("t-name")||{}).value||"",
+    mode:(document.getElementById("t-mode")||{}).value||"",
+    date:(document.getElementById("t-date")||{}).value||"",
+    time:(document.getElementById("t-time")||{}).value||"",
+    p1:(document.getElementById("t-p1")||{}).value||"",
+    p2:(document.getElementById("t-p2")||{}).value||"",
+    p3:(document.getElementById("t-p3")||{}).value||"",
+    fee:(document.getElementById("t-fee")||{}).value||"",
+    slots:(document.getElementById("t-slots")||{}).value||"",
+    youtube:(document.getElementById("t-yt")||{}).value||""
+  };
+  save("wz_tournament",tournament); updateStats();
+}
+
+function loadT(){
+  tournament=load("wz_tournament",{});
+  var map={name:"t-name",date:"t-date",time:"t-time",p1:"t-p1",p2:"t-p2",p3:"t-p3",fee:"t-fee",slots:"t-slots",youtube:"t-yt"};
+  Object.keys(map).forEach(function(k){var el=document.getElementById(map[k]);if(el&&tournament[k])el.value=tournament[k];});
+  var tm=document.getElementById("t-mode"); if(tm&&tournament.mode)tm.value=tournament.mode;
+}
+
+function saveAppTitle(){
+  var val=(document.getElementById("app-title")||{}).value||"";
+  val=val.trim(); if(!val){showToast("Ingresa un titulo");return;}
+  save("wz_app_title",val); applyAppTitle(val); showToast("Titulo guardado");
+}
+function applyAppTitle(title){
+  if(!title)return;
+  document.title=title;
+  var h1=document.querySelector("#screen-player h1");
+  if(h1)h1.textContent=title.toUpperCase();
+}
+function loadAppTitle(){
+  var title=load("wz_app_title","");
+  if(title){var el=document.getElementById("app-title");if(el)el.value=title;applyAppTitle(title);}
+}
+
+function getTeams(){players=load("wz_players",[]);return Array.from(new Set(players.map(function(p){return p.team;}).filter(Boolean))).sort();}
+function getMult(pos){return MULT[Math.min(Math.max(parseInt(pos)||5,1),10)]||1.0;}
 
 function renderScoring(){
-  scores = load('wz_scores',{});
-  const teams=getTeams();
-  const rd=scores[curRound]||{};
-  const done=!!scores[curRound]?._saved;
-  document.getElementById('cur-round-badge').textContent=`Partida ${curRound}`;
-  document.getElementById('btn-prev').disabled=curRound<=1;
-  document.getElementById('btn-next').disabled=curRound>=TOTAL_RNDS;
-  if(!teams.length){
-    document.getElementById('scoring-ui').innerHTML='<div class="empty"><span>👥</span>Aprobá equipos primero</div>';
-    return;
-  }
-  let html=`<div class="round-card">
-    <div class="round-hdr">
-      <div class="round-title">PARTIDA ${curRound} / ${TOTAL_RNDS}</div>
-      <span class="${done?'ms-done':'ms-pending'}">${done?'✓ GUARDADA':'PENDIENTE'}</span>
-    </div>
-    <div class="score-row hdr">
-      <span class="cl">Equipo</span>
-      <span class="cl" style="text-align:center">Kills</span>
-      <span class="cl" style="text-align:center">Posición</span>
-      <span class="cl" style="text-align:center">Mult.</span>
-      <span class="cl" style="text-align:center">Pts</span>
-    </div>`;
-  teams.forEach(team=>{
-    const td=rd[team]||{kills:0,pos:5};
-    const mult=getMult(td.pos||5);
-    const pts=((td.kills||0)*mult).toFixed(1);
-    const key=team.replace(/[\s']/g,'_');
-    html+=`<div class="score-row">
-      <div class="tn" title="${team}">${team}</div>
-      <input type="number" class="si" min="0" max="80" value="${td.kills||0}"
-        id="k-${curRound}-${key}" oninput="calcP('${team.replace(/'/g,"\\'")}',${curRound})" ${done?'disabled':''}>
-      <select class="ps" id="p-${curRound}-${key}" onchange="calcP('${team.replace(/'/g,"\\'")}',${curRound})" ${done?'disabled':''}>
-        ${[1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}"${(td.pos||5)==n?' selected':''}>${n}°</option>`).join('')}
-      </select>
-      <div class="pr" id="m-${curRound}-${key}">×${mult.toFixed(1)}</div>
-      <div class="pr" id="pts-${curRound}-${key}">${pts}</div>
-    </div>`;
+  scores=load("wz_scores",{});
+  var teams=getTeams();
+  var rd=scores[curRound]||{};
+  var done=!!(scores[curRound]&&scores[curRound]._saved);
+  var crb=document.getElementById("cur-round-badge"); if(crb)crb.textContent="Partida "+curRound;
+  var bp=document.getElementById("btn-prev"); if(bp)bp.disabled=curRound<=1;
+  var bn=document.getElementById("btn-next"); if(bn)bn.disabled=curRound>=TOTAL_RNDS;
+  var sui=document.getElementById("scoring-ui"); if(!sui)return;
+  if(!teams.length){sui.innerHTML="<div class=\"empty\"><span>Aprueba equipos primero</span></div>";return;}
+  var html="<div class=\"round-card\">"+
+    "<div class=\"round-hdr\"><div class=\"round-title\">PARTIDA "+curRound+" / "+TOTAL_RNDS+"</div>"+
+    "<span class=\""+(done?"ms-done":"ms-pending")+"\">"+(done?"GUARDADA":"PENDIENTE")+"</span></div>"+
+    "<div class=\"score-row hdr\"><span class=\"cl\">Equipo</span><span class=\"cl\" style=\"text-align:center\">Kills</span><span class=\"cl\" style=\"text-align:center\">Posicion</span><span class=\"cl\" style=\"text-align:center\">Mult</span><span class=\"cl\" style=\"text-align:center\">Pts</span></div>";
+  teams.forEach(function(team){
+    var td=rd[team]||{kills:0,pos:5};
+    var mult=getMult(td.pos||5);
+    var pts=((td.kills||0)*mult).toFixed(1);
+    var key=team.replace(/[\s']/g,"_");
+    var dis=done?" disabled":"";
+    html+="<div class=\"score-row\">"+
+      "<div class=\"tn\" title=\""+team+"\">"+team+"</div>"+
+      "<input type=\"number\" class=\"si\" min=\"0\" max=\"80\" value=\""+(td.kills||0)+"\" id=\"k-"+curRound+"-"+key+"\" oninput=\"calcP('"+key+"',"+curRound+")\""+dis+">"+
+      "<select class=\"ps\" id=\"p-"+curRound+"-"+key+"\" onchange=\"calcP('"+key+"',"+curRound+")\""+dis+">"+
+      [1,2,3,4,5,6,7,8,9,10].map(function(n){return "<option value=\""+n+"\""+(( td.pos||5)==n?" selected":"")+">"+n+"</option>";}).join("")+
+      "</select>"+
+      "<div class=\"pr\" id=\"m-"+curRound+"-"+key+"\">x"+mult.toFixed(1)+"</div>"+
+      "<div class=\"pr\" id=\"pts-"+curRound+"-"+key+"\">"+pts+"</div>"+
+      "</div>";
   });
   if(done){
-    html+=`<div style="display:flex;gap:7px;margin-top:8px">
-      <button class="save-btn" style="background:var(--accent3);color:#000;flex:1" onclick="unlockRound(${curRound})">🔓 EDITAR ESTA PARTIDA</button>
-      <button class="save-btn" style="background:var(--accent2);color:#fff;flex:1" onclick="deleteRound(${curRound})">🗑 BORRAR PARTIDA ${curRound}</button>
-    </div>`;
+    html+="<div style=\"display:flex;gap:7px;margin-top:8px\">"+
+      "<button class=\"save-btn\" style=\"background:var(--accent3);color:#000;flex:1\" onclick=\"unlockRound("+curRound+")\">EDITAR</button>"+
+      "<button class=\"save-btn\" style=\"background:var(--accent2);color:#fff;flex:1\" onclick=\"deleteRound("+curRound+")\">BORRAR</button>"+
+      "</div>";
   } else {
-    html+=`<button class="save-btn" onclick="saveRound(${curRound})">💾 GUARDAR PARTIDA ${curRound}</button>`;
+    html+="<button class=\"save-btn\" onclick=\"saveRound("+curRound+")\">GUARDAR PARTIDA "+curRound+"</button>";
   }
-  html+=`</div>`;
-  // Reset all button below
-  html+=`<div style="margin-top:10px;text-align:right">
-    <button onclick="resetAllScores()" style="background:none;border:1px solid var(--accent2);color:var(--accent2);padding:7px 14px;border-radius:3px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(255,58,58,.1)'" onmouseout="this.style.background='none'">⚠ RESETEAR TODOS LOS PUNTAJES</button>
-  </div>`;
-  document.getElementById('scoring-ui').innerHTML=html;
+  html+="</div><div style=\"margin-top:10px;text-align:right\">"+
+    "<button onclick=\"resetAllScores()\" style=\"background:none;border:1px solid var(--accent2);color:var(--accent2);padding:7px 14px;border-radius:3px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;text-transform:uppercase\">RESETEAR TODOS</button>"+
+    "</div>";
+  sui.innerHTML=html;
 }
 
-function calcP(team,round){
-  const key=team.replace(/[\s']/g,'_');
-  const kills=parseFloat(document.getElementById(`k-${round}-${key}`)?.value)||0;
-  const pos=parseInt(document.getElementById(`p-${round}-${key}`)?.value)||5;
-  const mult=getMult(pos);
-  const pts=(kills*mult).toFixed(1);
-  const mEl=document.getElementById(`m-${round}-${key}`);
-  const pEl=document.getElementById(`pts-${round}-${key}`);
-  if(mEl) mEl.textContent='×'+mult.toFixed(1);
-  if(pEl){ pEl.textContent=pts; pEl.style.color=parseFloat(pts)>0?'var(--accent)':'var(--muted)'; }
+function calcP(key,round){
+  var kills=parseFloat((document.getElementById("k-"+round+"-"+key)||{}).value)||0;
+  var pos=parseInt((document.getElementById("p-"+round+"-"+key)||{}).value)||5;
+  var mult=getMult(pos);
+  var pts=(kills*mult).toFixed(1);
+  var mEl=document.getElementById("m-"+round+"-"+key);
+  var pEl=document.getElementById("pts-"+round+"-"+key);
+  if(mEl)mEl.textContent="x"+mult.toFixed(1);
+  if(pEl){pEl.textContent=pts;pEl.style.color=parseFloat(pts)>0?"var(--accent)":"var(--muted)";}
 }
 
 function saveRound(round){
-  scores = load('wz_scores',{});
-  const teams=getTeams();
-  if(!scores[round]) scores[round]={};
-  teams.forEach(team=>{
-    const key=team.replace(/[\s']/g,'_');
-    const kills=parseFloat(document.getElementById(`k-${round}-${key}`)?.value)||0;
-    const pos=parseInt(document.getElementById(`p-${round}-${key}`)?.value)||5;
-    scores[round][team]={kills,pos,pts:parseFloat((kills*getMult(pos)).toFixed(1))};
+  scores=load("wz_scores",{});
+  var teams=getTeams();
+  if(!scores[round])scores[round]={};
+  teams.forEach(function(team){
+    var key=team.replace(/[\s']/g,"_");
+    var kills=parseFloat((document.getElementById("k-"+round+"-"+key)||{}).value)||0;
+    var pos=parseInt((document.getElementById("p-"+round+"-"+key)||{}).value)||5;
+    scores[round][team]={kills:kills,pos:pos,pts:parseFloat((kills*getMult(pos)).toFixed(1))};
   });
   scores[round]._saved=true;
-  save('wz_scores',scores);
-  renderScoring();
-  renderRankings();
-  genScoreWAMsg(round);
-  showToast(`✓ Partida ${round} guardada`);
+  save("wz_scores",scores); renderScoring(); renderRankings(); genScoreWAMsg(round);
+  showToast("Partida "+round+" guardada");
 }
+
 function unlockRound(round){
-  if(!confirm(`¿Querés editar la Partida ${round}? Los puntos guardados se van a desbloquear para modificar.`)) return;
-  scores = load('wz_scores',{});
-  if(scores[round]) scores[round]._saved = false;
-  save('wz_scores', scores);
-  renderScoring();
-  renderRankings();
-  showToast(`🔓 Partida ${round} desbloqueada para editar`);
+  if(!confirm("Editar Partida "+round+"?"))return;
+  scores=load("wz_scores",{});
+  if(scores[round])scores[round]._saved=false;
+  save("wz_scores",scores); renderScoring(); renderRankings();
+  showToast("Partida "+round+" desbloqueada");
 }
-
 function deleteRound(round){
-  if(!confirm(`¿Borrar TODOS los puntajes de la Partida ${round}? Esta acción no se puede deshacer.`)) return;
-  scores = load('wz_scores',{});
+  if(!confirm("Borrar Partida "+round+"?"))return;
+  scores=load("wz_scores",{});
   delete scores[round];
-  save('wz_scores', scores);
-  renderScoring();
-  renderRankings();
-  showToast(`🗑 Partida ${round} eliminada`);
+  save("wz_scores",scores); renderScoring(); renderRankings();
+  showToast("Partida "+round+" eliminada");
 }
-
 function resetAllScores(){
-  if(!confirm('⚠ ¿Borrar TODOS los puntajes de TODAS las partidas?\n\nEsta acción no se puede deshacer.')) return;
-  if(!confirm('Segunda confirmación: ¿Estás seguro? Se perderán todos los puntos cargados.')) return;
-  save('wz_scores', {});
-  scores = {};
-  curRound = 1;
-  renderScoring();
-  renderRankings();
-  showToast('⚠ Todos los puntajes fueron reseteados');
+  if(!confirm("Borrar TODOS los puntajes?"))return;
+  if(!confirm("Segunda confirmacion: seguro?"))return;
+  save("wz_scores",{}); scores={}; curRound=1;
+  renderScoring(); renderRankings();
+  showToast("Puntajes reseteados");
 }
-
-function prevRound(){ if(curRound>1){ curRound--; renderScoring(); }}
-function nextRound(){ if(curRound<TOTAL_RNDS){ curRound++; renderScoring(); }}
-
-// ══════════════════════════════════
-//  RANKINGS
-// ══════════════════════════════════
-function getTeamTotals(){
-  scores = load('wz_scores',{});
-  return getTeams().map(team=>{
-    let total=0,totalKills=0,rounds=[];
-    for(let r=1;r<=TOTAL_RNDS;r++){
-      if(scores[r]&&scores[r][team]&&scores[r]._saved){
-        total+=scores[r][team].pts||0;
-        totalKills+=scores[r][team].kills||0;
-        rounds.push({r,kills:scores[r][team].kills,pos:scores[r][team].pos,pts:scores[r][team].pts});
-      }
-    }
-    return {team,total:parseFloat(total.toFixed(1)),totalKills,rounds};
-  }).sort((a,b)=>b.total-a.total||b.totalKills-a.totalKills);
-}
-
-function renderRankings(){
-  const data=getTeamTotals();
-  const pc=['var(--gold)','var(--silver)','var(--bronze)'];
-  const rClass=(i)=>i===0?'r1':i===1?'r2':i===2?'r3':'rx';
-
-  ['a-team-rank','p-team-rank'].forEach(id=>{
-    const el=document.getElementById(id); if(!el) return;
-    if(!data.length||data.every(d=>d.total===0)){ el.innerHTML='<div class="empty"><span>🏆</span>Sin puntajes aún</div>'; return; }
-    el.innerHTML=`<table class="rtable">
-      <thead><tr><th>#</th><th>Equipo</th><th class="r">Kills</th><th class="r">Partidas</th><th class="r">Puntos</th></tr></thead>
-      <tbody>${data.map((d,i)=>`<tr>
-        <td><span class="rpos ${rClass(i)}">${i+1}</span></td>
-        <td style="font-weight:700;color:${pc[i]||'var(--text)'}">${d.team}</td>
-        <td class="r" style="color:var(--muted)">${d.totalKills}</td>
-        <td class="r" style="color:var(--muted)">${d.rounds.length}</td>
-        <td class="r"><span class="rpts">${d.total}</span></td>
-      </tr>`).join('')}</tbody></table>`;
-  });
-
-  // Individual ranking - uses real kills from wz_kills
-  renderTopKillersPlayer();
-
-  renderMatchPills();
-}
-
-function renderMatchPills(){
-  scores = load('wz_scores',{});
-  const saved=[];
-  for(let r=1;r<=TOTAL_RNDS;r++){ if(scores[r]&&scores[r]._saved) saved.push(r); }
-  ['a-pills','p-pills'].forEach(id=>{
-    const el=document.getElementById(id); if(!el) return;
-    if(!saved.length){ el.innerHTML='<span style="color:var(--muted);font-size:12px">Sin partidas guardadas</span>'; return; }
-    el.innerHTML=saved.map(r=>`<div class="mpill${r===viewRound?' active':''}" onclick="viewMatch(${r})">${r}</div>`).join('');
-  });
-  if(saved.length&&!saved.includes(viewRound)) viewRound=saved[saved.length-1];
-  if(saved.length) renderMatchDet(viewRound);
-}
-
-function viewMatch(r){
-  viewRound=r;
-  document.querySelectorAll('.mpill').forEach(p=>p.classList.toggle('active',parseInt(p.textContent)===r));
-  renderMatchDet(r);
-}
-
-function renderMatchDet(r){
-  scores = load('wz_scores',{});
-  const rd=scores[r];
-  if(!rd||!rd._saved){
-    ['a-match-det','p-match-det'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML='<div class="empty"><span>📊</span>Sin datos</div>'; });
-    return;
-  }
-  const rows=getTeams().map(team=>{
-    const d=rd[team]||{kills:0,pos:'—',pts:0};
-    return {team,kills:d.kills||0,pos:d.pos||'—',pts:d.pts||0};
-  }).sort((a,b)=>a.pos-b.pos||b.pts-a.pts);
-  const html=`<table class="dtable">
-    <thead><tr><th>Equipo</th><th>Posición</th><th>Kills</th><th>Mult.</th><th>Puntos</th></tr></thead>
-    <tbody>${rows.map(d=>`<tr>
-      <td style="font-weight:700">${d.team}</td>
-      <td style="color:var(--muted)">${d.pos}°</td>
-      <td style="color:var(--accent3)">${d.kills}</td>
-      <td style="color:var(--muted)">×${getMult(d.pos).toFixed(1)}</td>
-      <td style="font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--accent)">${d.pts}</td>
-    </tr>`).join('')}</tbody></table>`;
-  ['a-match-det','p-match-det'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=html; });
-}
-
-// ══════════════════════════════════
-//  PLAYER VIEW
-// ══════════════════════════════════
-function renderPlayerView(){
-  // Pull latest data from Supabase every time player views
-  syncFromRemote([
-    ['wz_players',[]],['wz_tournament',{}],['wz_scores',{}],['wz_kills',{}]
-  ]).then(()=>{
-    tournament = load('wz_tournament',{});
-    _doRenderPlayerView();
-  });
-}
-function _doRenderPlayerView(){
-  tournament = load('wz_tournament',{});
-  const wrap=document.getElementById('yt-wrap');
-  if(wrap){
-    wrap.innerHTML = tournament.youtube
-      ? `<a class="yt-ban" href="${tournament.youtube}" target="_blank">
-          <div class="yt-icon">▶️</div>
-          <div><div class="yt-label">Transmisión en vivo</div><div class="yt-url">${tournament.youtube}</div></div>
-         </a>` : '';
-  }
-  renderPlayerTimer();
-  renderMyTeamSummary();
-  renderRankings();
-  renderTopKillersPlayer();
-}
-
-function renderMyTeamSummary(){
-  const el=document.getElementById('p-myteam'); if(!el) return;
-  const data=getTeamTotals();
-  const my=data.find(d=>d.team===playerTeam);
-  if(!my||my.total===0){ el.innerHTML='<div class="empty"><span>📊</span>Sin puntajes aún</div>'; return; }
-  const pos=data.indexOf(my)+1;
-  const pc=['var(--gold)','var(--silver)','var(--bronze)'];
-  el.innerHTML=`<div class="my-sgrid">
-    <div class="sbox"><div class="sbox-l">Posición</div><div class="sbox-v" style="color:${pc[pos-1]||'var(--accent)'}">${pos}°</div></div>
-    <div class="sbox"><div class="sbox-l">Puntos</div><div class="sbox-v">${my.total}</div></div>
-    <div class="sbox"><div class="sbox-l">Kills tot.</div><div class="sbox-v" style="color:var(--accent3)">${my.totalKills}</div></div>
-  </div>
-  <div style="font-size:11px;color:var(--muted)">Partidas jugadas: ${my.rounds.length} / ${TOTAL_RNDS}</div>`;
-}
-
-function renderPlayerTimer(){
-  tournament = load('wz_tournament',{});
-  const el=document.getElementById('p-timer');
-  const lb=document.getElementById('p-timer-lbl');
-  if(!tournament.date||!tournament.time){
-    if(el) el.textContent='—';
-    if(lb) lb.textContent='Fecha no configurada';
-    return;
-  }
-  const target=new Date(tournament.date+'T'+tournament.time+':00');
-  const diff=target-new Date();
-  if(diff<=0){
-    if(el) el.textContent='EN CURSO';
-    if(lb) lb.textContent='¡EL TORNEO ESTÁ ACTIVO!';
-    return;
-  }
-  const h=Math.floor(diff/3600000);
-  const m=Math.floor((diff%3600000)/60000);
-  const s=Math.floor((diff%60000)/1000);
-  if(el) el.textContent=`${h>0?h+'h ':''} ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  if(lb) lb.textContent=`para el inicio · ${tournament.date} ${tournament.time}`;
-  setTimeout(renderPlayerTimer,1000);
-}
-
-// ══════════════════════════════════
-//  COUNTDOWN
-// ══════════════════════════════════
-let cdSecs=900, cdTotal=900;
-function openCountdown(){
-  scores=load('wz_scores',{});
-  const last=Object.keys(scores).filter(k=>scores[k]._saved).map(Number).sort((a,b)=>b-a)[0]||0;
-  document.getElementById('cd-match').textContent=last?`Partida ${last} completada · Iniciando ${last+1}`:'Iniciando torneo';
-  cdSecs=900; cdTotal=900;
-  showScreen('countdown');
-  renderCDRank();
-  startCD();
-}
-function startCD(){
-  stopCountdown();
-  cdTimer=setInterval(()=>{ cdSecs--; if(cdSecs<=0){cdSecs=0;stopCountdown();} updateCD(); },1000);
-  updateCD();
-}
-function updateCD(){
-  const m=Math.floor(cdSecs/60), s=cdSecs%60;
-  const urgent=cdSecs<=60;
-  const mEl=document.getElementById('cd-min'), sEl=document.getElementById('cd-sec');
-  if(mEl){mEl.textContent=String(m).padStart(2,'0');mEl.className='cd-num'+(urgent?' urgent':'');}
-  if(sEl){sEl.textContent=String(s).padStart(2,'0');sEl.className='cd-num'+(urgent?' urgent':'');}
-  const fill=document.getElementById('cd-fill');
-  if(fill) fill.style.width=(cdSecs/cdTotal*100)+'%';
-  const msg=document.getElementById('cd-msg');
-  if(msg){
-    if(cdSecs>600)      msg.textContent='📸 MANDÁ LA CAPTURA AL GRUPO DE WHATSAPP';
-    else if(cdSecs>300) msg.textContent='📊 ACTUALIZANDO PUNTAJES EN PANTALLA...';
-    else if(cdSecs>60)  msg.textContent='⚔️ PREPARÁ TU ESTRATEGIA PARA LA PRÓXIMA PARTIDA';
-    else if(cdSecs>0)   msg.textContent='🔥 ¡CASI ES HORA! ENTRÁ AL LOBBY';
-    else                msg.textContent='🚀 ¡A JUGAR!';
-  }
-}
-function stopCountdown(){ if(cdTimer){clearInterval(cdTimer);cdTimer=null;} }
-function closeCountdown(){ stopCountdown(); showScreen('admin'); }
-function renderCDRank(){
-  const data=getTeamTotals().slice(0,5);
-  const el=document.getElementById('cd-rank'); if(!el) return;
-  if(!data.length||data.every(d=>d.total===0)){el.innerHTML='<div style="color:var(--muted);font-size:12px;text-align:center">Sin puntajes aún</div>';return;}
-  const pc=['var(--gold)','var(--silver)','var(--bronze)'];
-  el.innerHTML=data.map((d,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)">
-    <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:${pc[i]||'var(--muted)'};min-width:26px">${i+1}</span>
-    <span style="flex:1;font-weight:700;font-size:14px">${d.team}</span>
-    <span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent)">${d.total}</span>
-  </div>`).join('');
-}
-
-// ══════════════════════════════════
-//  WA SCORE MESSAGE
-// ══════════════════════════════════
-function genScoreWAMsg(round){
-  scores=load('wz_scores',{}); tournament=load('wz_tournament',{});
-  const data=getTeamTotals();
-  const t=tournament;
-  let msg=`⚔️ *${t.name||'Torneo WZ'} — Partida ${round} completada* ✅\n\n📊 *RESULTADOS PARTIDA ${round}:*\n`;
-  const rd=scores[round];
-  getTeams().forEach(team=>{
-    const d=rd&&rd[team]?rd[team]:{kills:0,pts:0,pos:'—'};
-    if((d.kills||0)>0) msg+=`• ${team}: ${d.kills} kills · ${d.pos}° · *${d.pts} pts*\n`;
-  });
-  msg+=`\n🏆 *TABLA GENERAL (top 5):*\n`;
-  data.slice(0,5).forEach((d,i)=>{
-    const m=['🥇','🥈','🥉','4️⃣','5️⃣'][i];
-    msg+=`${m} ${d.team}: *${d.total} pts*\n`;
-  });
-  msg+=`\n⏱ 15 min de descanso · Próxima: Partida ${round<TOTAL_RNDS?round+1:'—'}\n📸 Mandá la captura al grupo antes de que termine el descanso`;
-  document.getElementById('wa-score-pre').textContent=msg;
-  localStorage.setItem('wz_last_score_msg',msg);
-}
-function sendScoreWA(){
-  const msg=document.getElementById('wa-score-pre').textContent;
-  if(msg==='— Guardá una partida para ver el mensaje —'){showToast('⚠ Guardá una partida primero');return;}
-  if(myPhone) window.open(`https://wa.me/549${myPhone}?text=${encodeURIComponent(msg)}`,'_blank');
-  else window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
-}
-function copyScoreMsg(){
-  navigator.clipboard.writeText(document.getElementById('wa-score-pre').textContent).then(()=>showToast('✓ Copiado'));
-}
-
-// ══════════════════════════════════
-//  TOURNAMENT
-// ══════════════════════════════════
-function saveT(){
-  tournament={
-    name:document.getElementById('t-name').value,
-    mode:document.getElementById('t-mode').value,
-    date:document.getElementById('t-date').value,
-    time:document.getElementById('t-time').value,
-    p1:document.getElementById('t-p1').value,
-    p2:document.getElementById('t-p2').value,
-    p3:document.getElementById('t-p3').value,
-    fee:document.getElementById('t-fee').value,
-    slots:document.getElementById('t-slots').value,
-    youtube:document.getElementById('t-yt').value,
-    platform:document.getElementById('t-plat').value,
-  };
-  save('wz_tournament',tournament);
-  updateStats();
-}
-function loadT(){
-  tournament=load('wz_tournament',{});
-  const map={name:'t-name',date:'t-date',time:'t-time',p1:'t-p1',p2:'t-p2',p3:'t-p3',fee:'t-fee',slots:'t-slots',youtube:'t-yt'};
-  Object.entries(map).forEach(([k,id])=>{ const el=document.getElementById(id); if(el&&tournament[k])el.value=tournament[k]; });
-  ['mode','platform'].forEach(f=>{
-    const el=document.getElementById('t-'+(f==='platform'?'plat':'mode'));
-    if(el&&tournament[f])el.value=tournament[f];
-  });
-}
-
-// ══════════════════════════════════
-//  MESSAGES
-// ══════════════════════════════════
-function updatePlayerSelect(){
-  players=load('wz_players',[]);
-  const sel=document.getElementById('msg-player'); if(!sel) return;
-  sel.innerHTML='<option value="">— General —</option>';
-  players.forEach(p=>{ sel.innerHTML+=`<option value="${p.id}">${p.name}${p.team?' · '+p.team:''}</option>`; });
-}
-function genMsg(){
-  const type=document.getElementById('msg-type').value;
-  document.getElementById('custom-row').style.display=type==='custom'?'block':'none';
-  tournament=load('wz_tournament',{});
-  players=load('wz_players',[]);
-  const t=tournament;
-  const ds=t.date?new Date(t.date+'T12:00:00').toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'}):'A confirmar';
-  const tName=t.name||'Torneo Warzone';
-  const pid=document.getElementById('msg-player').value;
-  const player=pid?players.find(p=>p.id==pid):null;
-  const pName=player?player.name:'Equipo';
-  let msg='';
-  if(type==='convocatoria'){
-    msg=`⚔️ *${tName}* ⚔️\n\n🎮 *Modalidad:* ${t.mode||'Resurgence Squad'}\n📅 *Fecha:* ${ds}\n🕐 *Hora:* ${t.time||'A confirmar'}\n🖥️ *Plataforma:* ${t.platform||'Todas'}\n${t.youtube?'📺 *En vivo:* '+t.youtube+'\n':''}\n`;
-    if(t.p1||t.p2||t.p3){msg+=`🏆 *PREMIOS*\n`;if(t.p1)msg+=`🥇 ${t.p1}\n`;if(t.p2)msg+=`🥈 ${t.p2}\n`;if(t.p3)msg+=`🥉 ${t.p3}\n`;msg+='\n';}
-    if(t.fee) msg+=`💰 *Inscripción:* ${t.fee}\n`;
-    msg+=`\n¡Inscribite en la app y demostrá quién manda! 🔥`;
-  } else if(type==='reglas'){
-    msg=`📋 *REGLAS — ${tName}*\n\n⚡ Kills × Multiplicador por posición\n🥇×2.0 · 🥈×1.7 · 🥉×1.4 · 📍×1.2\n\n⏱ 30min antes: clases · 15min antes: check-in\n📸 Captura obligatoria al terminar cada partida\n🔒 Plantilla cerrada · ⛔ No crossteaming\n${t.youtube?'\n📺 '+t.youtube:''}\n¡Suerte! 💪`;
-  } else if(type==='confirmacion'){
-    msg=`✅ *${tName}*\n\nHola ${pName}! Tu equipo está confirmado.\n📅 ${ds} · ⏰ ${t.time||'A confirmar'}\n🎮 ${t.mode||'Resurgence Squad'}\n${t.youtube?'📺 '+t.youtube+'\n':''}\nLlegá 30min antes para armar las clases. ¡Nos vemos! 🎯`;
-  } else if(type==='recordatorio'){
-    msg=`⏰ *RECORDATORIO — ${tName}*\n\nHola ${pName}!\n📅 ${ds} · ⏰ ${t.time||'hora acordada'}\n✔️ Clases 30min antes · ✔️ Check-in 15min antes\n${t.youtube?'📺 '+t.youtube+'\n':''}\n¡Suerte! 💪🔥`;
-  } else if(type==='resultado'){
-    const data=getTeamTotals();
-    msg=`🏆 *RESULTADOS FINALES — ${tName}*\n\n`;
-    data.slice(0,3).forEach((d,i)=>{
-      const medals=['🥇','🥈','🥉'];
-      const prize=[t.p1,t.p2,t.p3][i]||'';
-      msg+=`${medals[i]} ${d.team}: *${d.total} pts*${prize?' — '+prize:''}\n`;
-    });
-    msg+=`\n¡Gracias a todos! La próxima edición ya viene 🎮`;
-  } else if(type==='custom'){
-    msg=document.getElementById('custom-txt').value||'—';
-  }
-  document.getElementById('msg-pre').textContent=msg;
-}
-function copyMsg(){ navigator.clipboard.writeText(document.getElementById('msg-pre').textContent).then(()=>showToast('✓ Copiado')); }
-function openWA(){
-  const msg=document.getElementById('msg-pre').textContent;
-  const pid=document.getElementById('msg-player').value;
-  const player=pid?players.find(p=>p.id==pid):null;
-  if(player?.phone) window.open(`https://wa.me/549${player.phone}?text=${encodeURIComponent(msg)}`,'_blank');
-  else window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
-}
-function openWAmy(){
-  const mp=document.getElementById('my-phone').value;
-  if(!mp){showToast('⚠ Ingresá tu número');return;}
-  window.open(`https://wa.me/549${mp}?text=${encodeURIComponent(document.getElementById('msg-pre').textContent)}`,'_blank');
-}
-function openPWA(phone,name){
-  tournament=load('wz_tournament',{});
-  const msg=`✅ Bienvenido al *${tournament.name||'Torneo WZ'}*, ${name}! Llegá 30min antes para armar tus clases. ¡Nos vemos! 🎯`;
-  window.open(`https://wa.me/549${phone}?text=${encodeURIComponent(msg)}`,'_blank');
-}
-function saveMyPhone(){ myPhone=document.getElementById('my-phone').value; localStorage.setItem('wz_myphone',myPhone); }
-
-// ══════════════════════════════════
-//  EXPORT
-// ══════════════════════════════════
-function exportExcel(){
-  players=load('wz_players',[]);
-  if(!players.length){showToast('⚠ Sin jugadores');return;}
-  tournament=load('wz_tournament',{});
-  const t=tournament;
-  const wb=XLSX.utils.book_new();
-  const data=[['#','Nombre','Equipo','Activision ID','Estado','WhatsApp','Registrado']];
-  getFiltered().forEach((p,i)=>data.push([i+1,p.name,p.team||'',p.actid||'',p.status,p.phone?'+549'+p.phone:'',p.registered]));
-  const ws=XLSX.utils.aoa_to_sheet(data);
-  ws['!cols']=[{wch:4},{wch:20},{wch:18},{wch:18},{wch:14},{wch:16},{wch:14}];
-  XLSX.utils.book_append_sheet(wb,ws,'Jugadores');
-  scores=load('wz_scores',{});
-  const teams=getTeams();
-  const scoreH=['Partida',...teams.flatMap(t=>[t+' Kills',t+' Pos',t+' Pts'])];
-  const scoreR=[scoreH];
-  for(let r=1;r<=TOTAL_RNDS;r++){
-    if(scores[r]&&scores[r]._saved){
-      const row=[r];
-      teams.forEach(team=>{const d=scores[r][team]||{};row.push(d.kills||0,d.pos||'—',d.pts||0);});
-      scoreR.push(row);
-    }
-  }
-  const ws2=XLSX.utils.aoa_to_sheet(scoreR);
-  XLSX.utils.book_append_sheet(wb,ws2,'Puntajes');
-  XLSX.writeFile(wb,`WZ_${(t.name||'Torneo').replace(/\s+/g,'_')}.xlsx`);
-  showToast('✓ Excel descargado');
-}
-function exportPDF(){
-  players=load('wz_players',[]);
-  if(!players.length){showToast('⚠ Sin jugadores');return;}
-  tournament=load('wz_tournament',{});
-  const t=tournament;
-  const ds=t.date?new Date(t.date+'T12:00:00').toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'}):'A confirmar';
-  const sE={confirmado:'✅',pendiente:'⏳',espera:'⛔'};
-  const rows=getFiltered().map((p,i)=>`<tr><td>${i+1}</td><td><b>${p.name}</b></td><td>${p.team||'—'}</td><td>${p.actid||'—'}</td><td>${sE[p.status]||''} ${p.status}</td><td>${p.phone?'+549'+p.phone:'—'}</td></tr>`).join('');
-  const rankD=getTeamTotals();
-  const rankR=rankD.map((d,i)=>`<tr><td>${i+1}</td><td><b>${d.team}</b></td><td>${d.totalKills}</td><td><b>${d.total}</b></td></tr>`).join('');
-  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${t.name||'WZ'}</title><style>body{font-family:Arial,sans-serif;font-size:12px;margin:24px}h1{font-size:18px}h2{font-size:14px;margin:14px 0 6px;color:#333}table{width:100%;border-collapse:collapse;margin-bottom:14px}th{background:#1a1a2e;color:#fff;padding:7px 9px;text-align:left;font-size:11px}td{padding:6px 9px;border-bottom:1px solid #eee}tr:nth-child(even)td{background:#f9f9f9}.footer{color:#aaa;font-size:10px;text-align:center;margin-top:18px}</style></head><body>
-  <h1>⚔ ${t.name||'Torneo Warzone'}</h1><p style="color:#666;font-size:11px">${t.mode||''} · ${ds} ${t.time?'· '+t.time:''}</p>
-  <h2>Ranking de Equipos</h2><table><thead><tr><th>#</th><th>Equipo</th><th>Kills</th><th>Puntos</th></tr></thead><tbody>${rankR}</tbody></table>
-  <h2>Jugadores</h2><table><thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th>Activision ID</th><th>Estado</th><th>WhatsApp</th></tr></thead><tbody>${rows}</tbody></table>
-  <div class="footer">Generado ${new Date().toLocaleString('es-AR')} · WZ Tournament HQ</div></body></html>`;
-  const win=window.open('','_blank');win.document.write(html);win.document.close();
-  setTimeout(()=>{win.focus();win.print();},400);
-  showToast('✓ PDF listo');
-}
-
-// ══════════════════════════════════
-//  TAB HELPERS
-// ══════════════════════════════════
-// ══════════════════════════════════
-//  KILLS INDIVIDUALES
-// ══════════════════════════════════
-let curKillRound = 1;
+function prevRound(){if(curRound>1){curRound--;renderScoring();}}
+function nextRound(){if(curRound<TOTAL_RNDS){curRound++;renderScoring();}}
 
 function renderKills(){
-  const kills = load('wz_kills', {});
-  players = load('wz_players', []);
-  const allPlayers = players.filter(p => p.name && p.team);
-  const teams = getTeams();
-
-  document.getElementById('kills-round-badge').textContent = `Partida ${curKillRound}`;
-  document.getElementById('btn-kprev').disabled = curKillRound <= 1;
-  document.getElementById('btn-knext').disabled = curKillRound >= TOTAL_RNDS;
-
-  if(!allPlayers.length){
-    document.getElementById('kills-ui').innerHTML = '<div class="empty"><span>👥</span>Aprobá equipos primero</div>';
-    renderTopKillers();
-    return;
-  }
-
-  const roundKills = kills[curKillRound] || {};
-  const done = !!kills[curKillRound]?._saved;
-
-  let html = `<div class="round-card">
-    <div class="round-hdr">
-      <div class="round-title">PARTIDA ${curKillRound} / ${TOTAL_RNDS}</div>
-      <span class="${done?'ms-done':'ms-pending'}">${done?'✓ GUARDADA':'PENDIENTE'}</span>
-    </div>`;
-
-  teams.forEach(team => {
-    const tPlayers = allPlayers.filter(p => p.team === team);
-    if(!tPlayers.length) return;
-    html += `<div style="margin-bottom:10px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:var(--accent3);padding:5px 2px 3px;border-bottom:1px solid var(--border);margin-bottom:6px">⚡ ${team}</div>`;
-    tPlayers.forEach(p => {
-      const key = (p.name+'_'+p.team).replace(/[\s']/g,'_');
-      const val = roundKills[key] || 0;
-      html += `<div style="display:flex;align-items:center;gap:10px;padding:6px 8px;background:var(--bg);border-radius:3px;border:1px solid rgba(30,37,53,.8);margin-bottom:4px">
-        <div style="flex:1;font-size:13px;font-weight:600">${p.name}</div>
-        <input type="number" min="0" max="50" value="${val}"
-          id="ki-${curKillRound}-${key}"
-          style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:5px 8px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;width:70px;text-align:center;outline:none"
-          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"
-          ${done?'disabled':''}>
-        <span style="font-size:11px;color:var(--muted);letter-spacing:1px">kills</span>
-      </div>`;
+  var kills=load("wz_kills",{});
+  players=load("wz_players",[]);
+  var allPlayers=players.filter(function(p){return p.name&&p.team;});
+  var teams=getTeams();
+  var rkb=document.getElementById("kills-round-badge"); if(rkb)rkb.textContent="Partida "+curKillRound;
+  var bkp=document.getElementById("btn-kprev"); if(bkp)bkp.disabled=curKillRound<=1;
+  var bkn=document.getElementById("btn-knext"); if(bkn)bkn.disabled=curKillRound>=TOTAL_RNDS;
+  var kui=document.getElementById("kills-ui"); if(!kui)return;
+  if(!allPlayers.length){kui.innerHTML="<div class=\"empty\"><span>Aprueba equipos primero</span></div>";renderTopKillers();return;}
+  var roundKills=kills[curKillRound]||{};
+  var done=!!(kills[curKillRound]&&kills[curKillRound]._saved);
+  var html="<div class=\"round-card\"><div class=\"round-hdr\"><div class=\"round-title\">PARTIDA "+curKillRound+" / "+TOTAL_RNDS+"</div><span class=\""+(done?"ms-done":"ms-pending")+"\">"+(done?"GUARDADA":"PENDIENTE")+"</span></div>";
+  teams.forEach(function(team){
+    var tPlayers=allPlayers.filter(function(p){return p.team===team;});
+    if(!tPlayers.length)return;
+    html+="<div style=\"margin-bottom:10px\"><div style=\"font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:var(--accent3);padding:5px 2px 3px;border-bottom:1px solid var(--border);margin-bottom:6px\">"+team+"</div>";
+    tPlayers.forEach(function(p){
+      var key=(p.name+"_"+p.team).replace(/[\s']/g,"_");
+      var val=roundKills[key]||0;
+      var dis=done?" disabled":"";
+      html+="<div style=\"display:flex;align-items:center;gap:10px;padding:6px 8px;background:var(--bg);border-radius:3px;border:1px solid rgba(30,37,53,.8);margin-bottom:4px\">"+
+        "<div style=\"flex:1;font-size:13px;font-weight:600\">"+p.name+"</div>"+
+        "<input type=\"number\" min=\"0\" max=\"50\" value=\""+val+"\" id=\"ki-"+curKillRound+"-"+key+"\" style=\"background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:5px 8px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;width:70px;text-align:center;outline:none\""+dis+">"+
+        "<span style=\"font-size:11px;color:var(--muted)\">kills</span></div>";
     });
-    html += `</div>`;
+    html+="</div>";
   });
-
   if(done){
-    html += `<div style="display:flex;gap:7px;margin-top:8px">
-      <button class="save-btn" style="background:var(--accent3);color:#000;flex:1" onclick="unlockKillRound(${curKillRound})">🔓 EDITAR</button>
-      <button class="save-btn" style="background:var(--accent2);color:#fff;flex:1" onclick="deleteKillRound(${curKillRound})">🗑 BORRAR</button>
-    </div>`;
+    html+="<div style=\"display:flex;gap:7px;margin-top:8px\">"+
+      "<button class=\"save-btn\" style=\"background:var(--accent3);color:#000;flex:1\" onclick=\"unlockKillRound("+curKillRound+")\">EDITAR</button>"+
+      "<button class=\"save-btn\" style=\"background:var(--accent2);color:#fff;flex:1\" onclick=\"deleteKillRound("+curKillRound+")\">BORRAR</button>"+
+      "</div>";
   } else {
-    html += `<button class="save-btn" onclick="saveKillRound(${curKillRound})">💾 GUARDAR KILLS PARTIDA ${curKillRound}</button>`;
+    html+="<button class=\"save-btn\" onclick=\"saveKillRound("+curKillRound+")\">GUARDAR KILLS PARTIDA "+curKillRound+"</button>";
   }
-  html += `</div>`;
-  document.getElementById('kills-ui').innerHTML = html;
+  html+="</div>";
+  kui.innerHTML=html;
   renderTopKillers();
 }
 
 function saveKillRound(round){
-  const kills = load('wz_kills', {});
-  players = load('wz_players', []);
-  if(!kills[round]) kills[round] = {};
-  players.filter(p=>p.name&&p.team).forEach(p => {
-    const key = (p.name+'_'+p.team).replace(/[\s']/g,'_');
-    const el = document.getElementById(`ki-${round}-${key}`);
-    kills[round][key] = el ? parseInt(el.value)||0 : 0;
+  var kills=load("wz_kills",{}); players=load("wz_players",[]);
+  if(!kills[round])kills[round]={};
+  players.filter(function(p){return p.name&&p.team;}).forEach(function(p){
+    var key=(p.name+"_"+p.team).replace(/[\s']/g,"_");
+    var el=document.getElementById("ki-"+round+"-"+key);
+    kills[round][key]=el?parseInt(el.value)||0:0;
   });
-  kills[round]._saved = true;
-  save('wz_kills', kills);
-  renderKills();
-  showToast(`✓ Kills partida ${round} guardadas`);
+  kills[round]._saved=true;
+  save("wz_kills",kills); renderKills();
+  showToast("Kills partida "+round+" guardadas");
 }
-
 function unlockKillRound(round){
-  if(!confirm(`¿Editar kills de la Partida ${round}?`)) return;
-  const kills = load('wz_kills', {});
-  if(kills[round]) kills[round]._saved = false;
-  save('wz_kills', kills);
-  renderKills();
+  if(!confirm("Editar kills Partida "+round+"?"))return;
+  var kills=load("wz_kills",{}); if(kills[round])kills[round]._saved=false;
+  save("wz_kills",kills); renderKills();
 }
-
 function deleteKillRound(round){
-  if(!confirm(`¿Borrar kills de la Partida ${round}?`)) return;
-  const kills = load('wz_kills', {});
-  delete kills[round];
-  save('wz_kills', kills);
-  renderKills();
-  showToast(`🗑 Kills partida ${round} eliminadas`);
+  if(!confirm("Borrar kills Partida "+round+"?"))return;
+  var kills=load("wz_kills",{}); delete kills[round];
+  save("wz_kills",kills); renderKills();
+  showToast("Kills partida "+round+" eliminadas");
 }
+function prevKillRound(){if(curKillRound>1){curKillRound--;renderKills();}}
+function nextKillRound(){if(curKillRound<TOTAL_RNDS){curKillRound++;renderKills();}}
 
-function prevKillRound(){ if(curKillRound>1){ curKillRound--; renderKills(); }}
-function nextKillRound(){ if(curKillRound<TOTAL_RNDS){ curKillRound++; renderKills(); }}
+function getKillerTotals(){
+  var kills=load("wz_kills",{}); players=load("wz_players",[]);
+  var totals={};
+  players.filter(function(p){return p.name&&p.team;}).forEach(function(p){
+    var key=(p.name+"_"+p.team).replace(/[\s']/g,"_");
+    var total=0;
+    for(var r=1;r<=TOTAL_RNDS;r++){if(kills[r]&&kills[r]._saved)total+=kills[r][key]||0;}
+    totals[p.name]={name:p.name,team:p.team,actid:p.actid||"",kills:total};
+  });
+  return Object.values(totals).sort(function(a,b){return b.kills-a.kills;});
+}
 
 function renderTopKillers(){
-  const kills = load('wz_kills', {});
-  players = load('wz_players', []);
-  const totals = {};
-
-  players.filter(p=>p.name&&p.team).forEach(p => {
-    const key = (p.name+'_'+p.team).replace(/[\s']/g,'_');
-    let total = 0;
-    for(let r=1;r<=TOTAL_RNDS;r++){
-      if(kills[r]&&kills[r]._saved) total += kills[r][key]||0;
-    }
-    totals[p.name] = { name:p.name, team:p.team, kills:total };
-  });
-
-  const sorted = Object.values(totals).sort((a,b)=>b.kills-a.kills).slice(0,10);
-  const el = document.getElementById('top-killers'); if(!el) return;
-
-  if(!sorted.length||sorted.every(d=>d.kills===0)){
-    el.innerHTML='<div class="empty"><span>💀</span>Sin kills cargadas aún</div>'; return;
-  }
-
-  const medals = ['🥇','🥈','🥉'];
-  const pc = ['var(--gold)','var(--silver)','var(--bronze)'];
-  el.innerHTML = `<table class="rtable">
-    <thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th class="r">Total Kills</th></tr></thead>
-    <tbody>${sorted.map((d,i)=>`<tr>
-      <td style="font-size:18px">${medals[i]||i+1}</td>
-      <td style="font-weight:700;color:${pc[i]||'var(--text)'}">${d.name}</td>
-      <td style="color:var(--muted)">${d.team}</td>
-      <td class="r"><span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent2)">${d.kills}</span></td>
-    </tr>`).join('')}</tbody></table>`;
+  var sorted=getKillerTotals().slice(0,10);
+  var el=document.getElementById("top-killers"); if(!el)return;
+  if(!sorted.length||sorted.every(function(d){return d.kills===0;})){el.innerHTML="<div class=\"empty\"><span>Sin kills</span></div>";return;}
+  var medals=["1","2","3"];
+  var pc=["var(--gold)","var(--silver)","var(--bronze)"];
+  el.innerHTML="<table class=\"rtable\"><thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th class=\"r\">Kills</th></tr></thead><tbody>"+
+    sorted.map(function(d,i){
+      return "<tr><td style=\"font-size:18px\">"+(medals[i]||i+1)+"</td>"+
+        "<td style=\"font-weight:700;color:"+(pc[i]||"var(--text)")+"\">"+d.name+(d.actid?" <span style=\"font-size:10px;color:var(--muted);font-weight:400\">("+d.actid+")</span>":"")+"</td>"+
+        "<td style=\"color:var(--muted)\">"+d.team+"</td>"+
+        "<td class=\"r\"><span style=\"font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent2)\">"+d.kills+"</span></td></tr>";
+    }).join("")+
+    "</tbody></table>";
 }
 
-// Also expose top killers in player ranking tab
 function renderTopKillersPlayer(){
-  const kills = load('wz_kills', {});
-  players = load('wz_players', []);
-  const totals = {};
-  players.filter(p=>p.name&&p.team).forEach(p => {
-    const key = (p.name+'_'+p.team).replace(/[\s']/g,'_');
-    let total = 0;
-    for(let r=1;r<=TOTAL_RNDS;r++){
-      if(kills[r]&&kills[r]._saved) total += kills[r][key]||0;
-    }
-    totals[p.name] = { name:p.name, team:p.team, kills:total };
+  var sorted=getKillerTotals().slice(0,10);
+  ["a-player-rank","p-player-rank"].forEach(function(id){
+    var el=document.getElementById(id); if(!el)return;
+    if(!sorted.length||sorted.every(function(d){return d.kills===0;})){el.innerHTML="<div class=\"empty\"><span>Carga kills primero</span></div>";return;}
+    var medals=["1","2","3"];
+    var pc=["var(--gold)","var(--silver)","var(--bronze)"];
+    el.innerHTML="<table class=\"rtable\"><thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th class=\"r\">Kills</th></tr></thead><tbody>"+
+      sorted.map(function(d,i){
+        return "<tr><td style=\"font-size:17px\">"+(medals[i]||i+1)+"</td>"+
+          "<td style=\"font-weight:700;color:"+(pc[i]||"var(--text)")+"\">"+d.name+(d.actid?" <span style=\"font-size:10px;color:var(--muted);font-weight:400\">("+d.actid+")</span>":"")+"</td>"+
+          "<td style=\"color:var(--muted)\">"+d.team+"</td>"+
+          "<td class=\"r\"><span style=\"font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent2)\">"+d.kills+"</span></td></tr>";
+      }).join("")+
+      "</tbody></table>";
   });
-  const sorted = Object.values(totals).sort((a,b)=>b.kills-a.kills).slice(0,10);
-  ['a-player-rank','p-player-rank'].forEach(id => {
-    const el = document.getElementById(id); if(!el) return;
-    if(!sorted.length||sorted.every(d=>d.kills===0)){
-      el.innerHTML='<div class="empty"><span>👤</span>Cargá kills en la pestaña 💀 KILLS</div>'; return;
+}
+
+function getTeamTotals(){
+  scores=load("wz_scores",{});
+  return getTeams().map(function(team){
+    var total=0,totalKills=0,rounds=[];
+    for(var r=1;r<=TOTAL_RNDS;r++){
+      if(scores[r]&&scores[r][team]&&scores[r]._saved){
+        total+=scores[r][team].pts||0;
+        totalKills+=scores[r][team].kills||0;
+        rounds.push({r:r,kills:scores[r][team].kills,pos:scores[r][team].pos,pts:scores[r][team].pts});
+      }
     }
-    const medals=['🥇','🥈','🥉'];
-    const pc=['var(--gold)','var(--silver)','var(--bronze)'];
-    el.innerHTML=`<table class="rtable">
-      <thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th class="r">Total Kills</th></tr></thead>
-      <tbody>${sorted.map((d,i)=>`<tr>
-        <td style="font-size:17px">${medals[i]||i+1}</td>
-        <td style="font-weight:700;color:${pc[i]||'var(--text)'}">${d.name}</td>
-        <td style="color:var(--muted)">${d.team}</td>
-        <td class="r"><span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent2)">${d.kills}</span></td>
-      </tr>`).join('')}</tbody></table>`;
+    return {team:team,total:parseFloat(total.toFixed(1)),totalKills:totalKills,rounds:rounds};
+  }).sort(function(a,b){return b.total-a.total||b.totalKills-a.totalKills;});
+}
+
+function rClass(i){return i===0?"r1":i===1?"r2":i===2?"r3":"rx";}
+
+function renderRankings(){
+  var data=getTeamTotals();
+  var pc=["var(--gold)","var(--silver)","var(--bronze)"];
+  ["a-team-rank","p-team-rank"].forEach(function(id){
+    var el=document.getElementById(id); if(!el)return;
+    if(!data.length||data.every(function(d){return d.total===0;})){el.innerHTML="<div class=\"empty\"><span>Sin puntajes</span></div>";return;}
+    el.innerHTML="<table class=\"rtable\"><thead><tr><th>#</th><th>Equipo</th><th class=\"r\">Kills</th><th class=\"r\">Partidas</th><th class=\"r\">Puntos</th></tr></thead><tbody>"+
+      data.map(function(d,i){
+        return "<tr><td><span class=\"rpos "+rClass(i)+"\">"+(i+1)+"</span></td>"+
+          "<td style=\"font-weight:700;color:"+(pc[i]||"var(--text)")+"\">"+d.team+"</td>"+
+          "<td class=\"r\" style=\"color:var(--muted)\">"+d.totalKills+"</td>"+
+          "<td class=\"r\" style=\"color:var(--muted)\">"+d.rounds.length+"</td>"+
+          "<td class=\"r\"><span class=\"rpts\">"+d.total+"</span></td></tr>";
+      }).join("")+
+      "</tbody></table>";
   });
+  renderTopKillersPlayer();
+  renderMatchPills();
+}
+
+function renderMatchPills(){
+  scores=load("wz_scores",{});
+  var saved=[];
+  for(var r=1;r<=TOTAL_RNDS;r++){if(scores[r]&&scores[r]._saved)saved.push(r);}
+  ["a-pills","p-pills"].forEach(function(id){
+    var el=document.getElementById(id); if(!el)return;
+    if(!saved.length){el.innerHTML="<span style=\"color:var(--muted);font-size:12px\">Sin partidas guardadas</span>";return;}
+    el.innerHTML=saved.map(function(r){return "<div class=\"mpill"+(r===viewRound?" active":"")+"\" onclick=\"viewMatch("+r+")\">"+r+"</div>";}).join("");
+  });
+  if(saved.length&&!saved.includes(viewRound))viewRound=saved[saved.length-1];
+  if(saved.length)renderMatchDet(viewRound);
+}
+
+function viewMatch(r){
+  viewRound=r;
+  document.querySelectorAll(".mpill").forEach(function(p){p.classList.toggle("active",parseInt(p.textContent)===r);});
+  renderMatchDet(r);
+}
+
+function renderMatchDet(r){
+  scores=load("wz_scores",{});
+  var rd=scores[r];
+  if(!rd||!rd._saved){
+    ["a-match-det","p-match-det"].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML="<div class=\"empty\"><span>Sin datos</span></div>";});
+    return;
+  }
+  var rows=getTeams().map(function(team){
+    var d=rd[team]||{kills:0,pos:"-",pts:0};
+    return {team:team,kills:d.kills||0,pos:d.pos||"-",pts:d.pts||0};
+  }).sort(function(a,b){return a.pos-b.pos||b.pts-a.pts;});
+  var html="<table class=\"dtable\"><thead><tr><th>Equipo</th><th>Pos</th><th>Kills</th><th>Mult</th><th>Pts</th></tr></thead><tbody>"+
+    rows.map(function(d){
+      return "<tr><td style=\"font-weight:700\">"+d.team+"</td>"+
+        "<td style=\"color:var(--muted)\">"+d.pos+"</td>"+
+        "<td style=\"color:var(--accent3)\">"+d.kills+"</td>"+
+        "<td style=\"color:var(--muted)\">x"+getMult(d.pos).toFixed(1)+"</td>"+
+        "<td style=\"font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--accent)\">"+d.pts+"</td></tr>";
+    }).join("")+
+    "</tbody></table>";
+  ["a-match-det","p-match-det"].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=html;});
+}
+
+function renderPlayerView(){
+  syncFromRemote([["wz_players",[]],["wz_tournament",{}],["wz_scores",{}],["wz_kills",{}],["wz_countdown",{active:false}]]).then(function(){
+    tournament=load("wz_tournament",{});
+    var wrap=document.getElementById("yt-wrap");
+    if(wrap){
+      wrap.innerHTML=tournament.youtube?
+        "<a class=\"yt-ban\" href=\""+tournament.youtube+"\" target=\"_blank\"><div class=\"yt-icon\">YT</div><div><div class=\"yt-label\">Transmision en vivo</div><div class=\"yt-url\">"+tournament.youtube+"</div></div></a>":"";
+    }
+    renderPlayerTimer();
+    renderMyTeamSummary();
+    renderRankings();
+    renderTopKillersPlayer();
+    checkPlayerCountdown();
+    setInterval(checkPlayerCountdown,5000);
+  });
+}
+
+function renderMyTeamSummary(){
+  var el=document.getElementById("p-myteam"); if(!el)return;
+  var data=getTeamTotals();
+  var my=data.find(function(d){return d.team===playerTeam;});
+  if(!my||my.total===0){el.innerHTML="<div class=\"empty\"><span>Sin puntajes aun</span></div>";return;}
+  var pos=data.indexOf(my)+1;
+  var pc=["var(--gold)","var(--silver)","var(--bronze)"];
+  el.innerHTML="<div style=\"display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px\">"+
+    "<div class=\"sbox\"><div class=\"sbox-l\">Posicion</div><div class=\"sbox-v\" style=\"color:"+(pc[pos-1]||"var(--accent)")+"\">"+pos+"</div></div>"+
+    "<div class=\"sbox\"><div class=\"sbox-l\">Puntos</div><div class=\"sbox-v\">"+my.total+"</div></div>"+
+    "<div class=\"sbox\"><div class=\"sbox-l\">Kills</div><div class=\"sbox-v\" style=\"color:var(--accent3)\">"+my.totalKills+"</div></div>"+
+    "</div><div style=\"font-size:11px;color:var(--muted)\">Partidas: "+my.rounds.length+" / "+TOTAL_RNDS+"</div>";
+}
+
+function renderPlayerTimer(){
+  tournament=load("wz_tournament",{});
+  var el=document.getElementById("p-timer");
+  var lb=document.getElementById("p-timer-lbl");
+  if(!tournament.date||!tournament.time){if(el)el.textContent="-";if(lb)lb.textContent="Fecha no configurada";return;}
+  var target=new Date(tournament.date+"T"+tournament.time+":00");
+  var diff=target-new Date();
+  if(diff<=0){if(el)el.textContent="EN CURSO";if(lb)lb.textContent="EL TORNEO ESTA ACTIVO";return;}
+  var h=Math.floor(diff/3600000);
+  var m=Math.floor((diff%3600000)/60000);
+  var s=Math.floor((diff%60000)/1000);
+  if(el)el.textContent=(h>0?h+"h ":"")+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  if(lb)lb.textContent="para el inicio";
+  setTimeout(renderPlayerTimer,1000);
+}
+
+function renderTeamsList(){
+  players=load("wz_players",[]); requests=load("wz_requests",[]);
+  var el=document.getElementById("p-teams-list"); if(!el)return;
+  var teams=getTeams();
+  if(!teams.length){el.innerHTML="<div class=\"empty\"><span>Sin equipos</span></div>";return;}
+  var approved=requests.filter(function(r){return r.approved;});
+  el.innerHTML=teams.map(function(team){
+    var req=approved.find(function(r){return r.team===team;});
+    var logo=req&&req.logo?req.logo:"";
+    var tPlayers=players.filter(function(p){return p.team===team;});
+    return "<div style=\"background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:14px;margin-bottom:10px\">"+
+      "<div style=\"display:flex;align-items:center;gap:12px;margin-bottom:10px\">"+
+      (logo?"<img src=\""+logo+"\" style=\"width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);flex-shrink:0\">":
+        "<div style=\"width:44px;height:44px;border-radius:50%;background:rgba(0,255,136,.1);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0\">X</div>")+
+      "<div style=\"font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--accent)\">"+team+"</div></div>"+
+      "<table style=\"width:100%;border-collapse:collapse\"><thead><tr>"+
+      "<th style=\"font-size:10px;color:var(--muted);padding:4px 8px;text-align:left;border-bottom:1px solid var(--border)\">Jugador</th>"+
+      "<th style=\"font-size:10px;color:var(--muted);padding:4px 8px;text-align:left;border-bottom:1px solid var(--border)\">Activision ID</th>"+
+      "</tr></thead><tbody>"+
+      tPlayers.map(function(p,i){
+        return "<tr><td style=\"padding:5px 8px;font-size:13px;font-weight:600;border-bottom:1px solid rgba(30,37,53,.5)\">"+(i===0?"C ":"")+p.name+"</td>"+
+          "<td style=\"padding:5px 8px;font-size:12px;color:var(--accent3);border-bottom:1px solid rgba(30,37,53,.5)\">"+(p.actid||"-")+"</td></tr>";
+      }).join("")+
+      "</tbody></table></div>";
+  }).join("");
+}
+
+function filterBadWords(text){
+  var words=load("wz_badwords",DEFAULT_BAD_WORDS);
+  var filtered=text;
+  var flagged=false;
+  words.forEach(function(w){
+    var regex=new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi");
+    if(regex.test(filtered)){flagged=true;filtered=filtered.replace(regex,"***");}
+  });
+  return {filtered:filtered,flagged:flagged};
+}
+
+function renderChat(){
+  var messages=load("wz_chat",[]);
+  var blocked=load("wz_blocked",[]);
+  var el=document.getElementById("chat-messages"); if(!el)return;
+  var badge=document.getElementById("chat-team-badge"); if(badge)badge.textContent=playerTeam;
+  if(!messages.length){el.innerHTML="<div class=\"empty\"><span>Sin mensajes</span></div>";return;}
+  el.innerHTML=messages.map(function(m){
+    var isMine=m.team===playerTeam;
+    return "<div style=\"background:"+(isMine?"rgba(0,255,136,.08)":"var(--surface2)")+";border:1px solid "+(isMine?"rgba(0,255,136,.2)":"var(--border)")+";border-radius:3px;padding:9px 12px\">"+
+      "<div style=\"display:flex;align-items:center;justify-content:space-between;margin-bottom:3px\">"+
+      "<span style=\"font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:"+(isMine?"var(--accent)":"var(--accent3)")+"\">"+m.team+"</span>"+
+      "<span style=\"font-size:10px;color:var(--muted)\">"+m.time+"</span></div>"+
+      "<div style=\"font-size:14px;color:var(--text)\">"+m.text+"</div></div>";
+  }).join("");
+  el.scrollTop=el.scrollHeight;
+}
+
+async function sendChat(){
+  var input=document.getElementById("chat-input");
+  var text=input?input.value.trim():"";
+  if(!text||!playerTeam)return;
+  var blocked=load("wz_blocked",[]);
+  if(blocked.includes(playerTeam)){showToast("Tu equipo fue bloqueado del chat");if(input)input.value="";return;}
+  var result=filterBadWords(text);
+  var messages=load("wz_chat",[]);
+  messages.push({team:playerTeam,text:result.filtered.replace(/</g,"&lt;").replace(/>/g,"&gt;"),flagged:result.flagged,time:new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"}),ts:Date.now()});
+  if(messages.length>100)messages.splice(0,messages.length-100);
+  save("wz_chat",messages);
+  if(input)input.value="";
+  renderChat();
+}
+
+function renderAdminChat(){
+  var messages=load("wz_chat",[]);
+  var blocked=load("wz_blocked",[]);
+  var el=document.getElementById("admin-chat-messages"); if(!el)return;
+  var cnt=document.getElementById("admin-chat-count"); if(cnt)cnt.textContent=messages.length+" mensajes";
+  if(!messages.length){el.innerHTML="<div class=\"empty\"><span>Sin mensajes</span></div>";}
+  else{
+    el.innerHTML=messages.map(function(m,i){
+      var isF=m.flagged;
+      var isB=blocked.includes(m.team);
+      return "<div style=\"background:"+(isF?"rgba(255,58,58,.06)":"var(--surface2)")+";border:1px solid "+(isF?"rgba(255,58,58,.4)":isB?"rgba(255,58,58,.3)":"var(--border)")+";border-radius:3px;padding:9px 12px;opacity:"+(isB?"0.5":"1")+"\">"+
+        "<div style=\"display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;gap:8px\">"+
+        "<span style=\"font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:var(--accent3)\">"+m.team+(isF?" <span style=\"background:rgba(255,58,58,.2);color:var(--accent2);font-size:9px;font-weight:700;padding:1px 4px;border-radius:2px\">FILTRADO</span>":"")+"</span>"+
+        "<span style=\"font-size:10px;color:var(--muted)\">"+m.time+"</span>"+
+        "<div style=\"display:flex;gap:4px;flex-shrink:0\">"+
+        "<button onclick=\"deleteMsg("+i+")\" style=\"background:none;border:1px solid var(--border);color:var(--muted);padding:2px 6px;border-radius:2px;font-size:11px;cursor:pointer\">X</button>"+
+        (isB?
+          "<button onclick=\"unblockTeam('"+m.team.replace(/'/g,"\\'")+"')\" style=\"background:rgba(0,255,136,.1);border:1px solid var(--accent);color:var(--accent);padding:2px 6px;border-radius:2px;font-size:11px;cursor:pointer\">DESBLOQUEAR</button>":
+          "<button onclick=\"blockTeamChat('"+m.team.replace(/'/g,"\\'")+"')\" style=\"background:rgba(255,58,58,.1);border:1px solid var(--accent2);color:var(--accent2);padding:2px 6px;border-radius:2px;font-size:11px;cursor:pointer\">BLOQUEAR</button>")+
+        "</div></div>"+
+        "<div style=\"font-size:13px;color:var(--text)\">"+m.text+"</div></div>";
+    }).join("");
+    el.scrollTop=el.scrollHeight;
+  }
+  var bl=document.getElementById("blocked-list");
+  var bc=document.getElementById("blocked-count"); if(bc)bc.textContent=blocked.length;
+  if(bl){
+    if(!blocked.length){bl.innerHTML="<div class=\"empty\"><span>Sin bloqueados</span></div>";}
+    else{
+      bl.innerHTML=blocked.map(function(team){
+        return "<div style=\"display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border:1px solid rgba(255,58,58,.2);border-radius:3px;padding:9px 13px;margin-bottom:6px\">"+
+          "<span style=\"font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px;color:var(--accent2)\">"+team+"</span>"+
+          "<button onclick=\"unblockTeam('"+team.replace(/'/g,"\\'")+"')\" style=\"background:rgba(0,255,136,.1);border:1px solid var(--accent);color:var(--accent);padding:4px 10px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:12px;cursor:pointer\">DESBLOQUEAR</button>"+
+          "</div>";
+      }).join("");
+    }
+  }
+}
+
+async function refreshAdminChat(){
+  await syncFromRemote([["wz_chat",[]],["wz_blocked",[]]]);
+  renderAdminChat(); showToast("Chat actualizado");
+}
+function clearAllChat(){
+  if(!confirm("Borrar TODOS los mensajes?"))return;
+  save("wz_chat",[]); renderAdminChat(); renderChat(); showToast("Chat limpiado");
+}
+function deleteMsg(index){
+  var messages=load("wz_chat",[]); messages.splice(index,1);
+  save("wz_chat",messages); renderAdminChat(); showToast("Mensaje eliminado");
+}
+function blockTeamChat(team){
+  if(!confirm("Bloquear al equipo "+team+"?"))return;
+  var blocked=load("wz_blocked",[]); if(!blocked.includes(team))blocked.push(team);
+  save("wz_blocked",blocked); renderAdminChat(); showToast(team+" bloqueado");
+}
+function unblockTeam(team){
+  var blocked=load("wz_blocked",[]); save("wz_blocked",blocked.filter(function(t){return t!==team;}));
+  renderAdminChat(); showToast(team+" desbloqueado");
+}
+function saveBadWords(){
+  var raw=(document.getElementById("badwords-input")||{}).value||"";
+  var words=raw.split(/[\n\r,]+/).map(function(w){return w.trim().toLowerCase();}).filter(Boolean);
+  save("wz_badwords",words); showToast("Lista guardada ("+words.length+" palabras)");
+}
+function resetBadWords(){
+  save("wz_badwords",DEFAULT_BAD_WORDS);
+  var el=document.getElementById("badwords-input");
+  if(el)el.value=DEFAULT_BAD_WORDS.join("\n");
+  showToast("Lista reseteada");
+}
+function loadBadWordsEditor(){
+  var words=load("wz_badwords",DEFAULT_BAD_WORDS);
+  var el=document.getElementById("badwords-input");
+  if(el)el.value=words.join("\n");
+}
+
+function openCountdown(){
+  scores=load("wz_scores",{});
+  var last=Object.keys(scores).filter(function(k){return scores[k]._saved;}).map(Number).sort(function(a,b){return b-a;})[0]||0;
+  var label=last?"Partida "+last+" completada - Iniciando "+(last+1):"Iniciando torneo";
+  var cdMatch=document.getElementById("cd-match"); if(cdMatch)cdMatch.textContent=label;
+  cdSecs=900; cdTotal=900;
+  save("wz_countdown",{active:true,startedAt:Date.now(),totalSecs:900,matchLabel:label});
+  document.getElementById("cd-overlay").style.display="block";
+  document.getElementById("cd-body").style.display="block";
+  var mb=document.getElementById("cd-min-btn"); if(mb)mb.textContent="-";
+  renderCDRank(); startCD();
+}
+function startCD(){
+  stopCountdown();
+  cdTimer=setInterval(function(){cdSecs--;if(cdSecs<=0){cdSecs=0;stopCountdown();}updateCD();},1000);
+  updateCD();
+}
+function updateCD(){
+  var m=Math.floor(cdSecs/60),s=cdSecs%60,urgent=cdSecs<=60;
+  var mEl=document.getElementById("cd-min"),sEl=document.getElementById("cd-sec");
+  if(mEl){mEl.textContent=String(m).padStart(2,"0");mEl.className="cd-num"+(urgent?" urgent":"");}
+  if(sEl){sEl.textContent=String(s).padStart(2,"0");sEl.className="cd-num"+(urgent?" urgent":"");}
+  var fill=document.getElementById("cd-fill");
+  if(fill)fill.style.width=(cdSecs/cdTotal*100)+"%";
+  var msg=document.getElementById("cd-msg");
+  if(msg){
+    if(cdSecs>600)msg.textContent="MANDA LA CAPTURA AL GRUPO DE WHATSAPP";
+    else if(cdSecs>300)msg.textContent="ACTUALIZANDO PUNTAJES...";
+    else if(cdSecs>60)msg.textContent="PREPARA TU ESTRATEGIA";
+    else if(cdSecs>0)msg.textContent="CASI ES HORA - ENTRA AL LOBBY";
+    else msg.textContent="A JUGAR!";
+  }
+}
+function stopCountdown(){if(cdTimer){clearInterval(cdTimer);cdTimer=null;}}
+function closeCountdown(){
+  if(!confirm("Detener el countdown para todos?"))return;
+  stopCountdown(); save("wz_countdown",{active:false});
+  document.getElementById("cd-overlay").style.display="none";
+}
+function minimizeCountdown(){
+  var body=document.getElementById("cd-body"),btn=document.getElementById("cd-min-btn");
+  if(body.style.display==="none"){body.style.display="block";if(btn)btn.textContent="-";}
+  else{body.style.display="none";if(btn)btn.textContent="+";}
+}
+function renderCDRank(){
+  var data=getTeamTotals().slice(0,5);
+  var el=document.getElementById("cd-rank"); if(!el)return;
+  if(!data.length||data.every(function(d){return d.total===0;})){el.innerHTML="<div style=\"color:var(--muted);font-size:11px;text-align:center\">Sin puntajes</div>";return;}
+  var pc=["var(--gold)","var(--silver)","var(--bronze)"];
+  el.innerHTML=data.map(function(d,i){
+    return "<div style=\"display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)\">"+
+      "<span style=\"font-family:'Bebas Neue',sans-serif;font-size:14px;color:"+(pc[i]||"var(--muted)")+";min-width:20px\">"+(i+1)+"</span>"+
+      "<span style=\"flex:1;font-weight:700;font-size:12px\">"+d.team+"</span>"+
+      "<span style=\"font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--accent)\">"+d.total+"</span></div>";
+  }).join("");
+}
+
+async function checkPlayerCountdown(){
+  await syncFromRemote([["wz_countdown",{active:false}]]);
+  var cd=load("wz_countdown",{active:false});
+  var banner=document.getElementById("p-cd-banner"); if(!banner)return;
+  if(cd.active){
+    var elapsed=Math.floor((Date.now()-(cd.startedAt||Date.now()))/1000);
+    var remaining=Math.max(0,(cd.totalSecs||900)-elapsed);
+    if(remaining<=0){banner.style.display="none";return;}
+    banner.style.display="block";
+    var lbl=document.getElementById("p-cd-match-label"); if(lbl)lbl.textContent=cd.matchLabel||"";
+    pCdSecs=remaining;
+    if(!pCdTimer){
+      pCdTimer=setInterval(function(){
+        pCdSecs--;
+        if(pCdSecs<=0){clearInterval(pCdTimer);pCdTimer=null;var b=document.getElementById("p-cd-banner");if(b)b.style.display="none";return;}
+        updatePlayerCD();
+      },1000);
+    }
+    updatePlayerCD();
+  }else{
+    banner.style.display="none";
+    if(pCdTimer){clearInterval(pCdTimer);pCdTimer=null;}
+  }
+}
+function updatePlayerCD(){
+  var m=Math.floor(pCdSecs/60),s=pCdSecs%60,urgent=pCdSecs<=60;
+  var mEl=document.getElementById("p-cd-min"),sEl=document.getElementById("p-cd-sec");
+  if(mEl){mEl.textContent=String(m).padStart(2,"0");mEl.style.color=urgent?"var(--accent2)":"var(--text)";}
+  if(sEl){sEl.textContent=String(s).padStart(2,"0");sEl.style.color=urgent?"var(--accent2)":"var(--text)";}
+  var bar=document.getElementById("p-cd-bar"); if(bar)bar.style.width=(pCdSecs/900*100)+"%";
+  var msg=document.getElementById("p-cd-msg");
+  if(msg){
+    if(pCdSecs>600)msg.textContent="MANDA LA CAPTURA AL GRUPO";
+    else if(pCdSecs>300)msg.textContent="ACTUALIZANDO PUNTAJES...";
+    else if(pCdSecs>60)msg.textContent="PREPARA TU ESTRATEGIA";
+    else if(pCdSecs>0)msg.textContent="CASI ES HORA";
+    else msg.textContent="A JUGAR!";
+  }
+}
+
+function genScoreWAMsg(round){
+  scores=load("wz_scores",{}); tournament=load("wz_tournament",{});
+  var data=getTeamTotals(); var t=tournament;
+  var msg="WZ PS - Partida "+round+" completada\n\nRESULTADOS:\n";
+  var rd=scores[round];
+  getTeams().forEach(function(team){
+    var d=rd&&rd[team]?rd[team]:{kills:0,pts:0,pos:"-"};
+    if((d.kills||0)>0)msg+="- "+team+": "+d.kills+" kills - "+d.pos+"- "+d.pts+" pts\n";
+  });
+  msg+="\nTOP 5:\n";
+  data.slice(0,5).forEach(function(d,i){msg+=(i+1)+". "+d.team+": "+d.total+" pts\n";});
+  msg+="\n15 min de descanso - Proxima: Partida "+(round<TOTAL_RNDS?round+1:"-");
+  var pre=document.getElementById("wa-score-pre"); if(pre)pre.textContent=msg;
+  localStorage.setItem("wz_last_score_msg",msg);
+}
+function sendScoreWA(){
+  var msg=(document.getElementById("wa-score-pre")||{}).textContent||"";
+  var mp=myPhone;
+  window.open("https://wa.me/"+(mp?"549"+mp:"")+"?text="+encodeURIComponent(msg),"_blank");
+}
+function copyScoreMsg(){
+  var msg=(document.getElementById("wa-score-pre")||{}).textContent||"";
+  navigator.clipboard.writeText(msg).then(function(){showToast("Copiado");});
+}
+
+function updatePlayerSelect(){
+  players=load("wz_players",[]);
+  var sel=document.getElementById("msg-player"); if(!sel)return;
+  sel.innerHTML="<option value=\"\">General</option>";
+  players.forEach(function(p){sel.innerHTML+="<option value=\""+p.id+"\">"+p.name+(p.team?" - "+p.team:"")+"</option>";});
+}
+function genMsg(){
+  var type=(document.getElementById("msg-type")||{}).value||"";
+  var cr=document.getElementById("custom-row"); if(cr)cr.style.display=type==="custom"?"block":"none";
+  tournament=load("wz_tournament",{}); players=load("wz_players",[]);
+  var t=tournament;
+  var ds=t.date?new Date(t.date+"T12:00:00").toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long"}):"A confirmar";
+  var tName=t.name||"WZ PS";
+  var pid=(document.getElementById("msg-player")||{}).value||"";
+  var player=pid?players.find(function(p){return p.id==pid;}):null;
+  var pName=player?player.name:"Equipo";
+  var msg="";
+  if(type==="convocatoria"){msg=tName+"\n\nFecha: "+ds+"\nHora: "+(t.time||"A confirmar")+(t.youtube?"\nYouTube: "+t.youtube:"");}
+  else if(type==="reglas"){msg="REGLAS - "+tName+"\n\nKills x Multiplicador\n1: x2.0 - 2: x1.7 - 3-5: x1.4 - 6-10: x1.2\n\nCaptura obligatoria al terminar cada partida";}
+  else if(type==="confirmacion"){msg="Confirmado: "+tName+"\nHola "+pName+"!\n"+ds+" - "+(t.time||"");}
+  else if(type==="recordatorio"){msg="RECORDATORIO - "+tName+"\nHola "+pName+"!\n"+ds+" - "+(t.time||"hora acordada");}
+  else if(type==="resultado"){var data=getTeamTotals();msg="RESULTADOS FINALES - "+tName+"\n\n";data.slice(0,3).forEach(function(d,i){msg+=(i+1)+". "+d.team+": "+d.total+" pts\n";});}
+  else if(type==="custom"){msg=(document.getElementById("custom-txt")||{}).value||"-";}
+  var pre=document.getElementById("msg-pre"); if(pre)pre.textContent=msg;
+}
+function copyMsg(){var msg=(document.getElementById("msg-pre")||{}).textContent||"";navigator.clipboard.writeText(msg).then(function(){showToast("Copiado");});}
+function openWA(){
+  var msg=(document.getElementById("msg-pre")||{}).textContent||"";
+  var pid=(document.getElementById("msg-player")||{}).value||"";
+  var player=pid?players.find(function(p){return p.id==pid;}):null;
+  if(player&&player.phone)window.open("https://wa.me/549"+player.phone+"?text="+encodeURIComponent(msg),"_blank");
+  else window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");
+}
+function openWAmy(){
+  var mp=(document.getElementById("my-phone")||{}).value||"";
+  if(!mp){showToast("Ingresa tu numero");return;}
+  var msg=(document.getElementById("msg-pre")||{}).textContent||"";
+  window.open("https://wa.me/549"+mp+"?text="+encodeURIComponent(msg),"_blank");
+}
+function openPWA(phone,name){
+  tournament=load("wz_tournament",{});
+  var msg="Bienvenido al "+(tournament.name||"WZ PS")+", "+name+"! Llega 30min antes.";
+  window.open("https://wa.me/549"+phone+"?text="+encodeURIComponent(msg),"_blank");
+}
+function saveMyPhone(){myPhone=(document.getElementById("my-phone")||{}).value||"";localStorage.setItem("wz_myphone",myPhone);}
+
+function openPublicResults(){
+  syncFromRemote([["wz_players",[]],["wz_tournament",{}],["wz_scores",{}],["wz_kills",{}]]).then(function(){
+    renderPublicResults(); showScreen("public");
+    if(pubRefreshTimer)clearInterval(pubRefreshTimer);
+    pubRefreshTimer=setInterval(function(){syncFromRemote([["wz_players",[]],["wz_tournament",{}],["wz_scores",{}],["wz_kills",{}]]).then(renderPublicResults);},30000);
+  });
+}
+
+function renderPublicResults(){
+  tournament=load("wz_tournament",{});
+  var tTitle=document.getElementById("public-title"); if(tTitle)tTitle.textContent=(tournament.name||"WZ PS").toUpperCase();
+  var lu=document.getElementById("pub-last-update"); if(lu)lu.textContent="Actualizado: "+new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});
+  var data=getTeamTotals();
+  var pc=["var(--gold)","var(--silver)","var(--bronze)"];
+  var teamEl=document.getElementById("pub-team-ranking");
+  if(teamEl){
+    if(!data.length||data.every(function(d){return d.total===0;})){teamEl.innerHTML="<div class=\"empty\"><span>Sin puntajes</span></div>";}
+    else{
+      var s=getTournamentStats();
+      teamEl.innerHTML="<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px\">"+
+        "<div class=\"sbox\"><div class=\"sbox-l\">Partidas</div><div class=\"sbox-v\">"+s.totalRounds+"/"+TOTAL_RNDS+"</div></div>"+
+        "<div class=\"sbox\"><div class=\"sbox-l\">Total Kills</div><div class=\"sbox-v\" style=\"color:var(--accent3)\">"+s.totalKills+"</div></div>"+
+        "<div class=\"sbox\"><div class=\"sbox-l\">Lider</div><div class=\"sbox-v\" style=\"font-size:14px;color:var(--gold)\">"+s.leader.team+"</div></div>"+
+        "</div>"+
+        "<table class=\"rtable\"><thead><tr><th>#</th><th>Equipo</th><th class=\"r\">Kills</th><th class=\"r\">Partidas</th><th class=\"r\">Puntos</th></tr></thead><tbody>"+
+        data.map(function(d,i){
+          return "<tr><td><span class=\"rpos "+rClass(i)+"\">"+(i+1)+"</span></td>"+
+            "<td style=\"font-weight:700;color:"+(pc[i]||"var(--text)")+"\">"+d.team+"</td>"+
+            "<td class=\"r\" style=\"color:var(--muted)\">"+d.totalKills+"</td>"+
+            "<td class=\"r\" style=\"color:var(--muted)\">"+d.rounds.length+"</td>"+
+            "<td class=\"r\"><span class=\"rpts\">"+d.total+"</span></td></tr>";
+        }).join("")+
+        "</tbody></table>";
+    }
+  }
+  var sorted=getKillerTotals().filter(function(d){return d.kills>0;}).slice(0,10);
+  var killerEl=document.getElementById("pub-killer-ranking");
+  if(killerEl){
+    if(!sorted.length){killerEl.innerHTML="<div class=\"empty\"><span>Sin kills</span></div>";}
+    else{
+      killerEl.innerHTML="<table class=\"rtable\"><thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th class=\"r\">Kills</th></tr></thead><tbody>"+
+        sorted.map(function(d,i){
+          return "<tr><td style=\"font-size:16px\">"+(i+1)+"</td>"+
+            "<td style=\"font-weight:700;color:"+(["var(--gold)","var(--silver)","var(--bronze)"][i]||"var(--text)")+"\">"+d.name+(d.actid?" <span style=\"font-size:10px;color:var(--muted);font-weight:400\">("+d.actid+")</span>":"")+"</td>"+
+            "<td style=\"color:var(--muted)\">"+d.team+"</td>"+
+            "<td class=\"r\"><span style=\"font-family:'Bebas Neue',sans-serif;font-size:19px;color:var(--accent2)\">"+d.kills+"</span></td></tr>";
+        }).join("")+
+        "</tbody></table>";
+    }
+  }
+}
+
+function archiveTournament(){
+  if(!confirm("Archivar el torneo actual?"))return;
+  tournament=load("wz_tournament",{});
+  var data=getTeamTotals();
+  if(!data.length||data.every(function(d){return d.total===0;})){showToast("No hay puntajes para archivar");return;}
+  var history=load("wz_history",[]);
+  history.push({id:Date.now(),name:tournament.name||"Torneo",date:tournament.date||new Date().toLocaleDateString("es-AR"),mode:tournament.mode||"",archivedAt:new Date().toLocaleString("es-AR"),teams:data.length,players:players.length,winner:data[0]?data[0].team:"-",ranking:data.slice(0,10).map(function(d,i){return {pos:i+1,team:d.team,pts:d.total,kills:d.totalKills};})});
+  save("wz_history",history); renderHistory(); showToast("Torneo archivado");
+}
+
+function renderHistory(){
+  var history=load("wz_history",[]);
+  var el=document.getElementById("history-list"); if(!el)return;
+  if(!history.length){el.innerHTML="<div class=\"empty\"><span>Sin torneos archivados</span></div>";return;}
+  el.innerHTML=history.slice().reverse().map(function(h){
+    return "<div style=\"background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:14px;margin-bottom:10px\">"+
+      "<div style=\"display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px\">"+
+      "<div><div style=\"font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--accent)\">"+h.name+"</div>"+
+      "<div style=\"font-size:11px;color:var(--muted)\">"+h.date+" - "+h.teams+" equipos - "+h.archivedAt+"</div></div>"+
+      "<div style=\"text-align:right\"><div style=\"font-size:11px;color:var(--muted)\">GANADOR</div><div style=\"font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--gold)\">"+h.winner+"</div></div>"+
+      "</div>"+
+      "<table style=\"width:100%;border-collapse:collapse\"><thead><tr>"+
+      "<th style=\"font-size:10px;color:var(--muted);padding:4px 8px;text-align:left;border-bottom:1px solid var(--border)\">#</th>"+
+      "<th style=\"font-size:10px;color:var(--muted);padding:4px 8px;text-align:left;border-bottom:1px solid var(--border)\">Equipo</th>"+
+      "<th style=\"font-size:10px;color:var(--muted);padding:4px 8px;text-align:right;border-bottom:1px solid var(--border)\">Kills</th>"+
+      "<th style=\"font-size:10px;color:var(--muted);padding:4px 8px;text-align:right;border-bottom:1px solid var(--border)\">Pts</th>"+
+      "</tr></thead><tbody>"+
+      h.ranking.map(function(r){
+        return "<tr><td style=\"padding:4px 8px;font-size:12px\">"+(r.pos===1?"1":r.pos===2?"2":r.pos===3?"3":r.pos)+"</td>"+
+          "<td style=\"padding:4px 8px;font-size:13px;font-weight:600\">"+r.team+"</td>"+
+          "<td style=\"padding:4px 8px;font-size:12px;color:var(--accent3);text-align:right\">"+r.kills+"</td>"+
+          "<td style=\"padding:4px 8px;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--accent);text-align:right\">"+r.pts+"</td></tr>";
+      }).join("")+
+      "</tbody></table></div>";
+  }).join("");
+}
+
+function clearHistory(){if(!confirm("Borrar todo el historial?"))return;save("wz_history",[]);renderHistory();showToast("Historial limpiado");}
+
+function getTournamentStats(){
+  scores=load("wz_scores",{}); players=load("wz_players",[]); var kills=load("wz_kills",{});
+  var data=getTeamTotals(); var teams=getTeams();
+  var totalKills=0,totalRounds=0,bestTeamRound={team:"-",kills:0,pts:0,round:0};
+  for(var r=1;r<=TOTAL_RNDS;r++){
+    if(!scores[r]||!scores[r]._saved)continue;
+    totalRounds++;
+    teams.forEach(function(team){
+      var d=scores[r][team]||{};
+      totalKills+=d.kills||0;
+      if((d.pts||0)>bestTeamRound.pts)bestTeamRound={team:team,kills:d.kills||0,pts:d.pts||0,round:r};
+    });
+  }
+  var kTotals={};
+  players.filter(function(p){return p.name&&p.team;}).forEach(function(p){
+    var key=(p.name+"_"+p.team).replace(/[\s']/g,"_");
+    var total=0;
+    for(var r2=1;r2<=TOTAL_RNDS;r2++){if(kills[r2]&&kills[r2]._saved)total+=kills[r2][key]||0;}
+    kTotals[p.name]={name:p.name,kills:total};
+  });
+  var topKiller=Object.values(kTotals).sort(function(a,b){return b.kills-a.kills;})[0]||{name:"-",kills:0};
+  return {totalKills:totalKills,totalRounds:totalRounds,bestTeamRound:bestTeamRound,topKiller:topKiller,leader:data[0]||{team:"-",total:0}};
+}
+
+function exportExcel(){
+  players=load("wz_players",[]); if(!players.length){showToast("Sin jugadores");return;}
+  tournament=load("wz_tournament",{}); var t=tournament;
+  var wb=XLSX.utils.book_new();
+  var data=[["#","Nombre","Equipo","Activision ID","Estado","WhatsApp"]];
+  getFiltered().forEach(function(p,i){data.push([i+1,p.name,p.team||"",p.actid||"",p.status,p.phone?"+549"+p.phone:""]);});
+  var ws=XLSX.utils.aoa_to_sheet(data);
+  XLSX.utils.book_append_sheet(wb,ws,"Jugadores");
+  XLSX.writeFile(wb,"WZ_PS_"+( t.name||"Torneo").replace(/\s+/g,"_")+".xlsx");
+  showToast("Excel descargado");
+}
+function exportPDF(){
+  players=load("wz_players",[]); if(!players.length){showToast("Sin jugadores");return;}
+  tournament=load("wz_tournament",{}); var t=tournament;
+  var rankD=getTeamTotals();
+  var rankR=rankD.map(function(d,i){return "<tr><td>"+(i+1)+"</td><td><b>"+d.team+"</b></td><td>"+d.totalKills+"</td><td><b>"+d.total+"</b></td></tr>";}).join("");
+  var rows=getFiltered().map(function(p,i){return "<tr><td>"+(i+1)+"</td><td><b>"+p.name+"</b></td><td>"+(p.team||"-")+"</td><td>"+(p.actid||"-")+"</td><td>"+p.status+"</td><td>"+(p.phone?"+549"+p.phone:"-")+"</td></tr>";}).join("");
+  var html="<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>"+(t.name||"WZ PS")+"</title><style>body{font-family:Arial,sans-serif;font-size:12px;margin:24px}h1{font-size:18px}h2{font-size:14px;margin:14px 0 6px}table{width:100%;border-collapse:collapse;margin-bottom:14px}th{background:#1a1a2e;color:#fff;padding:7px 9px;text-align:left}td{padding:6px 9px;border-bottom:1px solid #eee}</style></head><body>"+
+    "<h1>"+(t.name||"WZ PS")+"</h1>"+
+    "<h2>Ranking</h2><table><thead><tr><th>#</th><th>Equipo</th><th>Kills</th><th>Puntos</th></tr></thead><tbody>"+rankR+"</tbody></table>"+
+    "<h2>Jugadores</h2><table><thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th>Activ.ID</th><th>Estado</th><th>WhatsApp</th></tr></thead><tbody>"+rows+"</tbody></table>"+
+    "<div style=\"color:#aaa;font-size:10px;text-align:center;margin-top:18px\">Generado "+new Date().toLocaleString("es-AR")+"</div></body></html>";
+  var win=window.open("","_blank");
+  win.document.write(html); win.document.close();
+  setTimeout(function(){win.focus();win.print();},400);
+  showToast("PDF listo");
 }
 
 function aTab(id,btn){
-  document.querySelectorAll('#screen-admin .tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('#screen-admin .tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-  if(id==='a-scoring') renderScoring();
-  if(id==='a-kills') renderKills();
-  if(id==='a-ranking'){ renderRankings(); renderTopKillersPlayer(); }
-  if(id==='a-msg'){ updatePlayerSelect(); genMsg(); }
-  if(id==='a-requests') renderRequests();
-  if(id==='a-players'){ renderPlayers(); updateTeamFilter(); }
-}
-function pTab(id,btn){
-  document.querySelectorAll('#screen-player .tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('#screen-player .tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-  if(id==='p-ranking'){ renderRankings(); renderTopKillersPlayer(); }
-  if(id==='p-home') renderPlayerView();
+  document.querySelectorAll("#screen-admin .tab-content").forEach(function(t){t.classList.remove("active");});
+  document.querySelectorAll("#screen-admin .tab").forEach(function(t){t.classList.remove("active");});
+  document.getElementById(id).classList.add("active");
+  btn.classList.add("active");
+  if(id==="a-scoring")renderScoring();
+  if(id==="a-kills")renderKills();
+  if(id==="a-ranking"){renderRankings();renderTopKillersPlayer();}
+  if(id==="a-msg"){updatePlayerSelect();genMsg();}
+  if(id==="a-req")renderRequests();
+  if(id==="a-players"){renderPlayers();updateTeamFilter();}
+  if(id==="a-chat-admin"){syncFromRemote([["wz_chat",[]],["wz_blocked",[]],["wz_badwords",DEFAULT_BAD_WORDS]]).then(function(){renderAdminChat();loadBadWordsEditor();});}
+  if(id==="a-history"){syncFromRemote([["wz_history",[]]]).then(renderHistory);}
+  if(id==="a-torneo"){updateStats();}
 }
 
-// ══════════════════════════════════
-//  UTILS
-// ══════════════════════════════════
-function showErr(id,msg){ const e=document.getElementById(id); if(e){ e.textContent=msg; if(msg) setTimeout(()=>{if(e.textContent===msg)e.textContent='';},3500); } }
-function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2300); }
+function pTab(id,btn){
+  document.querySelectorAll("#screen-player .tab-content").forEach(function(t){t.classList.remove("active");});
+  document.querySelectorAll("#screen-player .tab").forEach(function(t){t.classList.remove("active");});
+  document.getElementById(id).classList.add("active");
+  btn.classList.add("active");
+  if(id==="p-ranking"){renderRankings();renderTopKillersPlayer();}
+  if(id==="p-home")renderPlayerView();
+  if(id==="p-teams"){syncFromRemote([["wz_players",[]],["wz_requests",[]]]).then(renderTeamsList);}
+  if(id==="p-chat"){syncFromRemote([["wz_chat",[]],["wz_blocked",[]]]).then(renderChat);}
+}
+
+function showErr(id,msg){var e=document.getElementById(id);if(e){e.textContent=msg;if(msg)setTimeout(function(){if(e.textContent===msg)e.textContent="";},3500);}}
+function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},2300);}
 
 function loadAdminData(){
-  players=load('wz_players',[]);
-  tournament=load('wz_tournament',{});
-  scores=load('wz_scores',{});
-  requests=load('wz_requests',[]);
-  renderRequests();
-  renderPlayers();
-  updateStats();
-  updateTeamFilter();
+  players=load("wz_players",[]); tournament=load("wz_tournament",{}); scores=load("wz_scores",{}); requests=load("wz_requests",[]);
+  renderRequests(); renderPlayers(); updateStats(); updateTeamFilter();
   loadT();
-  const mp=document.getElementById('my-phone');
-  if(mp&&myPhone) mp.value=myPhone;
-  genMsg();
-  renderScoring();
+  var mp=document.getElementById("my-phone"); if(mp&&myPhone)mp.value=myPhone;
+  genMsg(); renderScoring(); loadAppTitle();
 }
 </script>
-</body>
-</html>
+
+
+</body></html>
