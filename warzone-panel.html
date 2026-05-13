@@ -233,6 +233,11 @@ body::after{content:'';position:fixed;top:-40%;left:-20%;width:80%;height:80%;ba
 <div id="screen-register" class="screen">
   <div class="logo" style="font-size:40px">📝 REGISTRO</div>
   <div class="logo-sub">Inscribi tu equipo al torneo</div>
+  <div id="cupo-counter" style="max-width:460px;width:100%;margin:0 auto 14px auto;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.04);border:2px solid var(--accent);text-align:center;box-sizing:border-box">
+    <div style="font-size:11px;letter-spacing:2px;color:var(--muted);margin-bottom:6px">EQUIPOS ANOTADOS</div>
+    <div id="cupo-count-num" style="font-size:28px;font-weight:900;color:var(--accent);line-height:1">0 / 12</div>
+    <div id="cupo-status-msg" style="font-size:12px;margin-top:8px;color:var(--muted)">¡Quedan cupos disponibles!</div>
+  </div>
   <div class="auth-card" style="max-width:460px;width:100%">
     <div class="reg-section-title">⚡ DATOS DEL EQUIPO</div>
     <label class="flabel">Nombre del equipo *</label>
@@ -689,6 +694,35 @@ var pubRefreshTimer = null;
 function showScreen(id) {
   document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active");});
   document.getElementById("screen-"+id).classList.add("active");
+  if(id==="register"){ updateCupoCounter(); }
+}
+
+function updateCupoCounter(){
+  syncFromRemote([["wz_requests",[]]]).then(function(){
+    var reqs = load("wz_requests",[]);
+    var activos = reqs.filter(function(r){return !r.rejected;}).length;
+    var numEl = document.getElementById("cupo-count-num");
+    var msgEl = document.getElementById("cupo-status-msg");
+    var boxEl = document.getElementById("cupo-counter");
+    if(!numEl||!msgEl||!boxEl) return;
+    numEl.textContent = activos + " / 12";
+    if(activos >= 20){
+      msgEl.textContent = "❌ CUPOS LLENOS - No se aceptan mas equipos";
+      msgEl.style.color = "#ff5555";
+      boxEl.style.borderColor = "#ff5555";
+      numEl.style.color = "#ff5555";
+    } else if(activos >= 12){
+      msgEl.textContent = "⚠ CUPOS CASI LLENOS - Apurate, quedan pocos lugares";
+      msgEl.style.color = "#ffaa00";
+      boxEl.style.borderColor = "#ffaa00";
+      numEl.style.color = "#ffaa00";
+    } else {
+      msgEl.textContent = "¡Quedan cupos disponibles!";
+      msgEl.style.color = "var(--muted)";
+      boxEl.style.borderColor = "var(--accent)";
+      numEl.style.color = "var(--accent)";
+    }
+  });
 }
 function goLogin() { stopCountdown(); showScreen("login"); }
 
@@ -765,6 +799,8 @@ async function submitRegistration() {
   await syncFromRemote([["wz_requests",[]],["wz_players",[]]]);
   requests = load("wz_requests",[]);
   players  = load("wz_players",[]);
+  var equiposActivos = requests.filter(function(r){return !r.rejected;}).length;
+  if (equiposActivos >= 20) { showErr("reg-err","Cupos llenos - El torneo ya tiene el maximo de 20 equipos"); return; }
   var allTeams = Array.from(new Set(players.map(function(p){return p.team;}).filter(Boolean).concat(requests.map(function(r){return r.team;}))));
   if (allTeams.some(function(t){return t.toLowerCase()===team.toLowerCase();})) { showErr("reg-err","Ya existe un equipo con ese nombre"); return; }
   var logoData = "";
